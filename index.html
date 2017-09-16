@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="test.css" type="text/css">
+</head>
+<body>
+
+
+<script>
+    
+    if(!window.localStorage){
+        alert('浏览器不支持本地存储')
+    }
+   var json = [];
+   var obj1 = {
+       name:'sbw',
+       age:33
+   }
+   var obj2 = {
+       name:'lqy',
+       age:1
+   }
+   json.push(obj1)
+   json.push(obj2)
+   //字符串
+   var jsonStr = JSON.stringify(json)
+   //alert(jsonStr)
+   //数组，里面是对象
+   var jsonParsed = JSON.parse(jsonStr)
+   console.log(jsonParsed)
+   //window.print()
+    //localStorage.setItem('sbw','111')
+    alert(localStorage.getItem('sbw'))
+
+
+
+ 
+</script>
+<noscript>
+    此客户端不支持js或者已经被禁用
+</noscript>
+</body>
+</html>
