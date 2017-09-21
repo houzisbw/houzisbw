@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加记录</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link type="text/css" rel='stylesheet' href="./../css/reset.css">
+    <link type="text/css" rel='stylesheet' href="./../css/main.css">
+    <link type="text/css" rel='stylesheet' href="./../css/calendar.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body >
+<!--网页banner-->
+<div class="banner">
+    <div class="commonWidth">
+        <div class="logo">
+            <img src="./../static/image/logo.png" alt="logoPic">
+        </div>
+        <div class="platformTitle">
+            错误记录平台
+        </div>
+        <div class="bannerButton">
+            <a href="#" class="loginButton" id="goback">返回主页</a>
+        </div>
+        <!--登录后名字显示-->
+        <div class="loginedName">
+
+        </div>
+
+    </div>
+</div>
+
+<!--网页主体部分，banner下面-->
+<div class="commonWidth clearfix">
+    <div class="content_additem">
+        <!--标题区域 -->
+        <div class="content_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/addItem.png">
+                </div>
+                <div class="title_left_description">
+                    添加记录
+                </div>
+            </div>
+        </div>
+        <!--添加记录区域-->
+        <div class="addItem">
+            <!--姓名-->
+            <div class="addName">
+                <span class="star">* &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="desc">人员姓名: &nbsp;&nbsp;</span>
+                <div class="btn-group" id="name">
+                    <button type="button" class="btn btn-lg btn-default dropdown-toggle"
+                            data-toggle="dropdown">
+                        &nbsp;&nbsp;&nbsp;&nbsp;下拉选择&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+
+                    </ul>
+                </div>
+            </div>
+            <!--具体日期-->
+            <div class="addName">
+                <span class="star">* &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="desc">记录日期: &nbsp;&nbsp;</span>
+                <div class="btn-group" id="date">
+                    <button type="button" class="btn btn-lg btn-default dropdown-toggle"
+                            data-toggle="dropdown">
+                        &nbsp;&nbsp;&nbsp;&nbsp;下拉选择&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <!--日历-->
+                    <div id="calendar" class="calendar calendar_hide"></div>
+                </div>
+            </div>
+            <!--月份-->
+            <div class="addName">
+                <span class="star">* &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="desc">记录月份: &nbsp;&nbsp;</span>
+                <div class="btn-group" id="month">
+                    <button type="button" class="btn btn-lg btn-default dropdown-toggle"
+                            data-toggle="dropdown">
+                        &nbsp;&nbsp;&nbsp;&nbsp;自动确定&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </button>
+
+                </div>
+            </div>
+            <!--车间名称-->
+            <div class="addName">
+                <span class="star">* &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="desc">车间名称: &nbsp;&nbsp;</span>
+                <div class="btn-group" id="workshop">
+                    <button type="button" class="btn btn-lg btn-default dropdown-toggle"
+                            data-toggle="dropdown">
+                        &nbsp;&nbsp;&nbsp;&nbsp;下拉选择&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+
+                    </ul>
+                </div>
+            </div>
+            <!--记录类型-->
+            <div class="addName">
+                <span class="star">* &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="desc">记录类型: &nbsp;&nbsp;</span>
+                <div class="btn-group" id="category">
+                    <button type="button" class="btn btn-lg btn-default dropdown-toggle"
+                            data-toggle="dropdown">
+                        &nbsp;&nbsp;&nbsp;&nbsp;下拉选择&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+
+                    </ul>
+                </div>
+            </div>
+            <!--错误说明，手动输入-->
+            <div class="error_description">
+                <div class="form-group">
+                    <input class="form-control input-lg errorDescHeight" type="text" placeholder="填写错误说明~" id="error">
+                </div>
+            </div>
+            <!--保存按钮 和 清空按钮 -->
+            <div class="reset_and_save">
+                <button type="button" class="btn btn-success btn-lg save_data" id="save_data">保存数据</button>
+                <button type="button" class="btn btn-danger btn-lg reset_data" id="reset_data">清空数据</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--模态框 md-show类显示-->
+<div class="md-modal modal-msg md-modal-transition " id="modal_login">
+    <div class="md-modal-inner">
+        <div class="md-top">
+            <div class="md-title">管理员登录</div>
+            <button class="md-close" >关闭</button>
+        </div>
+        <div class="md-content">
+            <div class="confirm-tips">
+                <div class="error-wrap">
+                    <span class="error " id="errorTip">用户名或者密码错误</span>
+                </div>
+                <ul>
+                    <li class="regi_form_input">
+                        <i class="icon IconPeople"></i>
+                        <input type="text" tabindex="1" name="loginname"  class="regi_login_input">
+                    </li>
+                    <li class="regi_form_input noMargin">
+                        <i class="icon IconPwd"></i>
+                        <input type="password" tabindex="2" name="password"  class="regi_login_input" >
+                    </li>
+                </ul>
+            </div>
+            <div class="login-wrap">
+                <a href="javascript:;" class="btn-login" >登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<div class="footer">
+    <div class="copyright">
+        Copyright@houzisbw | 京ICP备12345678号
+    </div>
+</div>
+
+<script src="./../js/addItem.js"></script>
+
+
+</body>
+</html>

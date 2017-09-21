@@ -1,0 +1,38 @@
+* {
+    margin:0;
+    padding:0;
+}
+body {
+    font-size:12px;
+}
+a {
+    text-decoration: none !important;
+    color:#656565;
+}
+li {
+    list-style-type: none;
+}
+
+.fl{
+    float:left;
+}
+.fr{
+    float:right;
+}
+input {
+    border:none;
+    outline: none;/*点击input时会有一圈outline*/
+}
+
+.hide {
+    display: none;
+}
+.show {
+    display: block;
+}
+.clearfloat {
+    clear: both;
+}
+.clearfix:after{content:""; display:block; clear:both;}
+
+.clearfix{zoom:1}

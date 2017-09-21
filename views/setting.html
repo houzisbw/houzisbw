@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加记录</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link type="text/css" rel='stylesheet' href="./../css/reset.css">
+    <link type="text/css" rel='stylesheet' href="./../css/main.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<!--网页banner-->
+<div class="banner">
+    <div class="commonWidth">
+        <div class="logo">
+            <img src="./../static/image/logo.png" alt="logoPic">
+        </div>
+        <div class="platformTitle">
+            错误记录平台
+        </div>
+        <div class="bannerButton">
+            <a href="#" class="loginButton" id="goback">返回主页</a>
+        </div>
+        <!--登录后名字显示-->
+        <div class="loginedName">
+
+        </div>
+
+    </div>
+</div>
+
+<!--网页主体部分，banner下面-->
+<div class="commonWidth clearfix">
+    <!--配置区域总标题 -->
+    <div class="content_setting">
+        <!--标题区域 -->
+        <div class="setting_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/setting.png">
+                </div>
+                <div class="setting_title_left_description">
+                    配置信息 (单击条目即可删除,最后记得点击保存)
+                </div>
+                <!--保存按钮-->
+                <div class="save_config">
+                    <button type="button" class="btn btn-success btn-lg" id="save_config">保存配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--姓名-->
+    <div class="setting_item">
+        <div class="content_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/staff.png">
+                </div>
+                <div class="title_left_description">
+                    人员姓名
+                </div>
+                <!--确认按钮-->
+                <button type="button" class="btn btn-warning name_input_button" id="name_input_button">确定</button>
+                <!--输入框-->
+                <div class="name_input">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="输入员工姓名~" id="name_input">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--具体条目-->
+        <div class="setting">
+            <!--存放具体的姓名条目-->
+            <ul id="name_ul">
+            </ul>
+        </div>
+    </div>
+    <!--车间类型-->
+    <div class="setting_item">
+        <div class="content_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/workshop.png">
+                </div>
+                <div class="title_left_description">
+                    车间名字
+                </div>
+                <!--确认按钮-->
+                <button type="button" class="btn btn-warning name_input_button" id="workshop_input_button">确定</button>
+                <!--输入框-->
+                <div class="name_input">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="输入车间名字~" id="workshop_input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--具体条目-->
+        <div class="setting">
+            <!--存放具体的姓名条目-->
+            <ul id="workshop_ul">
+            </ul>
+        </div>
+    </div>
+    <!--记录类型-->
+    <div class="setting_item">
+        <div class="content_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/record.png">
+                </div>
+                <div class="title_left_description">
+                    记录类型
+                </div>
+                <!--确认按钮-->
+                <button type="button" class="btn btn-warning name_input_button" id="record_input_button">确定</button>
+                <!--输入框-->
+                <div class="name_input">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="输入记录类型~" id="record_input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--具体条目-->
+        <div class="setting">
+            <!--存放具体的姓名条目-->
+            <ul id="record_ul">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!--模态框 md-show类显示-->
+<div class="md-modal modal-msg md-modal-transition " id="modal_login">
+    <div class="md-modal-inner">
+        <div class="md-top">
+            <div class="md-title">管理员登录</div>
+            <button class="md-close" >关闭</button>
+        </div>
+        <div class="md-content">
+            <div class="confirm-tips">
+                <div class="error-wrap">
+                    <span class="error " id="errorTip">用户名或者密码错误</span>
+                </div>
+                <ul>
+                    <li class="regi_form_input">
+                        <i class="icon IconPeople"></i>
+                        <input type="text" tabindex="1" name="loginname"  class="regi_login_input">
+                    </li>
+                    <li class="regi_form_input noMargin">
+                        <i class="icon IconPwd"></i>
+                        <input type="password" tabindex="2" name="password"  class="regi_login_input" >
+                    </li>
+                </ul>
+            </div>
+            <div class="login-wrap">
+                <a href="javascript:;" class="btn-login" >登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<div class="footer">
+    <div class="copyright">
+        Copyright@houzisbw | 京ICP备12345678号
+    </div>
+</div>
+
+<script src="./../js/setting.js"></script>
+
+</body>
+</html>
