@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88830dab-d506-47bf-b48d-0bcada849b38" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/addItem.html" afterPath="$PROJECT_DIR$/views/addItem.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/adduser.html" afterPath="$PROJECT_DIR$/views/adduser.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/setting.html" afterPath="$PROJECT_DIR$/views/setting.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -79,29 +77,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adduser.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="adduser.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/adduser.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-416">
-              <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+            <state relative-caret-position="390">
+              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
-                <element signature="e#2709#2715#0" expanded="true" />
-                <element signature="e#2715#2721#0" expanded="true" />
-                <element signature="e#2721#2727#0" expanded="true" />
-                <element signature="e#2727#2733#0" expanded="true" />
-                <element signature="e#2737#2743#0" expanded="true" />
-                <element signature="e#2743#2749#0" expanded="true" />
-                <element signature="e#2749#2755#0" expanded="true" />
-                <element signature="e#2755#2761#0" expanded="true" />
-                <element signature="e#2761#2767#0" expanded="true" />
-                <element signature="e#2767#2773#0" expanded="true" />
+                <element signature="e#2798#2804#0" expanded="true" />
+                <element signature="e#2804#2810#0" expanded="true" />
+                <element signature="e#2810#2816#0" expanded="true" />
+                <element signature="e#2816#2822#0" expanded="true" />
+                <element signature="e#2826#2832#0" expanded="true" />
+                <element signature="e#2832#2838#0" expanded="true" />
+                <element signature="e#2838#2844#0" expanded="true" />
+                <element signature="e#2844#2850#0" expanded="true" />
+                <element signature="e#2850#2856#0" expanded="true" />
+                <element signature="e#2856#2862#0" expanded="true" />
                 <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addItem.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="addItem.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/addItem.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1305">
@@ -219,8 +217,8 @@
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/views/setting.html" />
-        <option value="$PROJECT_DIR$/views/adduser.html" />
         <option value="$PROJECT_DIR$/views/addItem.html" />
+        <option value="$PROJECT_DIR$/views/adduser.html" />
       </list>
     </option>
   </component>
@@ -448,12 +446,12 @@
       <workItem from="1505701650032" duration="38049000" />
       <workItem from="1505791158888" duration="32742000" />
       <workItem from="1505870530160" duration="38307000" />
-      <workItem from="1505960563259" duration="8439000" />
+      <workItem from="1505960563259" duration="9134000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140262000" />
+    <option name="totallyTimeSpent" value="140957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
@@ -533,16 +531,16 @@
         <state relative-caret-position="1612">
           <caret line="62" column="50" lean-forward="false" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="50" />
           <folding>
-            <element signature="e#2709#2715#0" expanded="true" />
-            <element signature="e#2715#2721#0" expanded="true" />
-            <element signature="e#2721#2727#0" expanded="true" />
-            <element signature="e#2727#2733#0" expanded="true" />
-            <element signature="e#2737#2743#0" expanded="true" />
-            <element signature="e#2743#2749#0" expanded="true" />
-            <element signature="e#2749#2755#0" expanded="true" />
-            <element signature="e#2755#2761#0" expanded="true" />
-            <element signature="e#2761#2767#0" expanded="true" />
-            <element signature="e#2767#2773#0" expanded="true" />
+            <element signature="e#2798#2804#0" expanded="true" />
+            <element signature="e#2804#2810#0" expanded="true" />
+            <element signature="e#2810#2816#0" expanded="true" />
+            <element signature="e#2816#2822#0" expanded="true" />
+            <element signature="e#2826#2832#0" expanded="true" />
+            <element signature="e#2832#2838#0" expanded="true" />
+            <element signature="e#2838#2844#0" expanded="true" />
+            <element signature="e#2844#2850#0" expanded="true" />
+            <element signature="e#2850#2856#0" expanded="true" />
+            <element signature="e#2856#2862#0" expanded="true" />
             <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
@@ -898,26 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/adduser.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-416">
-          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-          <folding>
-            <element signature="e#2709#2715#0" expanded="true" />
-            <element signature="e#2715#2721#0" expanded="true" />
-            <element signature="e#2721#2727#0" expanded="true" />
-            <element signature="e#2727#2733#0" expanded="true" />
-            <element signature="e#2737#2743#0" expanded="true" />
-            <element signature="e#2743#2749#0" expanded="true" />
-            <element signature="e#2749#2755#0" expanded="true" />
-            <element signature="e#2755#2761#0" expanded="true" />
-            <element signature="e#2761#2767#0" expanded="true" />
-            <element signature="e#2767#2773#0" expanded="true" />
-            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/addItem.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1305">
@@ -929,6 +907,26 @@
             <element signature="n#div#3;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#4;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#5;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/adduser.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="e#2798#2804#0" expanded="true" />
+            <element signature="e#2804#2810#0" expanded="true" />
+            <element signature="e#2810#2816#0" expanded="true" />
+            <element signature="e#2816#2822#0" expanded="true" />
+            <element signature="e#2826#2832#0" expanded="true" />
+            <element signature="e#2832#2838#0" expanded="true" />
+            <element signature="e#2838#2844#0" expanded="true" />
+            <element signature="e#2844#2850#0" expanded="true" />
+            <element signature="e#2850#2856#0" expanded="true" />
+            <element signature="e#2856#2862#0" expanded="true" />
             <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
