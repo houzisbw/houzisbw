@@ -7,10 +7,14 @@
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--bmob 云存储js，放在头里面后面的js才能直接用-->
+    <script src='./../js/bmob_plugin/bmob-min.js'></script>
     <link type="text/css" rel='stylesheet' href="./../css/reset.css">
     <link type="text/css" rel='stylesheet' href="./../css/main.css">
     <script src="https://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--引入underscore.js-->
+    <script src='./../js/underscore/underscore-min.js'></script>
 
 </head>
 <body>
@@ -56,33 +60,34 @@
     </div>
 
     <!--姓名-->
-    <div class="setting_item">
-        <div class="content_title">
-            <div class="title_left">
-                <div class="title_left_img">
-                    <img src="./../static/image/staff.png">
-                </div>
-                <div class="title_left_description">
-                    人员姓名
-                </div>
-                <!--确认按钮-->
-                <button type="button" class="btn btn-warning name_input_button" id="name_input_button">确定</button>
-                <!--输入框-->
-                <div class="name_input">
-                    <div class="form-group">
-                        <input class="form-control" type="text" placeholder="输入员工姓名~" id="name_input">
-                    </div>
-                </div>
+    <!--<div class="setting_item">-->
+        <!--<div class="content_title">-->
+            <!--<div class="title_left">-->
+                <!--<div class="title_left_img">-->
+                    <!--<img src="./../static/image/staff.png">-->
+                <!--</div>-->
+                <!--<div class="title_left_description">-->
+                    <!--人员姓名-->
+                <!--</div>-->
+                <!--&lt;!&ndash;确认按钮&ndash;&gt;-->
+                <!--<button type="button" class="btn btn-warning name_input_button" id="name_input_button">确定</button>-->
+                <!--&lt;!&ndash;输入框&ndash;&gt;-->
+                <!--<div class="name_input">-->
+                    <!--<div class="form-group">-->
+                        <!--<input class="form-control" type="text" placeholder="输入员工姓名~" id="name_input">-->
+                    <!--</div>-->
+                <!--</div>-->
 
-            </div>
-        </div>
-        <!--具体条目-->
-        <div class="setting">
-            <!--存放具体的姓名条目-->
-            <ul id="name_ul">
-            </ul>
-        </div>
-    </div>
+            <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;具体条目&ndash;&gt;-->
+        <!--<div class="setting">-->
+            <!--&lt;!&ndash;存放具体的姓名条目&ndash;&gt;-->
+            <!--<ul id="name_ul">-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+
     <!--车间类型-->
     <div class="setting_item">
         <div class="content_title">

@@ -1,15 +1,10 @@
 /**
  * Created by Administrator on 2017/9/17.
  */
-if(!window.localStorage){
-    alert('浏览器不支持本地存储');
-}
-//本地存储
-var ls = window.localStorage;
+//bmob云存储初始化
+Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
 //本地存储的key：配置信息的3个字段
 var staffName = 'staffName';
-var workshopName = 'workshopName';
-var recordType = 'recordType';
 
 //6个要保存的值,编号1-6
 var staffNameToSave = '';
@@ -18,6 +13,7 @@ var dateToSave = '';
 var workshopNameToSave = '';
 var recordTypeToSave = '';
 var errorInstructionToSave = '';
+var imageUrl = '';
 
 //控制日历是否显示
 var isCalendarShow = true;
@@ -45,63 +41,130 @@ var goBackButton = document.getElementById('goback');
 goBackButton.onclick = function(){
     window.location.href = './../index.html';
 }
+//图片添加按钮,选择了图片后就触发change方法
+$('#picInput').change(function() {
+    var f = this.files[0];
+    //如果图片存在,因为不选中图片点击取消也会触发change
+    if($(this).val()){
+        var formData = new FormData();
+        formData.append('smfile', f);
+        //ajax发送,图床网站
+        $.ajax({
+            url: 'https://sm.ms/api/upload',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            beforeSend: function (xhr) {
+                //清空图片
+                $('#image_preview').attr('src','');
+                $('.uploading_word').text('图片上传中...');
+                $('.uploading_word').css('color','#bebebe');
+            },
+            success: function (res) {
+                $('.uploading_word').css('color','#13b307');
+                $('.uploading_word').text('图片上传成功!');
+                //获取图片框的长宽
+                var imageWidth = $('#picPreview').width();
+                var imageHeight = $('#picPreview').height();
+                $('#image_preview').attr('width',imageWidth);
+                $('#image_preview').attr('height',imageHeight);
+                $('#image_preview').attr('src',res.data.url);
+                //记录下图片地址
+                imageUrl = res.data.url;
 
-//初始化所有下拉列表
-//初始化通用函数,itemKey指的是localStorage里面的key
-function initDropDownList(divTypeName,itemKey){
-    var itemDiv = document.getElementById(divTypeName);
-    var itemUl = itemDiv.getElementsByTagName('ul')[0];
-    //通过getItem获取到value
-    var itemStr = ls.getItem(itemKey);
-    var itemList = itemStr.split('**');
-    //弹出最后一个空元素
-    itemList.pop();
-    for(var i=0,len=itemList.length;i<len;i++){
-        var aLink = document.createElement('a');
-        aLink.innerText = itemList[i];
-        var li = document.createElement('li');
-        li.appendChild(aLink);
-        //给每个li添加点击事件：点击后对应的button的innerText会改变，同时记录下选中的值
-        //匿名函数立即执行,达到传递参数的目的
-        (function(i){
-            li.onclick = function(){
-                var button = itemDiv.getElementsByTagName('button')[0];
-                button.innerText = itemList[i]+'    ';
-                var span = document.createElement('span');
-                span.setAttribute('class','caret');
-                button.appendChild(span);
-                //记录下对应的数据
-                if(divTypeName == 'name'){
-                    staffNameToSave = itemList[i];
-                }else if(divTypeName == 'workshop'){
-                    workshopNameToSave = itemList[i];
-                }else{
-                    recordTypeToSave = itemList[i];
-                }
+            },
+            error: function () {
+                alert('图片上传失败，可能是图片过大!');
             }
-        })(i);
-        itemUl.appendChild(li);
+
+        });
+    }
+
+});
+//设置innerText
+function setInnerText(element,text){
+    if(typeof element.textContent == "string"){
+        element.textContent = text;
+    }else{
+        element.innerText = text;
     }
 }
-//初始化月份下拉
-function initMonthDropDownList(){
-    var monthDiv = document.getElementById('month');
-    var monthUl = monthDiv.getElementsByTagName('ul')[0];
-    var monthLi = getElementChild(monthUl);
-    for(var i=0,len=monthLi.length;i<len;i++){
-        (function(i){
-            monthLi[i].onclick=function(){
-                var button = monthDiv.getElementsByTagName('button')[0];
-                var aLink = getElementChild(monthLi[i])[0];
-                button.innerText = aLink.innerText+'月 ';
-                var span = document.createElement('span');
-                span.setAttribute('class','caret');
-                button.appendChild(span);
-                //记录下选中的值
-                monthToSave = aLink.innerText;
+//初始化人员姓名列表
+function initUsernameDropDownList(){
+    //从云端数据库查询人员姓名,除了超管
+    var userInfo = Bmob.Object.extend('user');
+    var queryUser = new Bmob.Query(userInfo);
+    queryUser.find({
+        success:function(results){
+            var nameHTMLDiv = document.getElementById('name');
+            var nameHtmlUl = nameHTMLDiv.getElementsByTagName('ul')[0];
+            for(var i=0;i<results.length;i++){
+                //不是超管
+                if(results[i].get('authority')!=='2'){
+                    var username = results[i].get('username');
+                    var aLink = document.createElement('a');
+                    setInnerText(aLink,username);
+                    var li = document.createElement('li');
+                    li.appendChild(aLink);
+                    //给每个li添加点击事件：点击后对应的button的innerText会改变，同时记录下选中的值
+                    //匿名函数立即执行,达到传递参数的目的
+                    (function(i){
+                        li.onclick = function(){
+                            var button = nameHTMLDiv.getElementsByTagName('button')[0];
+                            setInnerText(button,results[i].get('username')+'    ')
+                            var span = document.createElement('span');
+                            span.setAttribute('class','caret');
+                            button.appendChild(span);
+                            //记录下对应的数据
+                            staffNameToSave = results[i].get('username');
+                        }
+                    })(i);
+                    nameHtmlUl.appendChild(li);
+                }
             }
-        })(i);
-    }
+
+        }
+    })
+}
+//初始化其他2个信息列表
+function initOtherList(tableName,htmlDivName){
+    //从云端数据库查询人员姓名,除了超管
+    var itemInfo = Bmob.Object.extend(tableName);
+    var queryItem = new Bmob.Query(itemInfo);
+    queryItem.find({
+        success:function(results){
+            var itemHTMLDiv = document.getElementById(htmlDivName);
+            var itemHtmlUl = itemHTMLDiv.getElementsByTagName('ul')[0];
+            for(var i=0;i<results.length;i++){
+                var itemName = results[i].get('name');
+                var aLink = document.createElement('a');
+                setInnerText(aLink,itemName);
+                var li = document.createElement('li');
+                li.appendChild(aLink);
+                //给每个li添加点击事件：点击后对应的button的innerText会改变，同时记录下选中的值
+                //匿名函数立即执行,达到传递参数的目的
+                (function(i,tablename){
+                    li.onclick = function(){
+                        var name = results[i].get('name');
+                        var button = itemHTMLDiv.getElementsByTagName('button')[0];
+                        setInnerText(button,name+'    ');
+                        var span = document.createElement('span');
+                        span.setAttribute('class','caret');
+                        button.appendChild(span);
+                        //记录下对应的数据
+                        if(tablename === 'workshop_config'){
+                            workshopNameToSave = name;
+                        }else{
+                            recordTypeToSave = name;
+                        }
+
+                    }
+                })(i,tableName);
+                itemHtmlUl.appendChild(li);
+            }
+        }
+    })
 }
 
 //清空数据
@@ -112,48 +175,46 @@ resetButton.onclick=function(){
 //保存修改
 var saveDataButton = document.getElementById('save_data');
 saveDataButton.onclick = function(){
-
+    //禁用该按钮
+    $('#save_data').attr({'disabled':'disabled'});
     //获取错误说明
     errorInstructionToSave = document.getElementById('error').value;
     if(!staffNameToSave && !monthToSave && !dateToSave && !workshopNameToSave && !recordTypeToSave && !errorInstructionToSave){
+        $('#save_data').removeAttr('disabled');
         alert('请至少填写一项!');
         return;
     }
     //月份作为key，必须填写
     if(!monthToSave){
+        $('#save_data').removeAttr('disabled');
         alert('请填写月份!');
         return;
     }
-    //通过6个数据生成一个json字符串，并保存在localStorage里
-    //首先取得当月的数据,是一个字符串
-    var currentMonthRecordsStr = ls.getItem(monthToSave);
-
-    //console.log(currentMonthRecordsStr)
-
-    var tempRecordsArray = [];
-    var obj = {
-        name:staffNameToSave,
-        date:dateToSave,
+    //获得云端数据库中的表
+    var recordTable = Bmob.Object.extend('record');
+    //生成新的一行数据
+    var recordTableToSave = new recordTable();
+    //生成记录对象，isConfirm为0代表未确认，默认就是未确认
+    var recordObj = {
         workshop:workshopNameToSave,
+        username:staffNameToSave,
         type:recordTypeToSave,
-        error:errorInstructionToSave
+        isConfirm:'0',
+        imageUrl:imageUrl,
+        error:errorInstructionToSave,
+        date:dateToSave,
+        //只记录年月
+        monthDate:monthToSave
     }
-    //如果不存在记录
-    if(!currentMonthRecordsStr){
-        tempRecordsArray.push(obj);
-    }else{
-        //存在记录，在记录后面添加新的obj
-        tempRecordsArray = JSON.parse(currentMonthRecordsStr);
-        tempRecordsArray.push(obj);
-    }
-    var tempStr = JSON.stringify(tempRecordsArray);
     //保存
-    ls.setItem(monthToSave,tempStr);
-
-    //提示保存成功
-    alert('保存数据成功!');
-    //清空所填写的
-    window.location.reload();
+    recordTableToSave.save(recordObj,{
+        success:function(result){
+            //提示保存成功
+            alert('保存数据成功!');
+            //清空所填写的
+            window.location.reload();
+        }
+    });
 }
 
 //获取所有子节点，仅仅包含元素节点，为了兼容ie
@@ -174,16 +235,13 @@ function getElementChild(element){
 }
 document.body.onload = function (){
     //alert不能执行，因为window还没有onload
-
     //初始化姓名列表
     //直接给bootstrap的ul加id会混乱样式，不知道为啥
-    initDropDownList('name',staffName);
+    initUsernameDropDownList();
     //初始化车间名称列表
-    initDropDownList('workshop',workshopName);
+    initOtherList('workshop_config','workshop');
     //初始化记录类型列表
-    initDropDownList('category',recordType);
-    //初始化月份,直接通过选择日期来确定月份
-    //initMonthDropDownList();
+    initOtherList('recordType_config','category');
 
 }
 
@@ -200,7 +258,7 @@ $(function () {
 
 });
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
 
     var Calendar = function (elem, options) {
         this.$calendar = elem;

@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>添加记录</title>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link type="text/css" rel='stylesheet' href="./../css/reset.css">
     <link type="text/css" rel='stylesheet' href="./../css/main.css">
     <link type="text/css" rel='stylesheet' href="./../css/calendar.css">
+    <!--bmob 云存储js，放在头里面后面的js才能直接用-->
+    <script src='./../js/bmob_plugin/bmob-min.js'></script>
     <script src="http://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -116,6 +117,20 @@
                     <ul class="dropdown-menu" role="menu">
 
                     </ul>
+                </div>
+            </div>
+            <!--图片上传-->
+            <div class="addName">
+                <span class="star">* &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="desc pic_desc">图片上传: &nbsp;&nbsp;</span>
+                <div class="btn-group" id="pic">
+                    <input type="file" id="picInput">
+                </div>
+                <div class="picPreview" id="picPreview">
+                    <div class="uploading_word">
+                        图片未上传
+                    </div>
+                    <img src="" id="image_preview">
                 </div>
             </div>
             <!--错误说明，手动输入-->

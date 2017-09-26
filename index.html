@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <!--bmob 云存储js，放在头里面后面的js才能直接用-->
+    <script src='./js/bmob_plugin/bmob-min.js'></script>
+    <!--jquery-->
+    <script src="http://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link type="text/css" rel='stylesheet' href="./css/reset.css">
@@ -44,11 +48,11 @@
             <div class="dropBoxButton_year">
                 <!--年份列表-->
                 <ul class="year_choice">
-                    <li>2015</li>
-                    <li>2016</li>
                     <li>2017</li>
                     <li>2018</li>
                     <li>2019</li>
+                    <li>2020</li>
+                    <li>2021</li>
                 </ul>
             </div>
 
@@ -80,10 +84,17 @@
         <div class="search">
             <img src="./static/image/search.png">
         </div>
+        <!--普通用户的搜索全部-->
+        <div id="div_search_all">
+            <div class="search_all_btn">
+                查询全部
+            </div>
+        </div>
     </div>
 
     <!--遮罩层-->
     <div class="overlay">
+        <img src="" id="recordImage">
     </div>
     <!--内容展示区域-->
     <div class="content ">
@@ -169,6 +180,30 @@
         </div>
     </div>
 </div>
+<!--添加图片的div-->
+<div class="add_image_div">
+    <div class="add_image_div_title">
+        <div class="title_left_img">
+            <img src="./static/image/adduser.png">
+        </div>
+        <div class="add_image_title_left_description">
+            点击图片即可修改添加
+        </div>
+    </div>
+    <div class="add_image_div_content">
+        <div class="add_image_preview_area">
+            <div class="add_image_uploading_word">
+                图片上传中...
+            </div>
+            <input type="file" id="record_add_image">
+            <img src="" id="add_image_preview">
+        </div>
+        <div class="add_image_button">
+            <button type="button" class="btn btn-success confirm_modify" id="add_image_button_confirm">保存图片</button>
+            <button type="button" class="btn btn-danger cancel_modify" id="add_image_button_cancel">取消添加</button>
+        </div>
+    </div>
+</div>
 
 <!--footer-->
 <div class="footer">
@@ -177,7 +212,6 @@
     </div>
 </div>
 
-<script src="./js/main.js">
-</script>
+<script src="./js/main.js"></script>
 </body>
 </html>

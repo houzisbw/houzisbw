@@ -126,8 +126,38 @@ body{
     box-shadow: 0 0 1px 1px #d5d4d4;/*四边阴影*/
     padding:1px 0;/*防止子div的margin-top影响到父div*/
     position: relative;/*让子div垂直居中*/
-
-
+}
+/*普通用户搜全部的div*/
+#div_search_all{
+    height:150px;
+    width:200px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 0 1px 1px #d5d4d4;/*四边阴影*/
+    padding:1px 0;/*防止子div的margin-top影响到父div*/
+    position: absolute;
+    display: none;
+    left:800px;
+}
+/*查询全部按钮*/
+.search_all_btn{
+    width:100px;
+    height:50px;
+    margin:50px auto 0 auto;
+    border-radius: 5px;
+    background-color: #96856f;
+    text-align: center;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;; /* Firefox 4 */
+    -webkit-transition: background-color 0.3s;; /* Safari 和 Chrome */
+    -o-transition: background-color 0.3s;; /* Opera */
+    color:#fff;
+    font-size: 18px;
+    line-height: 50px;
+    font-weight: bold;
+}
+.search_all_btn:hover{
+    background-color: #deb26e;
 }
 /*内容展示*/
 .content {
@@ -277,8 +307,8 @@ body{
     width:350px;
     height:300px;
     position: absolute;
-    left:-360px;
-    top:-30px;
+    left:340px;
+    top:-280px;
     background: url('./../static/image/warning.png') no-repeat;
     display: none;
 }
@@ -371,11 +401,90 @@ body{
 /*每一行的删除按钮*/
 .deleteButton{
     width:60px;
-    height:25px;
+    height:20px;
     padding-top: 0;
     margin-top:6px;
     text-align: center;
-    line-height: 25px;
+    line-height: 20px;
+}
+/*普通用户的确认按钮*/
+.confirmButton{
+    width:60px;
+    height:20px;
+    padding-top: 0;
+
+    text-align: center;
+    line-height: 20px;
+
+}
+/*table内内容垂直居中*/
+#content_table tbody tr td{
+    vertical-align: middle !important;
+}
+/*普通用户的image图片展示*/
+#recordImage{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 401;
+}
+/*添加图片div*/
+.add_image_div{
+    position: fixed;
+    left:50%;
+    top:50%;
+    width:500px;
+    height:380px;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index:502;
+    background-color: #fff;
+    border-radius: 5px;
+    display: none;
+}
+.add_image_div_title{
+    height:70px;
+    background-color: #96856f;
+    border-radius: 5px 5px 0 0 ;
+}
+.add_image_title_left_description{
+    float: left;
+    color:#fff;
+    line-height: 70px;
+    height:70px;
+    font-size: 24px;
+}
+.add_image_preview_area{
+    margin: 40px auto 10px auto;
+    width:280px;
+    height: 180px;
+    border: 1px dashed #d7d7d7;
+    background: url('./../static/image/add_image.png') center center no-repeat ;
+    text-align: center;
+    line-height:180px;
+    font-size:17px;
+    color:#bfb8b8;
+    position: relative;
+}
+#record_add_image{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    left:0;
+    top:0;
+}
+.add_image_button{
+    margin: 25px auto;
+    width:220px;
+}
+.add_image_uploading_word{
+    display: none;
 }
 
 
@@ -536,9 +645,11 @@ body{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5) ;
     z-index: 200;
+
 }
+
 
 .md-modal-transition .md-modal-inner {
     background: #fff;
@@ -803,6 +914,7 @@ button:disabled {
 .addItem {
     width:90%;
     margin: 40px auto;
+    position: relative;
 }
 .addItem .star{
     font-size: 25px;
@@ -814,17 +926,43 @@ button:disabled {
 .addItem .desc {
     font-size: 20px;
 }
+.pic_desc{
+    position: absolute;
+    top:5px;
+}
+#pic{
+    position: absolute;
+    left:110px;
+    top:8px;
+}
+.picPreview{
+    position: absolute;
+    width:100px;
+    height:80px;
+    left:370px;
+    top:-20px;
+    border: 1px dashed #656565;
+}
 .addName {
     margin: 40px auto;
     width:350px;
     position: relative;
 }
 .error_description{
-    margin: 60px auto;
+    margin: 120px auto;
     width:600px;
 }
 .errorDescHeight{
     height:80px;
+}
+.uploading_word{
+    font-size: 14px;
+    width:200px;
+    color:#d31723;
+    margin-top: 30px;
+    position: absolute;
+    left:120px;
+
 }
 /*清空和保存*/
 .reset_and_save{

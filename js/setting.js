@@ -1,17 +1,12 @@
 /**
  * Created by Administrator on 2017/9/17.
  */
-if(!window.localStorage){
-    alert('浏览器不支持本地存储');
-}
-//本地存储
-var ls = window.localStorage;
-//本地存储：配置信息3个字段
+//bmob云存储初始化
+Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
+//云数据库表名字
 var staffName = 'staffName';
-var workshopName = 'workshopName';
-var recordType = 'recordType';
-//人员分隔符
-var splitter = '**';
+var workshopName = 'workshop_config';
+var recordType = 'recordType_config';
 
 //返回主页
 var goBackButton = document.getElementById('goback');
@@ -19,26 +14,10 @@ goBackButton.onclick = function(){
     window.location.href = './../index.html';
 }
 
-//人员姓名：点击确认，添加一个item
-var nameInputButton = document.getElementById('name_input_button');
-var nameInput = document.getElementById('name_input');
-nameInputButton.onclick = function(){
-    var nameValue = nameInput.value;
-    if(!nameValue){
-        alert('请输入姓名!');
-        return;
-    }
-    //添加一个li到ul
-    var nameUl = document.getElementById('name_ul');
-    var li = document.createElement('li');
-    li.innerText = nameValue;
-    li.onclick = function(){
-        var parent = this.parentNode;
-        parent.removeChild(this);
-    }
-    nameUl.appendChild(li);
+//获取innerTEXT,兼容火狐
+function getInnerText(element) {
+    return (typeof element.textContent == "string") ? element.textContent : element.innerText;
 }
-
 
 //车间名字
 var workshopInputButton = document.getElementById('workshop_input_button');
@@ -99,56 +78,158 @@ function getElementChild(element){
 }
 //保存配置
 var saveConfigButton = document.getElementById('save_config');
-//保存的通用函数
-function saveItem(itemKey,itemUl){
+//保存的通用函数,configTable为数据库中配置表的名字
+function saveItem(configTable,itemUl){
+    //禁用按钮，这句话很关键啊，防止重复点击,页面重新加载后自动解除
+    $("#save_config").attr({"disabled":"disabled"});
     var item_ul = document.getElementById(itemUl);
     var item_li = getElementChild(item_ul);
-    var itemStr = '';
-    for(var i=0,len=item_li.length;i<len;i++){
-        itemStr += item_li[i].innerText + splitter;
-    }
-    //setItem保存数据
-    ls.setItem(itemKey,itemStr);
+    //获取所有用户名,从云端数据库
+    var itemInfo = Bmob.Object.extend(configTable);
+    var queryItem = new Bmob.Query(itemInfo);
+
+    //这里的逻辑是：每次保存的时候都删除当前数据库,然后重新写入
+    queryItem.find().then(function(results) {
+        var promise = Bmob.Promise.as();
+        //undersocre.js对每一项数据处理
+        _.each(results, function(result) {
+            // For each item, extend the promise with a function to delete it.
+            promise = promise.then(function() {
+                // Return a promise that will be resolved when the delete is finished.
+                return result.destroy();
+            });
+        });
+        return promise;
+
+    }).then(function() {
+        //添加新的内容
+        //promise很重要，要等待所有添加都添加了才行
+        var promise = Bmob.Promise.as();
+        //保存所有用户信息的array
+        var itemArray = [];
+        //遍历用户ul获取用户信息
+        for(var i=0,len=item_li.length;i<len;i++){
+            var tempItemInfo = getInnerText(item_li[i]);
+            var itemObj = {
+               name:tempItemInfo
+            };
+            itemArray.push(itemObj);
+        }
+        //undersocre.js对每一项数据处理
+        _.each(itemArray, function(result) {
+            // For each item, extend the promise with a function to delete it.
+            promise = promise.then(function() {
+                //生成一个新的用户数据行,userInfo是数据库中对应的数据格式
+                var tempItemInfo = new itemInfo();
+
+                //保存每一个用户
+                return tempItemInfo.save(result);
+            });
+        });
+        return promise;
+    }).then(function(){
+
+        //先保存上面的,此处代码不够优秀，采取了then嵌套，原因是没有掌握promise并发的用法,造成此处保存耗时过长
+        //保存记录类型
+        var tempitemUl = 'record_ul';
+        var item_ul = document.getElementById(tempitemUl);
+        var item_li = getElementChild(item_ul);
+        //获取所有用户名,从云端数据库
+        var itemInfo1 = Bmob.Object.extend('recordType_config');
+        var queryItem1 = new Bmob.Query(itemInfo1);
+
+        //这里的逻辑是：每次保存的时候都删除当前数据库,然后重新写入
+        queryItem1.find().then(function(results) {
+            var promise = Bmob.Promise.as();
+            //undersocre.js对每一项数据处理
+            _.each(results, function(result) {
+                console.log(result.get('name'))
+                // For each item, extend the promise with a function to delete it.
+                promise = promise.then(function() {
+                    // Return a promise that will be resolved when the delete is finished.
+                    return result.destroy();
+                });
+            });
+            return promise;
+
+        }).then(function() {
+            //添加新的内容
+            //promise很重要，要等待所有添加都添加了才行
+            var promise = Bmob.Promise.as();
+            //保存所有用户信息的array
+            var recordArray = [];
+            //遍历用户ul获取用户信息
+            for(var i=0,len=item_li.length;i<len;i++){
+                var tempItemInfo = getInnerText(item_li[i]);
+                var itemObj = {
+                    name:tempItemInfo
+                };
+                recordArray.push(itemObj);
+                //console.log(tempItemInfo)
+            }
+            //undersocre.js对每一项数据处理
+            _.each(recordArray, function(result) {
+                // For each item, extend the promise with a function to delete it.
+                promise = promise.then(function() {
+                    //生成一个新的用户数据行,userInfo是数据库中对应的数据格式
+                    var tempItemInfo = new itemInfo1();
+
+                    //保存每一个用户
+                    return tempItemInfo.save(result);
+                });
+            });
+            return promise;
+        }).then(function(){
+            alert('保存成功');
+            window.location.reload();
+        })
+    })
+
 }
 saveConfigButton.onclick = function(){
-    //保存所有项
-    //姓名
-    saveItem(staffName,'name_ul');
-    //保存车间
+    //同时执行就不行，醉了
+    //保存记录和车间
     saveItem(workshopName,'workshop_ul');
-    //保存记录
-    saveItem(recordType,'record_ul');
-    //提示保存成功
-    alert('保存成功!');
+
 }
 
-//初始化每一项的通用函数
-function initConfigList(itemKey,itemId){
-    var itemNameStr = ls.getItem(itemKey);
-    if(itemNameStr) {
-        var itemNameList = itemNameStr.split(splitter);
-        itemNameList.pop();
+//初始化每一项的通用函数,itemKey为数据库表名称
+function initConfigList(tableName,itemId){
+    //从数据库获取相应信息
+    var item = Bmob.Object.extend(tableName);
+    var queryItem = new Bmob.Query(item);
+    queryItem.find().then(function(results){
         var itemUl = document.getElementById(itemId);
-        for (var i = 0, len = itemNameList.length; i < len; i++) {
+        for(var i=0;i<results.length;i++){
+            //注意name是在所有config表里都存在的字段，表示名字
+            var itemName = results[i].get('name');
             var li = document.createElement('li');
-            li.innerText = itemNameList[i];
+            setInnerText(li,itemName);
             li.onclick = function () {
                 var parent = this.parentNode;
                 parent.removeChild(this);
-            }
+            };
             itemUl.appendChild(li);
         }
-    }
+    })
+
 }
 //初始化
 document.body.onload = function(){
     //初始化所有信息
-    //初始化人员姓名
-    initConfigList(staffName,'name_ul');
     //初始化车间名字
     initConfigList(workshopName,'workshop_ul');
     //初始化记录类型
     initConfigList(recordType,'record_ul');
+}
+
+//设置innerText
+function setInnerText(element,text){
+    if(typeof element.textContent == "string"){
+        element.textContent = text;
+    }else{
+        element.innerText = text;
+    }
 }
 
 
