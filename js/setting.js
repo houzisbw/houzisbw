@@ -82,6 +82,8 @@ var saveConfigButton = document.getElementById('save_config');
 function saveItem(configTable,itemUl){
     //禁用按钮，这句话很关键啊，防止重复点击,页面重新加载后自动解除
     $("#save_config").attr({"disabled":"disabled"});
+    //改变按钮文本为：保存中
+    $("#save_config").text('保存中');
     var item_ul = document.getElementById(itemUl);
     var item_li = getElementChild(item_ul);
     //获取所有用户名,从云端数据库

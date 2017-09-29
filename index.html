@@ -22,7 +22,7 @@
             <img src="./static/image/logo.png" alt="logoPic">
         </div>
         <div class="platformTitle">
-            错误记录平台
+            成都.生研所-FP准备组错误记录平台
         </div>
         <div class="bannerButton">
             <a href="#" class="loginButton" id="login">登录</a>
@@ -80,6 +80,17 @@
                 </ul>
             </div>
         </div>
+        <!--人员选择-->
+        <div class="staff_select">
+            <!--人员input,禁止输入-->
+            <input type="text" class="staffInput"  placeholder="选择或输入姓名">
+            <!--下拉按钮-->
+            <div class="dropBoxButton_staff">
+                <!--人员列表-->
+                <ul class="staff_choice">
+                </ul>
+            </div>
+        </div>
         <!--搜索按钮-->
         <div class="search">
             <img src="./static/image/search.png">
@@ -115,7 +126,7 @@
             </div>
             <!--打印机说明-->
             <div class="printer_description">
-                打印当前表格
+                点击打印当前表格
             </div>
             <!--修改状态下的提示说明，点击修改才显示-->
             <div class="modify_tips">
@@ -127,20 +138,31 @@
                 </div>
             </div>
         </div>
-        <!--内容表格区域-->
-        <div class="content_table">
+        <!--要打印的区域-->
+        <div class="print_area">
             <!--显示是第几个月的错误以及错误一共多少条-->
-            <div class="content_table_title">
+            <div class="content_table_title" ></div>
+            <!--内容表格区域-->
+            <div class="content_table">
+                <!--当月员工错误记录次数统计按钮-->
+                <button class="current_month_records_count_button btn btn-success" id="showCount">
+                    查看次数统计
+                </button>
+                <table class="table table-striped table-bordered table-hover" id="content_table">
+                    <!--<tr>-->
+                        <!--<th>姓名</th>-->
+                        <!--<th>日期</th>-->
+                        <!--<th>车间</th>-->
+                        <!--<th>类型</th>-->
+                        <!--<th>错误说明</th>-->
+                    <!--</tr>-->
+                </table>
             </div>
-            <table class="table table-striped table-bordered table-hover" id="content_table">
-                <!--<tr>-->
-                    <!--<th>姓名</th>-->
-                    <!--<th>日期</th>-->
-                    <!--<th>车间</th>-->
-                    <!--<th>类型</th>-->
-                    <!--<th>错误说明</th>-->
-                <!--</tr>-->
-            </table>
+            <!--分页处理区域-->
+            <div class="pagination">
+                <span id="totalPageNum">共1页</span> &nbsp;&nbsp;<button id="prevPage">上一页</button> &nbsp;&nbsp;<span id="currentPageNum">第133页</span>&nbsp;&nbsp; <button id="nextPage">下一页</button>
+                &nbsp;&nbsp;<input id="pageIndex" placeholder="输入页码"> &nbsp;&nbsp;<button id="goToPage">GO</button>
+            </div>
         </div>
         <!--修改状态下的 保存 取消 按钮-->
         <div class="modify_button_wrap">
@@ -152,7 +174,7 @@
 
 
 <!--模态框 md-show类显示-->
-<div class="md-modal modal-msg md-modal-transition " id="modal_login">
+<div class="md-modal modal-msg md-modal-transition" id="modal_login">
     <div class="md-modal-inner">
         <div class="md-top">
             <div class="md-title">管理员登录</div>
@@ -213,5 +235,6 @@
 </div>
 
 <script src="./js/main.js"></script>
+<script src="./js/jquery_print/jquery.PrintArea.js"></script>
 </body>
 </html>

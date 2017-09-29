@@ -4,10 +4,6 @@
 //bmob云存储初始化
 Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
 
-
-//本地存储
-var ls = window.localStorage;
-
 //是否在搜索过程中，防止二次点击出现2次相同的结果叠加
 var isInSearch = false;
 //修改状态下添加图片的按钮,记录是哪一行tr点了添加,这里有点问题，得用数字记录是第几行
@@ -20,23 +16,23 @@ var imagePathInModify = '';
 
 //只用记录下点击的button，onclick不变，变的是颜色和文字
 var imageAddModifyButton = null;
+//分页处理：记录当前是第几页,初始为第一页
+var currentPageIndex = 1;
+//每一页最大记录条数
+var maxRecordsPerPage = 17;
 
 
 //判断是否进入修改状态的变量
 var isInModify = false;
-//当前所选的年月
+//当前所选的年月,员工
 var currentMonthValue = '';
 var currentYearValue = '';
+var currentStaffValue = '';
 //记录当月所有记录的数组，元素是一个object
 var recordsOfCurrentMonth = [];
 //要删除的行(记录),元素是id
 var recordsToDelete = [];
 
-//判断是哪一种用户,0,1,2分别代表普通，二级，超管
-function checkUserAuthentication(){
-    var auth = getCookie('authority');
-    return auth;
-}
 
 //处理下拉框日期部分
 //年份
@@ -89,6 +85,23 @@ for(var i=0,len=monthLi.length;i<len;i++){
     }
 }
 
+//人员姓名
+var isStaffListShow = false;
+var staffList = document.getElementsByClassName('staff_choice')[0];
+var staffDropDown = document.getElementsByClassName('dropBoxButton_staff')[0];
+var staffInput = document.getElementsByClassName('staffInput')[0];
+staffDropDown.onclick=function(){
+    if(!isStaffListShow){
+        isStaffListShow=true;
+        staffList.style.display='block';
+    }
+    else{
+        isStaffListShow=false;
+        staffList.style.display='none';
+    }
+};
+
+
 
 //搜索按钮
 var searchButton = document.getElementsByClassName('search')[0];
@@ -110,16 +123,20 @@ searchButton.onclick = function(){
     var userCookie = getCookie('username');
     if(!userCookie){
         alert('温馨提示:请登录后再操作~');
+        window.location.reload();
         return;
     }
     var monthValue = monthInput.value.trim();
     var yearValue = yearInput.value.trim();
-    if(!monthValue || !yearValue){
-        alert('请输入年份或月份！');
+    var staffValue = staffInput.value.trim();
+    //年月只选了一个  或者  3个都没选,注意这里异或优先级很低,必须加括号，还有异或2个数字得首先转化为true和false
+    if((((!!monthValue)^(!!yearValue)) !==0)||(!monthValue && !yearValue && !staffValue)){
+        alert('请同时输入年份和月份！');
         return;
     }else {
         currentMonthValue = monthValue;
         currentYearValue = yearValue;
+        currentStaffValue = staffValue;
         //如果不在搜索过程中
         if(!isInSearch) {
             searchRecordData(yearValue, monthValue, false);
@@ -204,6 +221,13 @@ function searchRecordData(year,month,isSearchAll){
     //从云端数据库搜索自己的记录
     var ownRecords = Bmob.Object.extend('record');
     var queryOwnRecords = new Bmob.Query(ownRecords);
+
+    //分页查询,每页最多显示20条,这里是显示第一页
+    queryOwnRecords.limit(maxRecordsPerPage);
+    //这里要跳过多少页查询,初始状态currentPageIndex为1，所以skip 0条记录
+    queryOwnRecords.skip(maxRecordsPerPage*(currentPageIndex-1));
+    console.log('skip '+maxRecordsPerPage*(currentPageIndex-1));
+
     //普通用户
     if(userAuthority == '0' ) {
         //只按年月搜索
@@ -212,12 +236,22 @@ function searchRecordData(year,month,isSearchAll){
             queryOwnRecords.equalTo('monthDate', dateStr);
             //只查询自己的记录
             queryOwnRecords.equalTo('username', username);
+            //设置记录标题
+            $('.content_table_title').text(username+year+'年'+month+'月错误记录详情');
         }
         //搜全部记录
         else{
             //只查询自己的记录
             queryOwnRecords.equalTo('username', username);
+            //设置记录标题
+            $('.content_table_title').text(username+'的所有错误记录详情');
         }
+        //统计总页数,这里要测试一下
+        queryOwnRecords.count({
+            success:function(count){
+                $('#totalPageNum').text('共'+(Math.ceil(count/maxRecordsPerPage))+'页');
+            }
+        })
         queryOwnRecords.find({
             success:function(results){
                 //查到数据
@@ -324,27 +358,72 @@ function searchRecordData(year,month,isSearchAll){
                     //修改div的标题
                     var title = '错误记录共计: '+results.length+'条, 未确认: '+recordsNotConfirmCount+'条'
                     $('.title_left_description').text(title);
+                    //显示分页
+                    $('.pagination').css('display','block');
+                    //显示当前页
+                    $('#currentPageNum').text('第'+currentPageIndex+'页');
+
                 }
                 //未查到数据
                 else{
                     // if(!isInModify) {
                     //     alert('未找到数据,请重新输入年月~');
                     // }
-                    alert('未找到数据,请重新输入年月~');
-                }
+                    //修改div的标题
+                    var title = '当月错误记录';
+                    $('.title_left_description').text(title);
+                    $('.content_table_title').text('');
+                    //隐藏分页
+                    $('.pagination').css('display','none');
+                    alert('未找到数据,请重新输入年月或者姓名~');
 
+                }
+                //完成搜索
+                isInSearch=false;
             }
         });
     }
-    //超级管理员
-    else if(userAuthority == '2'){
-        //这里要加上按人查看
-        //只按月份查看
-        queryOwnRecords.equalTo('monthDate', dateStr);
+    //超级管理员和二级管理员
+    else {
+        //这里要加上按人查看,获取人员输入input的值，判断是否为空
+        //如果有人员，则加上筛选条件
+        var staffName = document.getElementsByClassName('staffInput')[0].value;
+        if(staffName !== ''){
+            queryOwnRecords.equalTo('username',staffName);
+        }
+        //只按月份查看,这里嘘需要判断是否选择了年月
+        if(dateStr!=='-'){
+            queryOwnRecords.equalTo('monthDate', dateStr);
+        }
+
+        //统计总页数
+        queryOwnRecords.count({
+            success:function(count){
+                $('#totalPageNum').text('共'+Math.ceil(count/maxRecordsPerPage)+'页');
+                console.log('count '+count)
+            }
+        })
+
+
+        //处理错误记录标题，要分类处理
+        //1:没选员工，只按年月查看
+        if(staffName == ''){
+            $('.content_table_title').text(year+'年'+month+'月所有员工错误记录详情');
+            $('.current_month_records_count_button').css('display','block');
+        //2:选了员工，没选年月
+        }else if(staffName!='' && dateStr=='-'){
+            $('.content_table_title').text('员工 '+currentStaffValue+' 的全部错误记录详情');
+        //3:选了员工，也选了年月
+        }else {
+            $('.content_table_title').text('员工 '+currentStaffValue+' '+year+'年'+month+'月错误记录详情');
+        }
+
         queryOwnRecords.find({
             success:function(results){
                 //查到数据
+                console.log('found')
                 if(results.length>0) {
+                    console.log(results.length)
                     //未确认的记录
                     var recordsNotConfirmCount = 0;
                     for (var i = 0; i < results.length; i++) {
@@ -428,22 +507,101 @@ function searchRecordData(year,month,isSearchAll){
                     //修改div的标题
                     var title = '错误记录共计: '+results.length+'条, 未确认: '+recordsNotConfirmCount+'条'
                     $('.title_left_description').text(title);
+                    //显示分页
+                    $('.pagination').css('display','block');
+                    //显示当前页
+                    $('#currentPageNum').text('第'+currentPageIndex+'页');
+
                 }
                 //未查到数据
                 else{
-                    // if(!isInModify) {
-                    //     alert('未找到数据,请重新输入年月~');
-                    // }
-                    alert('未找到数据,请重新输入年月~');
+                    var title = '当月错误记录';
+                    $('.title_left_description').text(title);
+                    $('.content_table_title').text('');
+                    $('.current_month_records_count_button').css('display','none');
+                    //隐藏分页
+                    $('.pagination').css('display','none');
+                    alert('未找到数据,请重新输入年月或姓名~');
                 }
                 //完成搜索
                 isInSearch=false;
 
+            },
+            error:function(error){
+               console.log('fail')
             }
+
         });
     }
 
 }
+//分页处理
+//上一页下一页按钮
+var prevPageButton = document.getElementById('prevPage');
+prevPageButton.onclick = function(){
+    //清空当前保存记录的数组，否则进入修改状态就乱了
+    recordsOfCurrentMonth = [];
+    //如果是第一页则禁用该按钮
+    if(currentPageIndex == 1){
+        alert('已经是第一页了~');
+        return;
+    }else{
+        currentPageIndex--;
+        searchRecordData(currentYearValue,currentMonthValue,false);
+    }
+}
+var nextPageButton = document.getElementById('nextPage');
+nextPageButton.onclick = function(){
+    //清空当前保存记录的数组，否则进入修改状态就乱了
+    recordsOfCurrentMonth = [];
+    //获取总页码
+    var totalPageNumTextStr = $('#totalPageNum').text();
+    var totalPageNum = '';
+    for(var i=0;i<totalPageNumTextStr.length;i++){
+        if(i!==0 && i!==totalPageNumTextStr.length-1){
+            totalPageNum+=totalPageNumTextStr[i];
+        }
+    }
+    totalPageNum = parseInt(totalPageNum);
+    //如果是最后一页则禁用该按钮
+    if(currentPageIndex == totalPageNum){
+        alert('已经是最后一页了~');
+        return;
+    }else{
+        currentPageIndex++;
+        searchRecordData(currentYearValue,currentMonthValue,false);
+    }
+}
+//页码go
+var pageGoButton = document.getElementById('goToPage');
+pageGoButton.onclick = function(){
+    //清空当前保存记录的数组，否则进入修改状态就乱了
+    recordsOfCurrentMonth = [];
+    //获取input的值
+    var inputPageIndex = $('#pageIndex').val();
+    //获取总页码
+    var totalPageNumTextStr = $('#totalPageNum').text();
+    var totalPageNum = '';
+    for(var i=0;i<totalPageNumTextStr.length;i++){
+        if(i!==0 && i!==totalPageNumTextStr.length-1){
+            totalPageNum+=totalPageNumTextStr[i];
+        }
+    }
+    totalPageNum = parseInt(totalPageNum);
+    //判断输入是否合理
+    if(!isNaN(parseInt(inputPageIndex))){
+        var t = parseInt(inputPageIndex);
+        if(t>=1 && t<=totalPageNum){
+            currentPageIndex = t;
+            searchRecordData(currentYearValue,currentMonthValue,false);
+        }else{
+            alert('输入非法~');
+        }
+    }else{
+        alert('输入非法~');
+    }
+}
+
 
 //打印机提示
 var printerDesc = document.getElementsByClassName('printer_description')[0];
@@ -453,6 +611,16 @@ printer.onmouseover = function(){
 }
 printer.onmouseout = function(){
     printerDesc.style.display='none';
+}
+printer.onclick = function(){
+    //如果没有搜索到数据则不能打印
+    if (table.children.length === 0) {
+        alert('当月错误记录为空，无法打印');
+        return;
+    }
+    var extraCss = './css/main.css';
+    $(".print_area").printArea({extraCss:extraCss});
+
 }
 
 
@@ -488,16 +656,20 @@ var modalShow = false;
 var overlay = document.getElementsByClassName('overlay')[0];
 var modalLogin = document.getElementById('modal_login');
 loginButton.onclick = function(){
+    //console.log('loginButton')
     if(!modalShow){
         overlay.style.display='block';
-        toggleClass(modalLogin,'md-show');
+        //toggleClass(modalLogin,'md-show');
+        $(modalLogin).addClass('md-show')
         modalLogin.style.display='block'
     }
 }
 //对话框关闭
 var closeButton = document.getElementsByClassName('md-close')[0];
 closeButton.onclick = function(){
-    toggleClass(modalLogin,'md-show');
+    //console.log('closeloginButton')
+    //toggleClass(modalLogin,'md-show');
+    $(modalLogin).removeClass('md-show')
     overlay.style.display='none';
 }
 
@@ -543,7 +715,9 @@ function delCookie(name)
 }
 
 var btnLogin = document.getElementsByClassName('btn-login')[0];
-btnLogin.onclick = function(){
+//登录处理
+function loginHandler(){
+
     //错误提示
     var errorTip = document.getElementById('errorTip');
     //用户权限
@@ -588,6 +762,17 @@ btnLogin.onclick = function(){
             alert("登录失败: " + error.code + " " + error.message);
         }
     });
+}
+//登录按钮
+btnLogin.onclick = function(){
+    loginHandler();
+};
+//回车也会触发登录
+document.onkeydown = function(event){
+    var e = event || window.event ;
+    if(e && e.keyCode==13){ // enter 键
+        loginHandler();
+    }
 };
 //登出
 var btnLogout = document.getElementById('logout');
@@ -602,6 +787,9 @@ btnLogout.onclick = function(){
 }
 //body加载时检查cookie
 document.body.onload=function(){
+    //初始化姓名列表
+    initUsernameDropDownList();
+    //修改状态初始化
     isInModify=false;
     //这里只判断了username，但是username和权限cookie的时间是一样的
     var hasCookie = checkCookie('username');
@@ -618,6 +806,7 @@ document.body.onload=function(){
         var userauthorityName = '';
         if (userauthority == '2') {
             userauthorityName = '超级管理员 ';
+
         } else if (userauthority == '1') {
             userauthorityName = '二级管理员 ';
         } else {
@@ -629,11 +818,24 @@ document.body.onload=function(){
             //添加一个搜索全部的div
             $('#div_search_all').css('display', 'block');
             $('#div_search_all').css('top', '-1px');
+            //隐藏按人搜索的div
+            $('.staff_select').css('display','none');
+            //隐藏打印按钮
+            $('.printer').css('display','none');
         }
+        //所有用户都可以看到的：频率统计
+        var recordGraphButton = document.createElement('a');
+        recordGraphButton.setAttribute('class', 'alreadyLoginButton');
+        setInnerText(recordGraphButton, '统计图表')
+        recordGraphButton.setAttribute('id', 'graph');
+        recordGraphButton.onclick = function () {
+            window.location.href = './views/graph.html';
+        }
+        var bannerButton = document.getElementsByClassName('bannerButton')[0];
+        bannerButton.appendChild(recordGraphButton);
         //登录才显示的按钮,超管才能看到
         if (userauthority == '2') {
             //必须动态添加，不能隐藏显示，这样有漏洞
-            var bannerButton = document.getElementsByClassName('bannerButton')[0];
             var settingButton = document.createElement('a');
             settingButton.setAttribute('class', 'alreadyLoginButton');
             setInnerText(settingButton, '设置信息')
@@ -660,9 +862,11 @@ document.body.onload=function(){
             modifyButton.onclick = function () {
                 //如果没有搜索到数据则不能修改
                 if (table.children.length === 0) {
-                    alert('当月表格内容为空，无法修改!');
+                    alert('当月错误记录为空，请先查询记录后再修改!');
                     return;
                 }
+                //隐藏页码按钮
+                $('.pagination').css('display','none');
 
                 //只在遮罩上显示表格
                 var content = document.getElementsByClassName('content')[0];
@@ -762,7 +966,6 @@ document.body.onload=function(){
                         //如果是图片查看这一列
                         else if (tdList[j] == 'imageUrl') {
                             //如果没有图片显示:无,但是超管的话要显示添加图片按钮
-
                             if (imagePath == '') {
                                 //增加添加按钮
                                 var buttonAdd = document.createElement('button');
@@ -906,12 +1109,41 @@ document.body.onload=function(){
         setInnerText(nameDiv, '');
     }
 }
+//初始化人员姓名列表
+function initUsernameDropDownList(){
+    //从云端数据库查询人员姓名,除了超管和管理员
+    var userInfo = Bmob.Object.extend('user');
+    var queryUser = new Bmob.Query(userInfo);
+    //获取姓名下拉ul
+    var usernameUl = document.getElementsByClassName('staff_choice')[0];
+    queryUser.find({
+        success:function(results){
+            for(var i=0;i<results.length;i++){
+                //普通员工或者二级管理员
+                if(results[i].get('authority')=='0' || results[i].get('authority')=='1'){
+                    var username = results[i].get('username');
+                    var li = document.createElement('li');
+                    (function(username){
+                        li.onclick = function(){
+                            staffList.style.display='none';
+                            staffInput.value = username;
+                        }
+                    })(username);
+                    setInnerText(li,username);
+                    usernameUl.appendChild(li);
+                }
+            }
 
+        }
+    })
+}
 //修改按钮处理
 var confirmButton =document.getElementById('confirm_modify');
 var cancelButton =document.getElementById('cancel_modify');
 var table = document.getElementById('content_table');
 cancelButton.onclick = function(){
+    //恢复变量(日期合法输入)
+    isValidClick = true;
     var content = document.getElementsByClassName('content')[0];
     content.style['z-index']=0;
     overlay.style.display='none';
@@ -930,6 +1162,11 @@ cancelButton.onclick = function(){
 }
 //确认修改按钮
 confirmButton.onclick = function(){
+    //如果是日期的非法修改
+    if(!isValidClick){
+        alert('请输入正确日期!');
+        return;
+    }
     var content = document.getElementsByClassName('content')[0];
     content.style['z-index']=0;
     overlay.style.display='none';
@@ -1005,22 +1242,8 @@ confirmButton.onclick = function(){
         alert('修改保存成功');
         //重新初始化
         window.location.reload();
-
-
     })
 
-
-
-
-
-
-    //重新搜索数据
-    //searchRecordData(currentYearValue,currentMonthValue);
-    //重置变量
-    //isInModify=false;
-    //关闭提示框
-    //var modifyTips = document.getElementsByClassName('modify_tips')[0];
-    //modifyTips.style.display = 'none';
 }
 
 
@@ -1038,13 +1261,30 @@ function changeTotext(obj)
     txt.setAttribute("class","text");
     obj.appendChild(txt);
     txt.select();
-    //obj.style.border = "1px dashed #ff9900";
+    $(txt).css('border','2px solid #ff9900');
+    $(txt).css('border-radius','5px');
 }
+
+//记录是否是错误的点击
+var isValidClick = true;
 // 取消单元格中的文本框，并将文本框中的值赋给单元格
 function cancel(obj)
 {
     var txtValue = document.getElementById("_text_000000000_").value;
-    //obj.innerText = txtValue;
+    //获取该td的index(相对于其所在tr)
+    var index = $(obj).index();
+    //如果是日期一列
+    if(index == 1) {
+        //这里要判断填写的日期是否是指定格式:yyyy-mm-dd
+        var reg = /^\d{4}-\d{2}-\d{2}$/g;
+        if (!reg.test(txtValue)) {
+            alert('请填写正确的日期格式:yyyy-mm-dd');
+            document.getElementById("_text_000000000_").select();
+            isValidClick = false;
+            return;
+        }
+    }
+    isValidClick = true;
     setInnerText(obj,txtValue)
 }
 //取消选中单元格
@@ -1071,12 +1311,23 @@ document.onclick = function()
             //获取该td的index(相对于其所在tr)
             var index = $(obj).parents("tr").find("td").index($(obj));
             //4就是可修改的最后一列
-            if(index<=4){
+            if(index<=4 && isValidClick){
                 changeTotext(event.srcElement);
             }
 
         }
 
+    }
+    //隐藏搜索部分3个下拉选择菜单
+    var objUl = event.srcElement ? event.srcElement : event.target;
+    var dropDownClassNamePrefix = (objUl.className).split('_')[0];
+    if (dropDownClassNamePrefix !== 'dropBoxButton') {
+        $(yearList).css('display','none');
+        $(monthList).css('display','none');
+        $(staffList).css('display','none');
+        isStaffListShow =false;
+        isMonthListShow = false;
+        isYearListShow = false;
     }
 
 }
@@ -1177,4 +1428,53 @@ $('#record_add_image').change(function() {
     }
 
 });
+
+
+
+//只搜年月情况下的：查看次数统计 按钮
+var recordsCountButton = document.getElementById('showCount');
+recordsCountButton.onclick = function(){
+    //记录所有员工次数的对象
+    var staffCountObj = {};
+    //遍历table提取数据
+    var trs = table.getElementsByTagName('tr');
+    //不能统计表头
+    for(var i=1;i<trs.length;i++){
+        var username = getInnerText(trs[i].children[0]);
+        if(staffCountObj.hasOwnProperty(username)){
+            staffCountObj[username]++;
+        }else{
+            staffCountObj[username] = 1;
+        }
+    }
+    //清空原来的table
+    while(table.children.length>0){
+        table.removeChild(table.children[0]);
+    }
+    //重置标题
+    $('.content_table_title').text(currentYearValue+'年'+currentMonthValue+'月员工错误记录次数详情');
+    //构建新的table
+    var tbody = document.createElement('tbody');
+    var tableHead = document.createElement('tr');
+    var nameTh = document.createElement('th');
+    var countTh = document.createElement('th');
+    setInnerText(nameTh,'员工姓名')
+    setInnerText(countTh,'本月错误次数')
+    tableHead.appendChild(nameTh);
+    tableHead.appendChild(countTh);
+    tbody.appendChild(tableHead);
+    for(var key in staffCountObj){
+        var tr = document.createElement('tr');
+        var nameTd = document.createElement('td');
+        tr.append(nameTd);
+        setInnerText(nameTd,key);
+        var countTd = document.createElement('td');
+        setInnerText(countTd,staffCountObj[key]);
+        tr.append(countTd);
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    //隐藏次数统计按钮
+    $('.current_month_records_count_button').css('display','none');
+}
 

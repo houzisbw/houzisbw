@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link type="text/css" rel='stylesheet' href="./../css/reset.css">
+    <link type="text/css" rel='stylesheet' href="./../css/main.css">
+    <!--bmob 云存储js，放在头里面后面的js才能直接用-->
+    <script src='./../js/bmob_plugin/bmob-min.js'></script>
+    <!--引入underscore.js-->
+    <script src='./../js/underscore/underscore-min.js'></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="./../js/echarts/echarts.min.js"></script>
+
+</head>
+<body>
+<!--网页banner-->
+<div class="banner">
+    <div class="commonWidth">
+        <div class="logo">
+            <img src="./../static/image/logo.png" alt="logoPic">
+        </div>
+        <div class="platformTitle">
+            错误记录平台
+        </div>
+        <div class="bannerButton">
+            <a href="#" class="loginButton" id="goback">返回主页</a>
+        </div>
+        <!--登录后名字显示-->
+        <div class="loginedName">
+
+        </div>
+
+    </div>
+</div>
+
+<!--网页主体部分，banner下面-->
+<div class="commonWidth clearfix">
+    <!--配置区域总标题 -->
+    <div class="content_setting">
+        <!--标题区域 -->
+        <div class="setting_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/statistics.png">
+                </div>
+                <div class="setting_title_left_description">
+                    查看所有员工月度错误记录频率统计详情
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="setting_item">
+        <div class="content_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/statistics2.png">
+                </div>
+                <div class="title_left_description">
+                    所有员工当月错误记录频率柱状图
+                </div>
+                <!--查询按钮-->
+                <button type="button" class="btn btn-warning name_input_button" id="graph_search_button">查询记录</button>
+                <div class="name_input">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="输入月份~" id="month_input">
+                    </div>
+                </div>
+                <div class="name_input">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="输入年份~" id="year_input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--具体条目-->
+        <div class="adduser_setting clearfix">
+            <!--图表标题-->
+            <div class="graph_title">
+
+            </div>
+            <div class="bar_graph">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--模态框 md-show类显示-->
+<div class="md-modal modal-msg md-modal-transition " id="modal_login">
+    <div class="md-modal-inner">
+        <div class="md-top">
+            <div class="md-title">管理员登录</div>
+            <button class="md-close" >关闭</button>
+        </div>
+        <div class="md-content">
+            <div class="confirm-tips">
+                <div class="error-wrap">
+                    <span class="error " id="errorTip">用户名或者密码错误</span>
+                </div>
+                <ul>
+                    <li class="regi_form_input">
+                        <i class="icon IconPeople"></i>
+                        <input type="text" tabindex="1" name="loginname"  class="regi_login_input">
+                    </li>
+                    <li class="regi_form_input noMargin">
+                        <i class="icon IconPwd"></i>
+                        <input type="password" tabindex="2" name="password"  class="regi_login_input" >
+                    </li>
+                </ul>
+            </div>
+            <div class="login-wrap">
+                <a href="javascript:;" class="btn-login" >登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<div class="footer">
+    <div class="copyright">
+        Copyright@houzisbw | 京ICP备12345678号
+    </div>
+</div>
+
+<script src="./../js/graph.js"></script>
+
+</body>
+</html>

@@ -36,10 +36,10 @@ body{
     margin-left: 20px;
     color: #656565;
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
-    font-size:26px;
+    font-size:22px;
     font-weight: 800;
     line-height: 60px;
-    width:180px;
+    width:380px;
 }
 /*banner上的按钮*/
 .bannerButton {
@@ -170,19 +170,9 @@ body{
 
 }
 
-/*年份选择下拉框*/
-.year_select {
-    height:50px;
-    width:230px;
-    margin-left:50px;
-    border-radius: 5px;
-    border: 1px solid #656565;
-    position: absolute;
-    top:50%;
-    margin-top: -25px;
-}
+
 /*年份ul列表*/
-.year_choice,.month_choice {
+.year_choice,.month_choice,.staff_choice {
     position: absolute;
     left:0;
     top:55px;
@@ -193,12 +183,12 @@ body{
     display: none;
     z-index:199;
 }
-.year_choice li,.month_choice li {
+.year_choice li,.month_choice li,.staff_choice li{
     text-align: center;
     height:20px;
     line-height: 20px;
 }
-.year_choice li:hover,.month_choice li:hover{
+.year_choice li:hover,.month_choice li:hover,.staff_choice li:hover{
     background-color: #96856f;
     color:#ffffff;
 }
@@ -207,17 +197,39 @@ body{
 .month_select {
     height:50px;
     width:230px;
-    margin-left:320px;
+    margin-left:280px;
     border-radius: 5px;
     border: 1px solid #656565;
     position: absolute;
     top:50%;
-    margin-top: -25px;
+    margin-top: -24px;
 
+}
+/*年份选择下拉框*/
+.year_select {
+    height:50px;
+    width:230px;
+    margin-left:30px;
+    border-radius: 5px;
+    border: 1px solid #656565;
+    position: absolute;
+    top:50%;
+    margin-top: -24px;
+}
+/*人员选择下拉框*/
+.staff_select {
+    height:50px;
+    width:230px;
+    margin-left:530px;
+    border-radius: 5px;
+    border: 1px solid #656565;
+    position: absolute;
+    top:50%;
+    margin-top: -24px;
 }
 
 /*下拉框*/
-.dropBoxButton_month,.dropBoxButton_year {
+.dropBoxButton_month,.dropBoxButton_year, .dropBoxButton_staff{
     float:right;
     width:55px;
     height:100%;
@@ -226,7 +238,7 @@ body{
     position: relative;
 }
 /*年份输入框*/
-.yearInput,.monthInput{
+.yearInput,.monthInput,.staffInput{
     width:160px;
     float:left;
     margin-left: 10px;
@@ -235,12 +247,15 @@ body{
     font-size: 20px;
     text-indent: 10px;
 }
+.staffInput{
+    background-color: #fff;
+}
 /*搜索按钮*/
 .search {
     width:200px;
     height:50px;
     float:right;
-    margin-right:40px;
+    margin-right:20px;
     margin-top: 50px;
     border-radius: 5px;
     background-color: #96856f;
@@ -292,7 +307,7 @@ body{
     position: absolute;
     left:1050px;
     top:10px;
-    width:150px;
+    width:170px;
     height:50px;
     background-color: #96856f;
     border-radius: 5px;
@@ -366,13 +381,71 @@ body{
     width:900px;
     margin-left: 50px;
     margin-top: 50px;
+    position: relative;
+}
+/*分页处理*/
+.pagination{
+    margin:10px 50px 0 0;
+    float:right;
+    height:40px;
+    line-height: 40px;
+    font-size: 12px;
+    display: none;
+}
+.pagination button{
+    border: 1px solid #96856f;
+    border-radius: 4px;
+    width:60px;
+    height:22px;
+    background-color: #fff;
+    color:#96856f;
+    line-height: 22px;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;; /* Firefox 4 */
+    -webkit-transition: background-color 0.3s;; /* Safari 和 Chrome */
+    -o-transition: background-color 0.3s;; /* Opera */
+}
+.pagination button:hover{
+    background-color: #96856f;
+    color:#fff;
+}
+/*分页部分输入框*/
+.pagination input{
+    border: 1px solid #96856f;
+    border-radius: 4px;
+    height:22px;
+    width:60px;
+    /*消除input和button对不齐的尴尬*/
+    padding-top: 2px;
+    text-indent: 5px;
+
+}
+#goToPage{
+    width:30px;
+}
+/*次数统计的按钮，只有在月查询时可见*/
+.current_month_records_count_button{
+    position: absolute;
+    top:-40px;
+    display: none;
 }
 /*内容表格标题*/
 .content_table_title {
     text-align: center;
-    font-size: 20px;
-    margin: 20px auto;
+    font-size: 23px;
+    margin: 50px auto 30px auto;
+    font-weight: bold;color:#888888;
 
+}
+@media print {
+    /* TODO: 添加打印样式 */
+    /*内容表格标题*/
+    .content_table_title {
+        text-align: center;
+        font-size: 23px;
+        text-indent: 220px;
+        font-weight: bold;color:#888888;
+    }
 }
 /*非常重要，表格自动换行*/
 .content_table table{
@@ -485,6 +558,15 @@ body{
 }
 .add_image_uploading_word{
     display: none;
+}
+/*错误记录详细标题*/
+.record_detail_title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+    color:#656565;
+    font-weight: bold;
+
 }
 
 
@@ -1115,4 +1197,19 @@ button:disabled {
 }
 .span_invisible{
     display: none;
+}
+
+
+/*                  统计图表                  */
+.graph_title{
+    margin:20px auto;
+    font-size: 20px;
+    font-weight: bold;
+    color:#888888;
+    text-align: center;
+
+}
+.bar_graph{
+    width:100%;
+    min-height: 600px;
 }
