@@ -112,6 +112,7 @@ var isOnlyNotConfirmed = false;
 searchButton.onmouseover = function(){
     //不是普通用户
     if(getCookie('authority') != '0') {
+        console.log('onmouseover ')
         $('.only_search_unconfirmed').css('display', 'block');
         clearTimeout(timeId);
         //3秒后隐藏对话框

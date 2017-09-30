@@ -5,11 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88830dab-d506-47bf-b48d-0bcada849b38" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/reset.css" afterPath="$PROJECT_DIR$/css/reset.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/addUser.js" afterPath="$PROJECT_DIR$/js/addUser.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -28,7 +23,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
+            <state relative-caret-position="-200">
               <caret line="206" column="55" lean-forward="false" selection-start-line="206" selection-start-column="46" selection-end-line="206" selection-end-column="55" />
               <folding>
                 <element signature="e#5753#5759#0" expanded="true" />
@@ -59,11 +54,11 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15704">
-              <caret line="806" column="24" lean-forward="true" selection-start-line="806" selection-start-column="24" selection-end-line="806" selection-end-column="24" />
+            <state relative-caret-position="338">
+              <caret line="114" column="33" lean-forward="false" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
               <folding>
                 <element signature="e#0#49#0" expanded="false" />
-                <element signature="e#7908#15809#0" expanded="false" />
+                <element signature="e#7944#15845#0" expanded="false" />
                 <element signature="n#!!block;n#hasClass#0" expanded="false" />
                 <element signature="n#!!block;n#addClass#0" expanded="false" />
                 <element signature="n#!!block;n#removeClass#0" expanded="false" />
@@ -73,10 +68,10 @@
                 <element signature="n#!!block;n#checkCookie#0" expanded="false" />
                 <element signature="n#!!block;n#delCookie#0" expanded="false" />
                 <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-                <element signature="e#51558#51885#0" expanded="false" />
-                <element signature="e#53015#53857#0" expanded="false" />
-                <element signature="e#53994#54524#0" expanded="false" />
-                <element signature="e#54608#56540#0" expanded="false" />
+                <element signature="e#51594#51921#0" expanded="false" />
+                <element signature="e#53051#53893#0" expanded="false" />
+                <element signature="e#54030#54560#0" expanded="false" />
+                <element signature="e#54644#56576#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -390,12 +385,12 @@
       <workItem from="1506478054726" duration="27121000" />
       <workItem from="1506564862252" duration="31152000" />
       <workItem from="1506650242801" duration="20610000" />
-      <workItem from="1506736901362" duration="3029000" />
+      <workItem from="1506736901362" duration="3941000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="332896000" />
+    <option name="totallyTimeSpent" value="333808000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -456,7 +451,7 @@
           <caret line="457" column="11" lean-forward="false" selection-start-line="457" selection-start-column="10" selection-end-line="457" selection-end-column="11" />
           <folding>
             <element signature="e#0#49#0" expanded="false" />
-            <element signature="e#7908#15809#0" expanded="false" />
+            <element signature="e#7944#15845#0" expanded="false" />
             <element signature="n#!!block;n#hasClass#0" expanded="false" />
             <element signature="n#!!block;n#addClass#0" expanded="false" />
             <element signature="n#!!block;n#removeClass#0" expanded="false" />
@@ -466,10 +461,10 @@
             <element signature="n#!!block;n#checkCookie#0" expanded="false" />
             <element signature="n#!!block;n#delCookie#0" expanded="false" />
             <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="e#51558#51885#0" expanded="false" />
-            <element signature="e#53015#53857#0" expanded="false" />
-            <element signature="e#53994#54524#0" expanded="false" />
-            <element signature="e#54608#56540#0" expanded="false" />
+            <element signature="e#51594#51921#0" expanded="false" />
+            <element signature="e#53051#53893#0" expanded="false" />
+            <element signature="e#54030#54560#0" expanded="false" />
+            <element signature="e#54644#56576#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -605,7 +600,7 @@
           <caret line="126" column="17" lean-forward="true" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="17" />
           <folding>
             <element signature="e#0#49#0" expanded="false" />
-            <element signature="e#7908#15809#0" expanded="false" />
+            <element signature="e#7944#15845#0" expanded="false" />
             <element signature="n#!!block;n#hasClass#0" expanded="false" />
             <element signature="n#!!block;n#addClass#0" expanded="false" />
             <element signature="n#!!block;n#removeClass#0" expanded="false" />
@@ -615,10 +610,10 @@
             <element signature="n#!!block;n#checkCookie#0" expanded="false" />
             <element signature="n#!!block;n#delCookie#0" expanded="false" />
             <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="e#51558#51885#0" expanded="false" />
-            <element signature="e#53015#53857#0" expanded="false" />
-            <element signature="e#53994#54524#0" expanded="false" />
-            <element signature="e#54608#56540#0" expanded="false" />
+            <element signature="e#51594#51921#0" expanded="false" />
+            <element signature="e#53051#53893#0" expanded="false" />
+            <element signature="e#54030#54560#0" expanded="false" />
+            <element signature="e#54644#56576#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -648,7 +643,7 @@
           <caret line="352" column="9" lean-forward="true" selection-start-line="352" selection-start-column="9" selection-end-line="352" selection-end-column="9" />
           <folding>
             <element signature="e#0#49#0" expanded="false" />
-            <element signature="e#7908#15809#0" expanded="false" />
+            <element signature="e#7944#15845#0" expanded="false" />
             <element signature="n#!!block;n#hasClass#0" expanded="false" />
             <element signature="n#!!block;n#addClass#0" expanded="false" />
             <element signature="n#!!block;n#removeClass#0" expanded="false" />
@@ -658,10 +653,10 @@
             <element signature="n#!!block;n#checkCookie#0" expanded="false" />
             <element signature="n#!!block;n#delCookie#0" expanded="false" />
             <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="e#51558#51885#0" expanded="false" />
-            <element signature="e#53015#53857#0" expanded="false" />
-            <element signature="e#53994#54524#0" expanded="false" />
-            <element signature="e#54608#56540#0" expanded="false" />
+            <element signature="e#51594#51921#0" expanded="false" />
+            <element signature="e#53051#53893#0" expanded="false" />
+            <element signature="e#54030#54560#0" expanded="false" />
+            <element signature="e#54644#56576#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -955,14 +950,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="272" column="14" lean-forward="true" selection-start-line="272" selection-start-column="14" selection-end-line="272" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/reset.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="549">
@@ -973,7 +960,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
+        <state relative-caret-position="-200">
           <caret line="206" column="55" lean-forward="false" selection-start-line="206" selection-start-column="46" selection-end-line="206" selection-end-column="55" />
           <folding>
             <element signature="e#5753#5759#0" expanded="true" />
@@ -990,13 +977,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="272" column="14" lean-forward="true" selection-start-line="272" selection-start-column="14" selection-end-line="272" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15704">
-          <caret line="806" column="24" lean-forward="true" selection-start-line="806" selection-start-column="24" selection-end-line="806" selection-end-column="24" />
+        <state relative-caret-position="338">
+          <caret line="114" column="33" lean-forward="false" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
           <folding>
             <element signature="e#0#49#0" expanded="false" />
-            <element signature="e#7908#15809#0" expanded="false" />
+            <element signature="e#7944#15845#0" expanded="false" />
             <element signature="n#!!block;n#hasClass#0" expanded="false" />
             <element signature="n#!!block;n#addClass#0" expanded="false" />
             <element signature="n#!!block;n#removeClass#0" expanded="false" />
@@ -1006,10 +1001,10 @@
             <element signature="n#!!block;n#checkCookie#0" expanded="false" />
             <element signature="n#!!block;n#delCookie#0" expanded="false" />
             <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="e#51558#51885#0" expanded="false" />
-            <element signature="e#53015#53857#0" expanded="false" />
-            <element signature="e#53994#54524#0" expanded="false" />
-            <element signature="e#54608#56540#0" expanded="false" />
+            <element signature="e#51594#51921#0" expanded="false" />
+            <element signature="e#53051#53893#0" expanded="false" />
+            <element signature="e#54030#54560#0" expanded="false" />
+            <element signature="e#54644#56576#0" expanded="false" />
           </folding>
         </state>
       </provider>
