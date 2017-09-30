@@ -162,7 +162,7 @@ body{
 /*内容展示*/
 .content {
     margin-top: 20px;
-    height:1000px;
+    min-height:1000px;
     background-color: #ffffff;
     border-radius: 2px;
     box-shadow: 0 0 1px 1px #d5d4d4;/*四边阴影*/
@@ -264,6 +264,28 @@ body{
     -moz-transition: background-color 0.3s;; /* Firefox 4 */
     -webkit-transition: background-color 0.3s;; /* Safari 和 Chrome */
     -o-transition: background-color 0.3s;; /* Opera */
+    position: relative;
+}
+/*只看未确认*/
+.only_search_unconfirmed{
+    position: absolute;
+    left:780px;
+    top:100px;
+    width:200px;
+    height:30px;
+    border: 1px solid #888888;
+    text-align: center;
+    border-radius: 4px;
+    color:#888888;
+    line-height: 30px;
+    display: none;
+}
+
+#only_search_unconfirmed{
+    /*对齐input的文字*/
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 6px;
 }
 .search:hover {
     background-color: #deb26e;
@@ -872,11 +894,12 @@ body{
 .md-title{
     position: absolute;
     top: 14px;
+    left:230px;
     line-height: 24px;
     padding: 8px 0;
-    color: #333;
-    font-size: 18px;
-    font-weight: 400;
+    color: #8a8a8a;
+    font-size: 20px;
+    font-weight: bold;
     font-style: normal;
 }
 .login-wrap{

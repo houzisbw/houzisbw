@@ -19,7 +19,7 @@ li {
 .fr{
     float:right;
 }
-input {
+input,button {
     border:none;
     outline: none;/*点击input时会有一圈outline*/
 }

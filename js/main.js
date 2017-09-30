@@ -102,9 +102,26 @@ staffDropDown.onclick=function(){
 };
 
 
-
 //搜索按钮
 var searchButton = document.getElementsByClassName('search')[0];
+//settimeout的id
+var timeId = null;
+//是否是只看未确认
+var isOnlyNotConfirmed = false;
+//搜索：只看未确认
+searchButton.onmouseover = function(){
+    //不是普通用户
+    if(getCookie('authority') != '0') {
+        $('.only_search_unconfirmed').css('display', 'block');
+        clearTimeout(timeId);
+        //3秒后隐藏对话框
+        timeId = setTimeout(function () {
+            $('.only_search_unconfirmed').css('display', 'none');
+        }, 3000);
+    }
+}
+
+
 //获取innerTEXT,兼容火狐
 function getInnerText(element) {
     return (typeof element.textContent == "string") ? element.textContent : element.innerText;
@@ -119,6 +136,8 @@ function setInnerText(element,text){
 }
 //按月份搜
 searchButton.onclick = function(){
+    //隐藏只看未确认按钮
+    $('.only_search_unconfirmed').css('display','none');
     //判断用户是否登录
     var userCookie = getCookie('username');
     if(!userCookie){
@@ -137,6 +156,8 @@ searchButton.onclick = function(){
         currentMonthValue = monthValue;
         currentYearValue = yearValue;
         currentStaffValue = staffValue;
+        //重置currentPageIndex,否则无法搜到数据
+        currentPageIndex = 1;
         //如果不在搜索过程中
         if(!isInSearch) {
             searchRecordData(yearValue, monthValue, false);
@@ -145,6 +166,8 @@ searchButton.onclick = function(){
 }
 //搜索普通用户的全部记录
 //搜索按钮
+//是否处于搜全部的状态
+var isInSearchAllState = false;
 var searchAllButton = document.getElementsByClassName('search_all_btn')[0];
 searchAllButton.onclick = function(){
     //判断用户是否登录
@@ -154,8 +177,26 @@ searchAllButton.onclick = function(){
         return;
     }
     if(!isInSearch) {
+        isInSearchAllState = true;
         searchRecordData('', '', true);
     }
+
+}
+//普通用户的只看未确认
+searchAllButton.onmouseover = function(){
+    //修正只看未确认按钮的位置
+    $('.only_search_unconfirmed').css('display','block');
+    $('.only_search_unconfirmed').css('width','100px');
+    $('.only_search_unconfirmed').css('height','30px');
+    $('.only_search_unconfirmed').css('position','absolute');
+    $('.only_search_unconfirmed').css('z-index','200');
+    $('.only_search_unconfirmed').css('left','850px');
+    $('.only_search_unconfirmed').css('top','100px');
+    clearTimeout(timeId);
+    //3秒后隐藏对话框
+    timeId = setTimeout(function () {
+        $('.only_search_unconfirmed').css('display', 'none');
+    }, 3000);
 
 }
 //兼容ie8及以下去除空格
@@ -222,16 +263,23 @@ function searchRecordData(year,month,isSearchAll){
     var ownRecords = Bmob.Object.extend('record');
     var queryOwnRecords = new Bmob.Query(ownRecords);
 
-    //分页查询,每页最多显示20条,这里是显示第一页
+    //分页查询,每页最多显示17条,这里是显示第一页
     queryOwnRecords.limit(maxRecordsPerPage);
     //这里要跳过多少页查询,初始状态currentPageIndex为1，所以skip 0条记录
     queryOwnRecords.skip(maxRecordsPerPage*(currentPageIndex-1));
-    console.log('skip '+maxRecordsPerPage*(currentPageIndex-1));
 
+    //只看未确认,防止查找未确认的条目太难
+    //是否是只看未确认
+    isOnlyNotConfirmed = $('#only_search_unconfirmed').prop('checked');
+    if(isOnlyNotConfirmed){
+        queryOwnRecords.equalTo('isConfirm','0');
+    }
     //普通用户
     if(userAuthority == '0' ) {
         //只按年月搜索
         if(!isSearchAll) {
+            //不是处于搜全部的状态
+            isInSearchAllState = false;
             //startsWith方法有毒，咋试咋不对,只能再记录一个月份
             queryOwnRecords.equalTo('monthDate', dateStr);
             //只查询自己的记录
@@ -293,7 +341,7 @@ function searchRecordData(year,month,isSearchAll){
                                                         td.removeChild(button);
                                                         setInnerText(td,'已确认');
                                                         //修改div的标题
-                                                        var title = '错误记录共计: '+results.length+'条, 未确认: '+(--recordsNotConfirmCount)+'条'
+                                                        var title = '当页错误记录共计: '+results.length+'条, 未确认: '+(--recordsNotConfirmCount)+'条'
                                                         $('.title_left_description').text(title);
                                                     },
                                                     error:function(object,error){
@@ -356,7 +404,7 @@ function searchRecordData(year,month,isSearchAll){
                     //多了个tbody，注意了,自动加上的
                     table.appendChild(tbody);
                     //修改div的标题
-                    var title = '错误记录共计: '+results.length+'条, 未确认: '+recordsNotConfirmCount+'条'
+                    var title = '当页错误记录共计: '+results.length+'条, 未确认: '+recordsNotConfirmCount+'条'
                     $('.title_left_description').text(title);
                     //显示分页
                     $('.pagination').css('display','block');
@@ -400,7 +448,6 @@ function searchRecordData(year,month,isSearchAll){
         queryOwnRecords.count({
             success:function(count){
                 $('#totalPageNum').text('共'+Math.ceil(count/maxRecordsPerPage)+'页');
-                console.log('count '+count)
             }
         })
 
@@ -408,7 +455,7 @@ function searchRecordData(year,month,isSearchAll){
         //处理错误记录标题，要分类处理
         //1:没选员工，只按年月查看
         if(staffName == ''){
-            $('.content_table_title').text(year+'年'+month+'月所有员工错误记录详情');
+            $('.content_table_title').text(year+'年'+month+'月所有员工错误记录详情(第'+currentPageIndex+'页)');
             $('.current_month_records_count_button').css('display','block');
         //2:选了员工，没选年月
         }else if(staffName!='' && dateStr=='-'){
@@ -421,9 +468,7 @@ function searchRecordData(year,month,isSearchAll){
         queryOwnRecords.find({
             success:function(results){
                 //查到数据
-                console.log('found')
                 if(results.length>0) {
-                    console.log(results.length)
                     //未确认的记录
                     var recordsNotConfirmCount = 0;
                     for (var i = 0; i < results.length; i++) {
@@ -505,7 +550,7 @@ function searchRecordData(year,month,isSearchAll){
                     //多了个tbody，注意了,自动加上的
                     table.appendChild(tbody);
                     //修改div的标题
-                    var title = '错误记录共计: '+results.length+'条, 未确认: '+recordsNotConfirmCount+'条'
+                    var title = '当页错误记录共计: '+results.length+'条, 未确认: '+recordsNotConfirmCount+'条'
                     $('.title_left_description').text(title);
                     //显示分页
                     $('.pagination').css('display','block');
@@ -547,7 +592,12 @@ prevPageButton.onclick = function(){
         return;
     }else{
         currentPageIndex--;
-        searchRecordData(currentYearValue,currentMonthValue,false);
+        //这里要判断普通用户搜索全部按钮的逻辑
+        if(isInSearchAllState) {
+            searchRecordData('', '', true);
+        }else{
+            searchRecordData(currentYearValue, currentMonthValue, false);
+        }
     }
 }
 var nextPageButton = document.getElementById('nextPage');
@@ -569,7 +619,12 @@ nextPageButton.onclick = function(){
         return;
     }else{
         currentPageIndex++;
-        searchRecordData(currentYearValue,currentMonthValue,false);
+        //这里要判断普通用户搜索全部按钮的逻辑
+        if(isInSearchAllState) {
+            searchRecordData('', '', true);
+        }else{
+            searchRecordData(currentYearValue, currentMonthValue, false);
+        }
     }
 }
 //页码go
@@ -717,7 +772,8 @@ function delCookie(name)
 var btnLogin = document.getElementsByClassName('btn-login')[0];
 //登录处理
 function loginHandler(){
-
+    //按钮变为登录中
+    $('.btn-login').text('登录中...')
     //错误提示
     var errorTip = document.getElementById('errorTip');
     //用户权限
@@ -746,7 +802,7 @@ function loginHandler(){
                 overlay.style.display='none';
                 //设置cookie
                 //cookie过期时间
-                var timeToExpire = 300;
+                var timeToExpire = 3000;
                 setCookie('username',username,timeToExpire);
                 //设置权限信息
                 setCookie('authority',authority,timeToExpire);
@@ -756,6 +812,8 @@ function loginHandler(){
             }else{
                 //登录失败
                 toggleClass(errorTip,'error-show');
+                //按钮变为登录中
+                $('.btn-login').text('登录')
             }
         },
         error: function(error) {
@@ -822,6 +880,8 @@ document.body.onload=function(){
             $('.staff_select').css('display','none');
             //隐藏打印按钮
             $('.printer').css('display','none');
+            //只看未确认按钮位置移动到查看全部那里
+
         }
         //所有用户都可以看到的：频率统计
         var recordGraphButton = document.createElement('a');
@@ -867,6 +927,10 @@ document.body.onload=function(){
                 }
                 //隐藏页码按钮
                 $('.pagination').css('display','none');
+                //隐藏查看次数统计的按钮
+                $('.current_month_records_count_button').css('display','none');
+                //隐藏打印按钮
+                $('.printer').css('display','none');
 
                 //只在遮罩上显示表格
                 var content = document.getElementsByClassName('content')[0];
@@ -1142,6 +1206,8 @@ var confirmButton =document.getElementById('confirm_modify');
 var cancelButton =document.getElementById('cancel_modify');
 var table = document.getElementById('content_table');
 cancelButton.onclick = function(){
+    //显示打印按钮
+    $('.printer').css('display','block');
     //恢复变量(日期合法输入)
     isValidClick = true;
     var content = document.getElementsByClassName('content')[0];
@@ -1167,6 +1233,9 @@ confirmButton.onclick = function(){
         alert('请输入正确日期!');
         return;
     }
+    //显示打印按钮
+    $('.printer').css('display','block');
+
     var content = document.getElementsByClassName('content')[0];
     content.style['z-index']=0;
     overlay.style.display='none';
@@ -1239,6 +1308,8 @@ confirmButton.onclick = function(){
     }
     //等待所有并行promise执行完成
     Bmob.Promise.when(promises).then(function(){
+        //初始化当前页
+        currentPageIndex = 1;
         alert('修改保存成功');
         //重新初始化
         window.location.reload();
@@ -1431,50 +1502,72 @@ $('#record_add_image').change(function() {
 
 
 
-//只搜年月情况下的：查看次数统计 按钮
+//只搜年月情况下的：查看次数统计 按钮,这里要注意是要统计当月所有的，而不是仅仅当前表格的
 var recordsCountButton = document.getElementById('showCount');
 recordsCountButton.onclick = function(){
+    //隐藏页码按钮
+    $('.pagination').css('display','none');
+    //清空数组
+    recordsOfCurrentMonth = [];
+    recordsToDelete = [];
     //记录所有员工次数的对象
     var staffCountObj = {};
-    //遍历table提取数据
-    var trs = table.getElementsByTagName('tr');
-    //不能统计表头
-    for(var i=1;i<trs.length;i++){
-        var username = getInnerText(trs[i].children[0]);
-        if(staffCountObj.hasOwnProperty(username)){
-            staffCountObj[username]++;
-        }else{
-            staffCountObj[username] = 1;
+    //总错误次数
+    var totalRecordsCount = 0;
+
+    //重新查询当月数据
+    //从云端数据库搜索
+    var Records = Bmob.Object.extend('record');
+    var queryMonthRecords = new Bmob.Query(Records);
+    var dateStr = currentYearValue+'-'+currentMonthValue;
+    queryMonthRecords.equalTo('monthDate', dateStr);
+    queryMonthRecords.find({
+        success:function(results){
+            totalRecordsCount = results.length;
+            for(var i=0;i<results.length;i++){
+                var username = results[i].get('username');
+                if(staffCountObj.hasOwnProperty(username)){
+                    staffCountObj[username]++;
+                }else{
+                    staffCountObj[username] = 1;
+                }
+            }
+            //清空原来的table
+            while(table.children.length>0){
+                table.removeChild(table.children[0]);
+            }
+            //重置标题
+            $('.content_table_title').text(currentYearValue+'年'+currentMonthValue+'月员工错误记录次数详情(共计'+totalRecordsCount+'条)');
+            //重置div的标题
+            $('.title_left_description').text('错误记录次数统计');
+            //构建新的table
+            var tbody = document.createElement('tbody');
+            var tableHead = document.createElement('tr');
+            var nameTh = document.createElement('th');
+            var countTh = document.createElement('th');
+            setInnerText(nameTh,'员工姓名')
+            setInnerText(countTh,'本月错误次数')
+            tableHead.appendChild(nameTh);
+            tableHead.appendChild(countTh);
+            tbody.appendChild(tableHead);
+            for(var key in staffCountObj){
+                var tr = document.createElement('tr');
+                var nameTd = document.createElement('td');
+                tr.append(nameTd);
+                setInnerText(nameTd,key);
+                var countTd = document.createElement('td');
+                setInnerText(countTd,staffCountObj[key]);
+                tr.append(countTd);
+                tbody.appendChild(tr);
+            }
+            table.appendChild(tbody);
+            //隐藏次数统计按钮
+            $('.current_month_records_count_button').css('display','none');
+
         }
-    }
-    //清空原来的table
-    while(table.children.length>0){
-        table.removeChild(table.children[0]);
-    }
-    //重置标题
-    $('.content_table_title').text(currentYearValue+'年'+currentMonthValue+'月员工错误记录次数详情');
-    //构建新的table
-    var tbody = document.createElement('tbody');
-    var tableHead = document.createElement('tr');
-    var nameTh = document.createElement('th');
-    var countTh = document.createElement('th');
-    setInnerText(nameTh,'员工姓名')
-    setInnerText(countTh,'本月错误次数')
-    tableHead.appendChild(nameTh);
-    tableHead.appendChild(countTh);
-    tbody.appendChild(tableHead);
-    for(var key in staffCountObj){
-        var tr = document.createElement('tr');
-        var nameTd = document.createElement('td');
-        tr.append(nameTd);
-        setInnerText(nameTd,key);
-        var countTd = document.createElement('td');
-        setInnerText(countTd,staffCountObj[key]);
-        tr.append(countTd);
-        tbody.appendChild(tr);
-    }
-    table.appendChild(tbody);
-    //隐藏次数统计按钮
-    $('.current_month_records_count_button').css('display','none');
+    })
+
+
+
 }
 

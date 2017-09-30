@@ -179,6 +179,7 @@ addUserButton.onclick = function() {
 var saveUserButton = document.getElementById('save_user');
 saveUserButton.onclick = function(){
     $('#save_user').attr({"disabled":"disabled"});
+    $('#save_user').text('保存中...');
     //获取用户ul
     var userUl = document.getElementById('user_ul');
     var userSpans = userUl.getElementsByTagName('span');
