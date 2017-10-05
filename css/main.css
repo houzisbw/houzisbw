@@ -182,6 +182,8 @@ body{
     background-color: #ffffff;
     display: none;
     z-index:199;
+    /*max-height:250px;*/
+    /*overflow: scroll;*/
 }
 .year_choice li,.month_choice li,.staff_choice li{
     text-align: center;
@@ -1052,6 +1054,10 @@ button:disabled {
     margin: 40px auto;
     width:350px;
     position: relative;
+}
+#name ul,#workshop ul,#category ul {
+    height:200px;
+    overflow: scroll;
 }
 .error_description{
     margin: 120px auto;
