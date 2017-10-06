@@ -91,13 +91,16 @@ var staffList = document.getElementsByClassName('staff_choice')[0];
 var staffDropDown = document.getElementsByClassName('dropBoxButton_staff')[0];
 var staffInput = document.getElementsByClassName('staffInput')[0];
 staffDropDown.onclick=function(){
-    if(!isStaffListShow){
-        isStaffListShow=true;
-        staffList.style.display='block';
-    }
-    else{
-        isStaffListShow=false;
-        staffList.style.display='none';
+    //登录了才能操作
+    if(getCookie('username')) {
+        if (!isStaffListShow) {
+            isStaffListShow = true;
+            staffList.style.display = 'block';
+        }
+        else {
+            isStaffListShow = false;
+            staffList.style.display = 'none';
+        }
     }
 };
 
