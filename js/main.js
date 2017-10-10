@@ -210,6 +210,8 @@ String.prototype.trim = function () {
 
 //根据年月查询数据
 function searchRecordData(year,month,isSearchAll){
+    //清空记录
+    recordsOfCurrentMonth = [];
     //进入搜索过程
     isInSearch = true;
     //检查cookie是否过期
@@ -439,7 +441,8 @@ function searchRecordData(year,month,isSearchAll){
     else {
         //这里要加上按人查看,获取人员输入input的值，判断是否为空
         //如果有人员，则加上筛选条件
-        var staffName = document.getElementsByClassName('staffInput')[0].value;
+        //var staffName = document.getElementsByClassName('staffInput')[0].value;
+        var staffName = currentStaffValue;
         if(staffName !== ''){
             queryOwnRecords.equalTo('username',staffName);
         }
