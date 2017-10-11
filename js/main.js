@@ -273,6 +273,8 @@ function searchRecordData(year,month,isSearchAll){
     queryOwnRecords.limit(maxRecordsPerPage);
     //这里要跳过多少页查询,初始状态currentPageIndex为1，所以skip 0条记录
     queryOwnRecords.skip(maxRecordsPerPage*(currentPageIndex-1));
+    //按日期升序排列
+    queryOwnRecords.ascending("date");
 
     //只看未确认,防止查找未确认的条目太难
     //是否是只看未确认
@@ -366,7 +368,8 @@ function searchRecordData(year,month,isSearchAll){
                                 }
 
                                 //如果是图片查看这一列
-                            }else if(j==tdList.length-2){
+                            }
+                            else if(j==tdList.length-2){
                                 //如果没有图片显示:无,但是超管的话要显示添加图片按钮
                                 var image = obj.get('imageUrl');
                                 if(image == ''){
@@ -399,12 +402,25 @@ function searchRecordData(year,month,isSearchAll){
                             }
                             else{
                                 setInnerText(td, obj.get(tdList[j]));
-
+                                //第一列且是重要的才显示标签
+                                if(j==0 && obj.get('isImportant')=='1'){
+                                    $(td).css('position','relative');
+                                    //生成一个img
+                                    var isImportantDiv = document.createElement('img');
+                                    //设置css
+                                    $(isImportantDiv).css('position','absolute');
+                                    $(isImportantDiv).css('left','-40px');
+                                    $(isImportantDiv).css('top','2px');
+                                    $(isImportantDiv).attr('src',"./static/image/important.png");
+                                    $(isImportantDiv).attr('border','0');
+                                    //添加标志
+                                    td.appendChild(isImportantDiv);
+                                }
                             }
+
                             //添加td到tr
                             tr.appendChild(td);
                         }
-
                         tbody.appendChild(tr);
                     }
                     //多了个tbody，注意了,自动加上的
@@ -505,7 +521,8 @@ function searchRecordData(year,month,isSearchAll){
                                     setInnerText(td,'已确认');
                                 }
                             //如果是图片查看这一列
-                            }else if(tdList[j]=='imageUrl'){
+                            }
+                            else if(tdList[j]=='imageUrl'){
                                 //如果没有图片显示:无,但是超管的话要显示添加图片按钮
                                 var imagePath = obj.get('imageUrl');
                                 if(imagePath == ''){
@@ -539,7 +556,20 @@ function searchRecordData(year,month,isSearchAll){
                             }
                             else{
                                 setInnerText(td, obj.get(tdList[j]));
-
+                                //第一列且是重要的才显示标签
+                                if(j==0 && obj.get('isImportant')=='1'){
+                                    $(td).css('position','relative');
+                                    //生成一个img
+                                    var isImportantDiv = document.createElement('img');
+                                    //设置css
+                                    $(isImportantDiv).css('position','absolute');
+                                    $(isImportantDiv).css('left','-40px');
+                                    $(isImportantDiv).css('top','2px');
+                                    $(isImportantDiv).attr('src',"./static/image/important.png");
+                                    $(isImportantDiv).attr('border','0');
+                                    //添加标志
+                                    td.appendChild(isImportantDiv);
+                                }
                             }
                             //添加td到tr
                             tr.appendChild(td);
@@ -1191,7 +1221,7 @@ function initUsernameDropDownList(){
         success:function(results){
             for(var i=0;i<results.length;i++){
                 //普通员工或者二级管理员
-                if(results[i].get('authority')=='0' || results[i].get('authority')=='1'){
+                if(results[i].get('authority')=='0'){
                     var username = results[i].get('username');
                     var li = document.createElement('li');
                     (function(username){

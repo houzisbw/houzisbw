@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88830dab-d506-47bf-b48d-0bcada849b38" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/image/important.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/addItem.js" afterPath="$PROJECT_DIR$/js/addItem.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/addItem.html" afterPath="$PROJECT_DIR$/views/addItem.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,7 +27,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4888">
+            <state relative-caret-position="783">
               <caret line="188" column="14" lean-forward="false" selection-start-line="188" selection-start-column="14" selection-end-line="188" selection-end-column="14" />
               <folding>
                 <element signature="e#5753#5759#0" expanded="true" />
@@ -45,34 +48,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="444" column="42" lean-forward="false" selection-start-line="444" selection-start-column="42" selection-end-line="444" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="addItem.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/addItem.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1482">
-              <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
-              <folding>
-                <element signature="e#0#49#0" expanded="false" />
-                <element signature="n#!!block;n#setInnerText#0" expanded="false" />
-                <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-                <element signature="n#!!block;n#initOtherList#0" expanded="false" />
-                <element signature="e#8081#8234#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="addItem.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/addItem.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2340">
-              <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+            <state relative-caret-position="7537">
+              <caret line="564" column="18" lean-forward="false" selection-start-line="564" selection-start-column="18" selection-end-line="564" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -81,9 +58,33 @@
       <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4446">
+            <state relative-caret-position="783">
               <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addItem.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/addItem.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="471">
+              <caret line="120" column="18" lean-forward="true" selection-start-line="120" selection-start-column="18" selection-end-line="120" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addItem.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/addItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="532">
+              <caret line="212" column="33" lean-forward="false" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#49#0" expanded="false" />
+                <element signature="n#!!block;n#setInnerText#0" expanded="false" />
+                <element signature="e#9524#9677#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,8 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>20</find>
-      <find>alert</find>
       <find>第</find>
       <find>md-close</find>
       <find>maxRecordsPerPage</find>
@@ -130,6 +129,8 @@
       <find>currentStaffValue</find>
       <find>cancelButton</find>
       <find>searchRecordData</find>
+      <find>confirmButt</find>
+      <find>searchAllButton</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -143,8 +144,6 @@
         <option value="$PROJECT_DIR$/css/calendar.css" />
         <option value="$PROJECT_DIR$/views/adduser.html" />
         <option value="$PROJECT_DIR$/views/setting.html" />
-        <option value="$PROJECT_DIR$/views/addItem.html" />
-        <option value="$PROJECT_DIR$/js/addItem.js" />
         <option value="$PROJECT_DIR$/js/jquery_print/print.js" />
         <option value="$PROJECT_DIR$/js/graph.js" />
         <option value="$PROJECT_DIR$/js/setting.js" />
@@ -153,6 +152,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/reset.css" />
         <option value="$PROJECT_DIR$/css/main.css" />
+        <option value="$PROJECT_DIR$/views/addItem.html" />
+        <option value="$PROJECT_DIR$/js/addItem.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
       </list>
     </option>
@@ -184,8 +185,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -225,6 +224,10 @@
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="image" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -256,6 +259,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -266,18 +271,18 @@
     <property name="nodejs_interpreter_path" value="D:/nodejs/node" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js\echarts" />
-      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\static\image" />
-      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js\jquery_print" />
-      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js" />
       <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\views" />
       <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js\bmob_plugin\underscore" />
       <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js\bmob_plugin" />
       <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\static\image" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\static\image" />
+      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js\echarts" />
+      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js\jquery_print" />
+      <recent name="C:\Users\Administrator\Documents\GitHub\houzisbw\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -405,14 +410,17 @@
       <workItem from="1507263412958" duration="888000" />
       <workItem from="1507536503276" duration="138000" />
       <workItem from="1507631132112" duration="2928000" />
+      <workItem from="1507639868760" duration="75000" />
+      <workItem from="1507694257794" duration="82000" />
+      <workItem from="1507712829298" duration="10091000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="340184000" />
+    <option name="totallyTimeSpent" value="350432000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12592202" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -464,14 +472,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11882">
-          <caret line="457" column="11" lean-forward="false" selection-start-line="457" selection-start-column="10" selection-end-line="457" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/setting.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3198">
@@ -556,9 +556,7 @@
           <folding>
             <element signature="e#0#49#0" expanded="false" />
             <element signature="n#!!block;n#setInnerText#0" expanded="false" />
-            <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="n#!!block;n#initOtherList#0" expanded="false" />
-            <element signature="e#8081#8234#0" expanded="false" />
+            <element signature="e#9524#9677#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -605,9 +603,7 @@
           <folding>
             <element signature="e#0#49#0" expanded="false" />
             <element signature="n#!!block;n#setInnerText#0" expanded="false" />
-            <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="n#!!block;n#initOtherList#0" expanded="false" />
-            <element signature="e#8081#8234#0" expanded="false" />
+            <element signature="e#9524#9677#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -834,31 +830,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/addItem.js">
+    <entry file="file://$PROJECT_DIR$/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1482">
-          <caret line="59" column="14" lean-forward="false" selection-start-line="59" selection-start-column="14" selection-end-line="59" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#49#0" expanded="false" />
-            <element signature="n#!!block;n#setInnerText#0" expanded="false" />
-            <element signature="n#!!block;n#initUsernameDropDownList#0" expanded="false" />
-            <element signature="n#!!block;n#initOtherList#0" expanded="false" />
-            <element signature="e#8081#8234#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="783">
+          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/addItem.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2340">
-          <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+        <state relative-caret-position="471">
+          <caret line="120" column="18" lean-forward="true" selection-start-line="120" selection-start-column="18" selection-end-line="120" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4888">
+        <state relative-caret-position="783">
           <caret line="188" column="14" lean-forward="false" selection-start-line="188" selection-start-column="14" selection-end-line="188" selection-end-column="14" />
           <folding>
             <element signature="e#5753#5759#0" expanded="true" />
@@ -875,18 +865,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
+    <entry file="file://$PROJECT_DIR$/js/addItem.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4446">
-          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="532">
+          <caret line="212" column="33" lean-forward="false" selection-start-line="212" selection-start-column="33" selection-end-line="212" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#49#0" expanded="false" />
+            <element signature="n#!!block;n#setInnerText#0" expanded="false" />
+            <element signature="e#9524#9677#0" expanded="false" />
+          </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/image/important.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="444" column="42" lean-forward="false" selection-start-line="444" selection-start-column="42" selection-end-line="444" selection-end-column="42" />
+        <state relative-caret-position="7537">
+          <caret line="564" column="18" lean-forward="false" selection-start-line="564" selection-start-column="18" selection-end-line="564" selection-end-column="18" />
           <folding />
         </state>
       </provider>

@@ -6,7 +6,7 @@ Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65d
 //本地存储的key：配置信息的3个字段
 var staffName = 'staffName';
 
-//6个要保存的值,编号1-6
+//7个要保存的值,编号1-7
 var staffNameToSave = '';
 var monthToSave = '';
 var dateToSave = '';
@@ -14,6 +14,8 @@ var workshopNameToSave = '';
 var recordTypeToSave = '';
 var errorInstructionToSave = '';
 var imageUrl = '';
+//该条记录是否重要，0表示不重要
+var isImportant = 0;
 
 //控制日历是否显示
 var isCalendarShow = true;
@@ -166,6 +168,41 @@ function initOtherList(tableName,htmlDivName){
         }
     })
 }
+//初始化是否重要列表
+function initIsImportantList(){
+    var itemHTMLDiv = document.getElementById('important');
+    var itemHtmlUl = itemHTMLDiv.getElementsByTagName('ul')[0];
+    var resultList = ['是','否'];
+    for(var i=0;i<resultList.length;i++){
+        var itemName = resultList[i];
+        var aLink = document.createElement('a');
+        setInnerText(aLink,itemName);
+        var li = document.createElement('li');
+        li.appendChild(aLink);
+        //给每个li添加点击事件：点击后对应的button的innerText会改变，同时记录下选中的值
+        //匿名函数立即执行,达到传递参数的目的
+        (function(i){
+            li.onclick = function(){
+                var name = resultList[i];
+                var button = itemHTMLDiv.getElementsByTagName('button')[0];
+                setInnerText(button,name+'    ');
+                var span = document.createElement('span');
+                span.setAttribute('class','caret');
+                button.appendChild(span);
+                //赋值,注意这里是string类型，否则数据库无法存储,也不会报错
+                isImportant = name=='是'?'1':'0';
+            }
+        })(i);
+        itemHtmlUl.appendChild(li);
+    }
+    //默认选择否
+    var button = itemHTMLDiv.getElementsByTagName('button')[0];
+    setInnerText(button,'否    ');
+    var span = document.createElement('span');
+    span.setAttribute('class','caret');
+    button.appendChild(span);
+
+}
 
 //清空数据
 var resetButton = document.getElementById('reset_data');
@@ -204,7 +241,9 @@ saveDataButton.onclick = function(){
         error:errorInstructionToSave,
         date:dateToSave,
         //只记录年月
-        monthDate:monthToSave
+        monthDate:monthToSave,
+        //是否重要
+        isImportant:isImportant
     }
     //保存
     recordTableToSave.save(recordObj,{
@@ -242,6 +281,8 @@ document.body.onload = function (){
     initOtherList('workshop_config','workshop');
     //初始化记录类型列表
     initOtherList('recordType_config','category');
+    //初始化是否重要列表
+    initIsImportantList();
 
 }
 
