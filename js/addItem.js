@@ -15,7 +15,7 @@ var recordTypeToSave = '';
 var errorInstructionToSave = '';
 var imageUrl = '';
 //该条记录是否重要，0表示不重要
-var isImportant = 0;
+var isImportant = '0';
 
 //控制日历是否显示
 var isCalendarShow = true;
