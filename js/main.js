@@ -1,6 +1,8 @@
 /**
  * Created by Administrator on 2017/9/17.
  */
+//localStorage用来存储登录框中用户名，只要用户登录成功，该名字就会被存储起来
+var ls = window.localStorage;
 //bmob云存储初始化
 Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
 
@@ -432,20 +434,19 @@ function searchRecordData(year,month,isSearchAll){
                     $('.pagination').css('display','block');
                     //显示当前页
                     $('#currentPageNum').text('第'+currentPageIndex+'页');
-
+                    //隐藏empty.png(无数据的背景图片)
+                    $('.content').css('background-image','none');
                 }
                 //未查到数据
                 else{
-                    // if(!isInModify) {
-                    //     alert('未找到数据,请重新输入年月~');
-                    // }
-                    //修改div的标题
                     var title = '当月错误记录';
                     $('.title_left_description').text(title);
                     $('.content_table_title').text('');
                     //隐藏分页
                     $('.pagination').css('display','none');
                     alert('未找到数据,请重新输入年月或者姓名~');
+                    //显示empty.png(无数据的背景图片)
+                    $('.content').css('background-image','url(./static/image/empty.png)');
 
                 }
                 //完成搜索
@@ -457,7 +458,6 @@ function searchRecordData(year,month,isSearchAll){
     else {
         //这里要加上按人查看,获取人员输入input的值，判断是否为空
         //如果有人员，则加上筛选条件
-        //var staffName = document.getElementsByClassName('staffInput')[0].value;
         var staffName = currentStaffValue;
         if(staffName !== ''){
             queryOwnRecords.equalTo('username',staffName);
@@ -593,6 +593,8 @@ function searchRecordData(year,month,isSearchAll){
                     $('.pagination').css('display','block');
                     //显示当前页
                     $('#currentPageNum').text('第'+currentPageIndex+'页');
+                    //隐藏empty.png(无数据的背景图片)
+                    $('.content').css('background-image','none');
 
                 }
                 //未查到数据
@@ -604,6 +606,8 @@ function searchRecordData(year,month,isSearchAll){
                     //隐藏分页
                     $('.pagination').css('display','none');
                     alert('未找到数据,请重新输入年月或姓名~');
+                    //显示empty.png(无数据的背景图片)
+                    $('.content').css('background-image','url(./static/image/empty.png)');
                 }
                 //完成搜索
                 isInSearch=false;
@@ -748,12 +752,15 @@ var modalShow = false;
 var overlay = document.getElementsByClassName('overlay')[0];
 var modalLogin = document.getElementById('modal_login');
 loginButton.onclick = function(){
-    //console.log('loginButton')
     if(!modalShow){
         overlay.style.display='block';
-        //toggleClass(modalLogin,'md-show');
-        $(modalLogin).addClass('md-show')
-        modalLogin.style.display='block'
+        $(modalLogin).addClass('md-show');
+        modalLogin.style.display='block';
+        //查找localStorage取得用户名
+        var username = ls.getItem('username');
+        if(username){
+            $("[name='loginname']").attr('value',username);
+        }
     }
 }
 //对话框关闭
@@ -830,6 +837,8 @@ function loginHandler(){
         success: function(results) {
             //查询成功,注意查不到不代表进入error回调函数
             if(results.length>0) {
+                //存储用户名到localStorage
+                ls.setItem('username',username);
                 //理论上只能查到一条,用户名是唯一的
                 var object = results[0];
                 //获取用户权限

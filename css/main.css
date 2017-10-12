@@ -167,7 +167,9 @@ body{
     border-radius: 2px;
     box-shadow: 0 0 1px 1px #d5d4d4;/*四边阴影*/
     position: relative;
-
+    background-image: url('./../static/image/empty.png');
+    background-position: center center;
+    background-repeat:no-repeat;
 }
 
 
