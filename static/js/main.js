@@ -536,6 +536,8 @@ function searchRecordData(year,month,isSearchAll){
                                                 $('.overlay').css('display','none');
                                                 $('.overlay').css('background','rgba(0, 0, 0, 0.5)');
                                                 $('#recordImage').attr('src','');
+                                                //移除click事件,如果不加上则会导致点击查看图片按钮后，再次出现overlay点击都会消失
+                                                $('.overlay').unbind("click");
                                             });
                                         }
                                     })(imagePath);

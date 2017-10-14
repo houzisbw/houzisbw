@@ -17,11 +17,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="536" column="8" lean-forward="false" selection-start-line="536" selection-start-column="0" selection-end-line="536" selection-end-column="8" />
+            <state relative-caret-position="476">
+              <caret line="538" column="17" lean-forward="true" selection-start-line="538" selection-start-column="17" selection-end-line="538" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -37,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="383" column="78" lean-forward="false" selection-start-line="383" selection-start-column="78" selection-end-line="383" selection-end-column="78" />
+            <state relative-caret-position="2282">
+              <caret line="532" column="35" lean-forward="false" selection-start-line="532" selection-start-column="35" selection-end-line="532" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -96,9 +96,9 @@
       <find>md-show</find>
       <find>login</find>
       <find>确认</find>
-      <find>查看</find>
       <find>.overlay</find>
       <find>overlay</find>
+      <find>查看</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -411,12 +411,12 @@
       <workItem from="1507864593719" duration="4246000" />
       <workItem from="1507868890036" duration="4337000" />
       <workItem from="1507880049925" duration="13645000" />
-      <workItem from="1507951149384" duration="29677000" />
+      <workItem from="1507951149384" duration="30305000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="408500000" />
+    <option name="totallyTimeSpent" value="409128000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
@@ -776,14 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/graph.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="116" column="0" lean-forward="true" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/addItem.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
@@ -824,14 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="536" column="8" lean-forward="false" selection-start-line="536" selection-start-column="0" selection-end-line="536" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
@@ -842,8 +826,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="383" column="78" lean-forward="false" selection-start-line="383" selection-start-column="78" selection-end-line="383" selection-end-column="78" />
+        <state relative-caret-position="2282">
+          <caret line="532" column="35" lean-forward="false" selection-start-line="532" selection-start-column="35" selection-end-line="532" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/graph.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="116" column="0" lean-forward="true" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="538" column="17" lean-forward="true" selection-start-line="538" selection-start-column="17" selection-end-line="538" selection-end-column="17" />
           <folding />
         </state>
       </provider>
