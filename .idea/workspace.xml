@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88830dab-d506-47bf-b48d-0bcada849b38" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/setting.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/util/util.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/bmob_plugin/bmob.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/bmob_plugin/bmobSocketIo-min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/bmob_plugin/bmobSocketIo.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/setting.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/calendar.css" afterPath="$PROJECT_DIR$/static/css/calendar.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/main.css" afterPath="$PROJECT_DIR$/static/css/main.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/css/reset.css" afterPath="$PROJECT_DIR$/static/css/reset.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/addItem.js" afterPath="$PROJECT_DIR$/static/js/addItem.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/addUser.js" afterPath="$PROJECT_DIR$/static/js/addUser.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/bmob_plugin/bmob-min.js" afterPath="$PROJECT_DIR$/util/bmob-min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/echarts/echarts.min.js" afterPath="$PROJECT_DIR$/util/echarts.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/graph.js" afterPath="$PROJECT_DIR$/static/js/graph.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/jquery_print/jquery.PrintArea.js" afterPath="$PROJECT_DIR$/util/jquery.PrintArea.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/main.js" afterPath="$PROJECT_DIR$/static/js/main.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/underscore/underscore-min.js" afterPath="$PROJECT_DIR$/util/underscore-min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/addItem.html" afterPath="$PROJECT_DIR$/views/addItem.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/adduser.html" afterPath="$PROJECT_DIR$/views/adduser.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/graph.html" afterPath="$PROJECT_DIR$/views/graph.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/setting.html" afterPath="$PROJECT_DIR$/views/setting.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/main.js" afterPath="$PROJECT_DIR$/static/js/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -42,8 +20,8 @@
       <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/css/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="824" column="24" lean-forward="true" selection-start-line="824" selection-start-column="24" selection-end-line="824" selection-end-column="24" />
+            <state relative-caret-position="268">
+              <caret line="536" column="8" lean-forward="false" selection-start-line="536" selection-start-column="0" selection-end-line="536" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -62,8 +40,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="740" column="41" lean-forward="false" selection-start-line="740" selection-start-column="41" selection-end-line="740" selection-end-column="41" />
+            <state relative-caret-position="592">
+              <caret line="383" column="78" lean-forward="false" selection-start-line="383" selection-start-column="78" selection-end-line="383" selection-end-column="78" />
               <folding />
             </state>
           </provider>
@@ -72,8 +50,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="22" column="53" lean-forward="false" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="53" />
+            <state relative-caret-position="268">
+              <caret line="114" column="23" lean-forward="false" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -91,9 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>url</find>
-      <find>banner</find>
-      <find>logined</find>
       <find>comm</find>
       <find>box-shadow</find>
       <find>transition</find>
@@ -114,13 +89,16 @@
       <find>当月错误</find>
       <find>user_info</find>
       <find>showCon</find>
-      <find>overlay</find>
       <find>modal-confirm-button</find>
       <find>alert</find>
       <find>登录后</find>
       <find>btn-login</find>
-      <find>login</find>
       <find>md-show</find>
+      <find>login</find>
+      <find>确认</find>
+      <find>查看</find>
+      <find>.overlay</find>
+      <find>overlay</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -433,12 +411,12 @@
       <workItem from="1507864593719" duration="4246000" />
       <workItem from="1507868890036" duration="4337000" />
       <workItem from="1507880049925" duration="13645000" />
-      <workItem from="1507951149384" duration="27258000" />
+      <workItem from="1507951149384" duration="29677000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="406081000" />
+    <option name="totallyTimeSpent" value="408500000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
@@ -838,14 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="22" column="53" lean-forward="false" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/util.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="610">
@@ -856,16 +826,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="824" column="24" lean-forward="true" selection-start-line="824" selection-start-column="24" selection-end-line="824" selection-end-column="24" />
+        <state relative-caret-position="268">
+          <caret line="536" column="8" lean-forward="false" selection-start-line="536" selection-start-column="0" selection-end-line="536" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="114" column="23" lean-forward="false" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="740" column="41" lean-forward="false" selection-start-line="740" selection-start-column="41" selection-end-line="740" selection-end-column="41" />
+        <state relative-caret-position="592">
+          <caret line="383" column="78" lean-forward="false" selection-start-line="383" selection-start-column="78" selection-end-line="383" selection-end-column="78" />
           <folding />
         </state>
       </provider>
