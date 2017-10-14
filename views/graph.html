@@ -4,20 +4,10 @@
     <meta charset="UTF-8">
     <title>图表统计</title>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link type="text/css" rel='stylesheet' href="./../css/reset.css">
-    <link type="text/css" rel='stylesheet' href="./../css/main.css">
-    <!--bmob 云存储js，放在头里面后面的js才能直接用-->
-    <script src='./../js/bmob_plugin/bmob-min.js'></script>
-    <!--引入underscore.js-->
-    <script src='./../js/underscore/underscore-min.js'></script>
-    <script src="http://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--引入echarts-->
-    <script src="./../js/echarts/echarts.min.js"></script>
-
+    <link type="text/css" rel='stylesheet' href="./../static/css/reset.css">
+    <link type="text/css" rel='stylesheet' href="./../static/css/main.css">
 </head>
 <body>
 <!--网页banner-->
@@ -34,9 +24,7 @@
         </div>
         <!--登录后名字显示-->
         <div class="loginedName">
-
         </div>
-
     </div>
 </div>
 
@@ -85,7 +73,6 @@
         <div class="adduser_setting clearfix">
             <!--图表标题-->
             <div class="graph_title">
-
             </div>
             <div class="bar_graph">
             </div>
@@ -93,6 +80,10 @@
     </div>
 </div>
 
+<!--遮罩层-->
+<div class="overlay">
+    <img src="" id="recordImage">
+</div>
 
 <!--模态框 md-show类显示-->
 <div class="md-modal modal-msg md-modal-transition " id="modal_login">
@@ -124,6 +115,19 @@
     </div>
 </div>
 
+<!--模态框:确认操作-->
+<div class="md-modal modal-msg md-modal-transition md-show " id="modal_confirm_only">
+    <div class="md-modal-inner modal-round-corner md-only-confirm">
+        <!--title内容动态变化-->
+        <div class="modal-title"></div>
+        <div class="md-content">
+            <div class="login-wrap login_wrap_width ">
+                <a href="javascript:;" class="btn-login modal-confirm-button" id="modal-confirm-button-only">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--footer-->
 <div class="footer">
     <div class="copyright">
@@ -131,7 +135,17 @@
     </div>
 </div>
 
-<script src="./../js/graph.js"></script>
+<!--util.js-->
+<script src="./../util/util.js"></script>
+<!--bmob 云存储js，放在头里面后面的js才能直接用-->
+<script src='./../util/bmob-min.js'></script>
+<!--引入underscore.js-->
+<script src='./../util/underscore-min.js'></script>
+<script src="http://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--引入echarts-->
+<script src="./../util/echarts.min.js"></script>
+<script src="./../static/js/graph.js"></script>
 
 </body>
 </html>

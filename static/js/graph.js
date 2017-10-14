@@ -1,62 +1,21 @@
-/**
- * Created by Administrator on 2017/9/17.
- */
 //bmob云存储初始化
 Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
-
 //返回主页
-var goBackButton = document.getElementById('goback');
-goBackButton.onclick = function(){
+$('#goback').click(function(){
     window.location.href = './../index.html';
-}
+});
 
-
-//设置innerText
-function setInnerText(element,text){
-    if(typeof element.textContent == "string"){
-        element.textContent = text;
-    }else{
-        element.innerText = text;
-    }
-}
-//获取所有子节点，仅仅包含元素节点，为了兼容ie
-function getElementChild(element){
-    if(!element.children){
-        var elementArr = [];//声明一个数组用以存放之后获取的子节点
-        var nodeList = element.childNodes;//初始化接受参数的子节点集合
-        for(var i=0;i<nodeList.length;i++){ //遍历集合
-            if(nodeList[i].nodeType == 1){//若节点的元素类型属于1，即元素节点,存入数组
-                elementArr.push(nodeList[i]);
-            }
-        }
-        return elementArr;//返回存放子元素的数组
-    }
-    else{                   //若支持element.children,直接返回
-        return element.children;
-    }
-}
-//获取innerTEXT,兼容火狐
-function getInnerText(element) {
-    return (typeof element.textContent == "string") ? element.textContent : element.innerText;
-}
-//兼容ie8及以下去除空格
-String.prototype.trim = function () {
-    return this.replace(/^\s*|\s*$/g, "");
-}
-
-//年份input
-var yearInput = document.getElementById('year_input');
-//月份input
-var monthInput = document.getElementById('month_input');
-//查询按钮
-var graphSearchButton = document.getElementById('graph_search_button');
 // 基于准备好的dom，初始化echarts实例
 var myChart = echarts.init(document.getElementsByClassName('bar_graph')[0]);
-graphSearchButton.onclick = function(){
-    var month = monthInput.value.trim();
-    var year = yearInput.value.trim();
+//查询按钮
+$('#graph_search_button').click(function(){
+    var month = $('#month_input').val().trim();
+    var year = $('#year_input').val().trim();
     if(month =='' || year == ''){
-        alert('请输入年月！');
+        showConfirmOnlyModal('请输入年月~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        });
         return;
     }
     //对month做处理，比如输入9变成09，加0处理
@@ -93,8 +52,6 @@ graphSearchButton.onclick = function(){
                     }
                 }
 
-
-
                 //初始化x,y轴数组
                 var xAxisArray = [];
                 //最高次数的记录
@@ -110,6 +67,7 @@ graphSearchButton.onclick = function(){
                     }
                 }
 
+                //图表配置
                 var option = {
                     title: {
                         text: year+'年'+month+'月错误记录次数 (拖动右侧滑块放大/缩小显示区域)',
@@ -147,7 +105,7 @@ graphSearchButton.onclick = function(){
                         data: yAxisArray,
                         name:'记录种类',
                         nameLocation:'center',
-                        nameGap:60
+                        nameGap:100
                     },
                     series: [
                         {
@@ -187,23 +145,14 @@ graphSearchButton.onclick = function(){
                 };
                 // 使用刚指定的配置项和数据显示图表。
                 myChart.setOption(option);
-
-
             }else{
-                alert('未找到该月数据，请重新输入年月~');
+                showConfirmOnlyModal('未找到该月数据，请重新输入年月~',function(){
+                    $('.overlay').css('display','none');
+                    $('#modal_confirm_only').css('display','none');
+                });
                 return;
             }
         }
     })
-
-
-}
-
-
-//初始化处理
-document.body.onload = function (){
-
-}
-
-
+});
 

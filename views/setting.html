@@ -4,18 +4,10 @@
     <meta charset="UTF-8">
     <title>配置信息</title>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--bmob 云存储js，放在头里面后面的js才能直接用-->
-    <script src='./../js/bmob_plugin/bmob-min.js'></script>
-    <link type="text/css" rel='stylesheet' href="./../css/reset.css">
-    <link type="text/css" rel='stylesheet' href="./../css/main.css">
-    <script src="https://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--引入underscore.js-->
-    <script src='./../js/underscore/underscore-min.js'></script>
-
+    <link type="text/css" rel='stylesheet' href="./../static/css/reset.css">
+    <link type="text/css" rel='stylesheet' href="./../static/css/main.css">
 </head>
 <body>
 <!--网页banner-->
@@ -32,9 +24,7 @@
         </div>
         <!--登录后名字显示-->
         <div class="loginedName">
-
         </div>
-
     </div>
 </div>
 
@@ -58,35 +48,6 @@
             </div>
         </div>
     </div>
-
-    <!--姓名-->
-    <!--<div class="setting_item">-->
-        <!--<div class="content_title">-->
-            <!--<div class="title_left">-->
-                <!--<div class="title_left_img">-->
-                    <!--<img src="./../static/image/staff.png">-->
-                <!--</div>-->
-                <!--<div class="title_left_description">-->
-                    <!--人员姓名-->
-                <!--</div>-->
-                <!--&lt;!&ndash;确认按钮&ndash;&gt;-->
-                <!--<button type="button" class="btn btn-warning name_input_button" id="name_input_button">确定</button>-->
-                <!--&lt;!&ndash;输入框&ndash;&gt;-->
-                <!--<div class="name_input">-->
-                    <!--<div class="form-group">-->
-                        <!--<input class="form-control" type="text" placeholder="输入员工姓名~" id="name_input">-->
-                    <!--</div>-->
-                <!--</div>-->
-
-            <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;具体条目&ndash;&gt;-->
-        <!--<div class="setting">-->
-            <!--&lt;!&ndash;存放具体的姓名条目&ndash;&gt;-->
-            <!--<ul id="name_ul">-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</div>-->
 
     <!--车间类型-->
     <div class="setting_item">
@@ -115,6 +76,7 @@
             </ul>
         </div>
     </div>
+
     <!--记录类型-->
     <div class="setting_item">
         <div class="content_title">
@@ -144,6 +106,10 @@
     </div>
 </div>
 
+<!--遮罩层-->
+<div class="overlay">
+    <img src="" id="recordImage">
+</div>
 
 <!--模态框 md-show类显示-->
 <div class="md-modal modal-msg md-modal-transition " id="modal_login">
@@ -175,6 +141,19 @@
     </div>
 </div>
 
+<!--模态框:确认操作-->
+<div class="md-modal modal-msg md-modal-transition md-show " id="modal_confirm_only">
+    <div class="md-modal-inner modal-round-corner md-only-confirm">
+        <!--title内容动态变化-->
+        <div class="modal-title"></div>
+        <div class="md-content">
+            <div class="login-wrap login_wrap_width ">
+                <a href="javascript:;" class="btn-login modal-confirm-button" id="modal-confirm-button-only">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--footer-->
 <div class="footer">
     <div class="copyright">
@@ -182,7 +161,15 @@
     </div>
 </div>
 
-<script src="./../js/setting.js"></script>
+<!--bmob 云存储js，放在头里面后面的js才能直接用-->
+<script src='./../util/bmob-min.js'></script>
+<!--util.js-->
+<script src="./../util/util.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.js" integrity="sha256-FA/0OOqu3gRvHOuidXnRbcmAWVcJORhz+pv3TX2+U6w=" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--引入underscore.js-->
+<script src='./../util/underscore-min.js'></script>
+<script src="./../static/js/setting.js"></script>
 
 </body>
 </html>

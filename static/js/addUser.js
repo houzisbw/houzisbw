@@ -1,93 +1,61 @@
-/**
- * Created by Administrator on 2017/9/17.
- */
 //bmob云存储初始化
 Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
-
-//返回主页
-var goBackButton = document.getElementById('goback');
-goBackButton.onclick = function(){
-    window.location.href = './../index.html';
-}
-
 //普通用户个数,二级管理员个数
 var globalNormalUserCount = 0;
 var globalAdminSecondCount = 0;
 
-//设置innerText
-function setInnerText(element,text){
-    if(typeof element.textContent == "string"){
-        element.textContent = text;
-    }else{
-        element.innerText = text;
-    }
-}
-//获取所有子节点，仅仅包含元素节点，为了兼容ie
-function getElementChild(element){
-    if(!element.children){
-        var elementArr = [];//声明一个数组用以存放之后获取的子节点
-        var nodeList = element.childNodes;//初始化接受参数的子节点集合
-        for(var i=0;i<nodeList.length;i++){ //遍历集合
-            if(nodeList[i].nodeType == 1){//若节点的元素类型属于1，即元素节点,存入数组
-                elementArr.push(nodeList[i]);
-            }
-        }
-        return elementArr;//返回存放子元素的数组
-    }
-    else{                   //若支持element.children,直接返回
-        return element.children;
-    }
-}
-//获取innerTEXT,兼容火狐
-function getInnerText(element) {
-    return (typeof element.textContent == "string") ? element.textContent : element.innerText;
-}
-//兼容ie8及以下去除空格
-String.prototype.trim = function () {
-    return this.replace(/^\s*|\s*$/g, "");
-}
+//返回主页
+$('#goback').click(function(){
+    window.location.href = './../index.html';
+});
 
-//////添加用户按钮处理
-var addUserButton = document.getElementById('user_input_button');
-addUserButton.onclick = function() {
-
-    //检查三项是否都填写完整
-    var usernameInput = document.getElementById('username_input').value.trim();
+//添加用户按钮处理
+$('#user_input_button').click(function() {
+    //用户名
+    var usernameInput = $('#username_input').val().trim();
     //用户名不能有空格
     if(usernameInput.split(' ').length > 1){
-        alert('用户名不能有空格~');
+        showConfirmOnlyModal('用户名不能有空格~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        })
         return;
     }
     if (!usernameInput) {
-        alert('请填写用户名~');
+        showConfirmOnlyModal('请填写用户名~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        })
         return;
     }
 
-    var passwordInput = document.getElementById('password_input').value.trim();
+    //密码
+    var passwordInput = $('#password_input').val().trim();
     //密码不能有空格
     if(passwordInput.split(' ').length > 1){
-        alert('密码不能有空格~');
+        showConfirmOnlyModal('密码不能有空格~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        })
         return;
     }
     if (!passwordInput) {
-        alert('请填写密码~');
-        return;
-    }
-    var userTypeDiv = document.getElementById('usertype');
-    var userTypeButton = userTypeDiv.getElementsByTagName('button')[0];
-    var userType = getInnerText(userTypeButton).trim();
-    if(userType == '用户类型'){
-        alert('请选择用户类型~');
+        showConfirmOnlyModal('请填写密码~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        })
         return;
     }
 
-    /////////全部都填写了
-    //生成用户对象
-    var userObj = {
-        username:usernameInput,
-        password:passwordInput,
-        userType:userType=='普通用户'?0:1
-    };
+    var userType = $('#usertype button').text().trim();
+    if(userType == '用户类型'){
+        showConfirmOnlyModal('请选择用户类型~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        })
+        return;
+    }
+
     //获得用户ul
     var userUl = document.getElementById('user_ul');
     //生成用户li
@@ -156,7 +124,10 @@ addUserButton.onclick = function() {
                 }
                 //如果有重复用户名
                 if(userInfoObj.hasOwnProperty(usernameInput)){
-                    alert('该用户名已经存在，请重新填写~');
+                    showConfirmOnlyModal('该用户名已经存在，请重新填写~',function(){
+                        $('.overlay').css('display','none');
+                        $('#modal_confirm_only').css('display','none');
+                    })
                     return;
                 }else{
                     userLi.appendChild(userDiv);
@@ -173,7 +144,7 @@ addUserButton.onclick = function() {
             alert("数据库查询出错: " + error.code + " " + error.message);
         }
     });
-}
+});
 
 //保存用户处理
 var saveUserButton = document.getElementById('save_user');
@@ -235,14 +206,16 @@ saveUserButton.onclick = function(){
             });
         });
         return promise;
-
-
     }).then(function(){
-        alert('保存用户信息成功!');
-        window.location.reload();
+        showConfirmOnlyModal('保存用户信息成功~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+            window.location.reload();
+        })
     })
 
 }
+
 //初始化处理
 document.body.onload = function (){
     //用户类型下拉菜单处理
@@ -258,7 +231,6 @@ document.body.onload = function (){
         var text = getInnerText(this);
         setInnerText(userTypeButton,text);
     };
-
 
     //初始化用户信息列表
     //获取云数据库中的用户信息，注意不能获取超管,否则超管被删了就尴尬了
@@ -329,8 +301,6 @@ document.body.onload = function (){
         var titleText = '普通用户: '+globalNormalUserCount+' &nbsp;&nbsp;&nbsp;二级管理员: '+globalAdminSecondCount;
         $(userTitle).html(titleText)
     })
-
-
 
 }
 

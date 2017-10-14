@@ -1,11 +1,7 @@
-/**
- * Created by Administrator on 2017/9/17.
- */
 //bmob云存储初始化
 Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65dd75f5");
 //本地存储的key：配置信息的3个字段
 var staffName = 'staffName';
-
 //7个要保存的值,编号1-7
 var staffNameToSave = '';
 var monthToSave = '';
@@ -16,18 +12,15 @@ var errorInstructionToSave = '';
 var imageUrl = '';
 //该条记录是否重要，0表示不重要
 var isImportant = '0';
-
 //控制日历是否显示
 var isCalendarShow = true;
-var divCalendar = document.getElementById('date');
-var calendarButton = divCalendar.getElementsByTagName('button')[0];
-document.body.onclick = function(){
+//隐藏日历
+$(document.body).click(function(){
     $('#calendar').hide();
     isCalendarShow = true;
-}
+});
 
-
-calendarButton.onclick = function(e){
+$('#date button').click(function(e){
     if(isCalendarShow) {
         $('#calendar').show();
     }else{
@@ -36,13 +29,13 @@ calendarButton.onclick = function(e){
     isCalendarShow = !isCalendarShow;
     //防止body触发
     e.stopPropagation();
-}
+});
 
 //返回主页
-var goBackButton = document.getElementById('goback');
-goBackButton.onclick = function(){
+$('#goback').click(function(){
     window.location.href = './../index.html';
-}
+});
+
 //图片添加按钮,选择了图片后就触发change方法
 $('#picInput').change(function() {
     var f = this.files[0];
@@ -84,14 +77,7 @@ $('#picInput').change(function() {
     }
 
 });
-//设置innerText
-function setInnerText(element,text){
-    if(typeof element.textContent == "string"){
-        element.textContent = text;
-    }else{
-        element.innerText = text;
-    }
-}
+
 //初始化人员姓名列表
 function initUsernameDropDownList(){
     //从云端数据库查询人员姓名,除了超管
@@ -205,26 +191,31 @@ function initIsImportantList(){
 }
 
 //清空数据
-var resetButton = document.getElementById('reset_data');
-resetButton.onclick=function(){
+$('#reset_data').click(function(){
     window.location.reload();
-}
+});
+
 //保存修改
-var saveDataButton = document.getElementById('save_data');
-saveDataButton.onclick = function(){
+$('#save_data').click(function(){
     //禁用该按钮
     $('#save_data').attr({'disabled':'disabled'});
     //获取错误说明
-    errorInstructionToSave = document.getElementById('error').value;
+    errorInstructionToSave = $('#error').val();
     if(!staffNameToSave && !monthToSave && !dateToSave && !workshopNameToSave && !recordTypeToSave && !errorInstructionToSave){
         $('#save_data').removeAttr('disabled');
-        alert('请至少填写一项!');
+        showConfirmOnlyModal('请至少填写一项!',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        });
         return;
     }
     //月份作为key，必须填写
     if(!monthToSave){
         $('#save_data').removeAttr('disabled');
-        alert('请填写月份!');
+        showConfirmOnlyModal('请填写月份!',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        });
         return;
     }
     //获得云端数据库中的表
@@ -248,34 +239,17 @@ saveDataButton.onclick = function(){
     //保存
     recordTableToSave.save(recordObj,{
         success:function(result){
-            //提示保存成功
-            alert('保存数据成功!');
-            //清空所填写的
-            window.location.reload();
+            showConfirmOnlyModal('保存数据成功!',function(){
+                $('.overlay').css('display','none');
+                $('#modal_confirm_only').css('display','none');
+                window.location.reload();
+            });
         }
     });
-}
+});
 
-//获取所有子节点，仅仅包含元素节点，为了兼容ie
-function getElementChild(element){
-    if(!element.children){
-        var elementArr = [];//声明一个数组用以存放之后获取的子节点
-        var nodeList = element.childNodes;//初始化接受参数的子节点集合
-        for(var i=0;i<nodeList.length;i++){ //遍历集合
-            if(nodeList[i].nodeType == 1){//若节点的元素类型属于1，即元素节点,存入数组
-                elementArr.push(nodeList[i]);
-            }
-        }
-        return elementArr;//返回存放子元素的数组
-    }
-    else{                   //若支持element.children,直接返回
-        return element.children;
-    }
-}
-document.body.onload = function (){
-    //alert不能执行，因为window还没有onload
+$(document).ready(function (){
     //初始化姓名列表
-    //直接给bootstrap的ul加id会混乱样式，不知道为啥
     initUsernameDropDownList();
     //初始化车间名称列表
     initOtherList('workshop_config','workshop');
@@ -283,8 +257,7 @@ document.body.onload = function (){
     initOtherList('recordType_config','category');
     //初始化是否重要列表
     initIsImportantList();
-
-}
+});
 
 
 //////////////////////////////////////////日历js
