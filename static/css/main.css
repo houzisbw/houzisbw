@@ -33,13 +33,14 @@ body{
 /*平台文字说明*/
 .platformTitle{
     float: left;
-    margin-left: 20px;
+    /*此处原本是20px，但是qq浏览器在font-weight为bold的情况下增加了元素宽度，导致button被挤下去*/
+    margin-left: 10px;
     color: #656565;
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
     font-size:22px;
     font-weight: 800;
     line-height: 60px;
-    width:380px;
+    width:360px;
 }
 /*banner上的按钮*/
 .bannerButton {
@@ -303,6 +304,16 @@ body{
     font-size: 20px;
     text-indent: 10px;
 }
+/*ie10去掉input的×按钮*/
+::-ms-clear{display: none;}
+/*ie10去掉input密码的眼睛*/
+::-ms-reveal{display: none;}
+/*placeholder 的颜色，默认情况下placeholder的文字是灰色的，当给input设置color时，在chrome和Safari中，placeholder的文字颜色不变；而在Firefox和IE中，placeholder文字的颜色会变成color的值*/
+::-moz-placeholder{color:#999;}
+::-webkit-input-placeholder{color:#999;}
+:-ms-input-placeholder{color:#999;}
+
+
 .staffInput{
     background-color: #fff;
 }
@@ -494,8 +505,16 @@ body{
     height:22px;
     width:60px;
     /*消除input和button对不齐的尴尬*/
-    padding-top: 2px;
     text-indent: 5px;
+    vertical-align: middle;
+    /*hack  ie和safari的input对不齐*/
+    margin-top:-2px;
+    margin-bottom: 1px;
+    /*hack 解决input光标在不同浏览器下显示错位的问题,主要设置line-height*/
+    font-size:12px;
+    padding:4px 0;
+    line-height: 14px;
+
 
 }
 #goToPage{

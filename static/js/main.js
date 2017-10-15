@@ -60,7 +60,7 @@ $('.dropBoxButton_year').click(function(){
 $('.year_choice li').each(function(index,element){
     $(element).click(function(){
         $('.year_choice').css('display','none');
-        $('.yearInput').attr('value',$(element).text());
+        $('.yearInput').val($(element).text());
     })
 });
 
@@ -78,7 +78,8 @@ $('.dropBoxButton_month').click(function(){
 $('.month_choice li').each(function(index,element){
     $(element).click(function(){
         $('.month_choice').css('display','none');
-        $('.monthInput').attr('value',$(element).text());
+        //注意这里不能用attr('value',...),会导致无法设置input的value
+        $('.monthInput').val($(element).text());
     })
 });
 
@@ -736,7 +737,7 @@ $('#login').click(function(){
         //查找localStorage取得用户名
         var username = ls.getItem('username');
         if(username){
-            $("[name='loginname']").attr('value',username);
+            $("[name='loginname']").val(username);
         }
     }
 });
@@ -1531,11 +1532,11 @@ $('#showCount').click(function(){
             for(var key in staffCountObj){
                 var tr = document.createElement('tr');
                 var nameTd = document.createElement('td');
-                tr.append(nameTd);
+                tr.appendChild(nameTd);
                 setInnerText(nameTd,key);
                 var countTd = document.createElement('td');
                 setInnerText(countTd,staffCountObj[key]);
-                tr.append(countTd);
+                tr.appendChild(countTd);
                 tbody.appendChild(tr);
             }
             table.appendChild(tbody);
