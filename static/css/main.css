@@ -1021,7 +1021,7 @@ body{
     padding-bottom: 1px!important;
 }
 /*模态框的z-index*/
-#modal_confirm_only{
+#modal_confirm_only,#modal_confirm{
     z-index:600;
 }
 
