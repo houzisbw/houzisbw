@@ -44,6 +44,8 @@ var isValidClick = true;
 var table = document.getElementById('content_table');
 //未确认的总条数
 var unconfirmedCount = 0;
+//要添加或修改图片记录的id
+var recordIdUsedByAddingModifying;
 
 //处理下拉框日期部分
 //年份下拉按钮
@@ -1037,21 +1039,21 @@ $(document).ready(function(){
                                         $('.overlay').css('z-index','501');
                                         //显示添加图片的div，事先隐藏了
                                         $('.add_image_div').css('display','block');
-                                        $('#add_image_preview').css('display','none');
+                                        $('#add_image_preview').css('display', 'block');
                                         //不能点击保存，如果没上传图片
                                         $('#add_image_button_confirm').attr({'disabled':'disabled'});
-
                                         //获取最后一个td中的图片url，如果有则显示在添加图片
                                         var imageUrl = $(tr).children("td:last-child").text();
-                                        //显示该图片
-                                        $('#add_image_preview').attr('src',imageUrl);
+                                        //显示该图片,必须加判断，否则会显示找不到图片的img标签
+                                        if(imageUrl){
+                                            $('#add_image_preview').attr('src',imageUrl);
+                                        }
                                         $('#add_image_preview').css('display','block');
                                         //获取图片框的长宽
                                         var imageWidth = $('.add_image_preview_area').width();
                                         var imageHeight = $('.add_image_preview_area').height();
                                         $('#add_image_preview').attr('width',imageWidth);
                                         $('#add_image_preview').attr('height',imageHeight);
-
 
                                         //保存tr,判断当前是第几个tr
                                         var currentTrIndex = $("#content_table tbody tr").index(tr);
@@ -1061,6 +1063,8 @@ $(document).ready(function(){
                                         tdInModify = td;
                                         //保存点击的按钮
                                         imageAddModifyButton = this;
+                                        //保存记录id
+                                        recordIdUsedByAddingModifying = recordId;
                                     }
                                 })(tr,td);
 
@@ -1071,7 +1075,7 @@ $(document).ready(function(){
                                 var buttonMod = document.createElement('button');
                                 buttonMod.setAttribute("class", "confirmButton btn btn-warning");
                                 //添加点击函数
-                                (function(tr,td){
+                                (function(tr,td,recordId){
                                     buttonMod.onclick = function(){
                                         //设置overlay的z-index高于表格div的z-index(500)
                                         $('.overlay').css('z-index','501');
@@ -1099,8 +1103,10 @@ $(document).ready(function(){
                                         tdInModify = td;
                                         //保存点击的按钮
                                         imageAddModifyButton = this;
+                                        //保存记录id
+                                        recordIdUsedByAddingModifying = recordId;
                                     }
-                                })(tr,td);
+                                })(tr,td,recordId);
                                 setInnerText(buttonMod, '修改');
                                 td.appendChild(buttonMod);
                             }
@@ -1214,7 +1220,7 @@ function initUsernameDropDownList(){
 }
 
 //取消修改按钮处理
-$('.cancel_modify').click(function(){
+$('#cancel_modify').click(function(){
     //显示打印按钮
     $('.printer').css('display','block');
     //恢复变量(日期合法输入)
@@ -1235,7 +1241,7 @@ $('.cancel_modify').click(function(){
 });
 
 //确认修改按钮
-$('.confirm_modify').click(function(){
+$('#confirm_modify').click(function(){
     //如果是日期的非法修改
     if(!isValidClick){
         alert('请输入正确日期!');
@@ -1396,7 +1402,7 @@ $(document).click(function(){
 
 //修改状态下给记录添加图片的保存按钮
 $('#add_image_button_confirm').click(function(){
-    //获取到当前点击的tr，通过index,然后改变innertext
+    //获取到当前点击的tr，通过index,然后改变innertext,保存图片url
     $("#content_table").find('tr').eq(trInModifyIndex).children("td:last-child").text(imagePathInModify);
     //清空数据
     $('.add_image_div').css('display','none');
@@ -1473,7 +1479,6 @@ $('#record_add_image').change(function() {
                 $('.add_image_uploading_word').css('display','none');
                 //记录下图片地址
                 imagePathInModify = res.data.url;
-
             },
             error: function () {
                 alert('图片上传失败，可能是图片过大!');

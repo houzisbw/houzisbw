@@ -641,6 +641,7 @@ body{
     color:#bfb8b8;
     position: relative;
 }
+
 #record_add_image{
     width: 100%;
     height: 100%;
@@ -1018,6 +1019,10 @@ body{
 /*只有确认的模态框*/
 .md-only-confirm{
     padding-bottom: 1px!important;
+}
+/*模态框的z-index*/
+#modal_confirm_only{
+    z-index:600;
 }
 
 /*login_wrap控制宽度*/
