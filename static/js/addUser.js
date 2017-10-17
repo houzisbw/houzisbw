@@ -218,6 +218,10 @@ saveUserButton.onclick = function(){
 
 //初始化处理
 document.body.onload = function (){
+    //判断身份是否是超管,不是的直接返回主页，防止地址栏直接登入此页面
+    if(getCookie('authority') != '2'){
+        window.location.href = './../index.html';
+    }
     //用户类型下拉菜单处理
     var userTypeDiv = document.getElementById('usertype');
     var userTypeButton  = userTypeDiv.getElementsByTagName('button')[0];

@@ -181,6 +181,10 @@ function initConfigList(tableName,itemId){
 }
 //初始化
 $(document).ready(function(){
+    //判断身份是否是超管,不是的直接返回主页，防止地址栏直接登入此页面
+    if(getCookie('authority') != '2'){
+        window.location.href = './../index.html';
+    }
     //初始化车间名字
     initConfigList(workshopName,'workshop_ul');
     //初始化记录类型
