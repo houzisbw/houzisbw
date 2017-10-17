@@ -520,17 +520,24 @@ body{
 #goToPage{
     width:30px;
 }
-/*次数统计的按钮，只有在月查询时可见*/
+/*次数统计的按钮(不重要的条目)，只有在月查询时可见*/
 .current_month_records_count_button{
     position: absolute;
     top:-40px;
+    display: none;
+}
+/*次数统计(重要的按钮)*/
+.current_month_records_count_button_important{
+    position: absolute;
+    top:-40px;
+    left:130px;
     display: none;
 }
 /*内容表格标题*/
 .content_table_title {
     text-align: center;
     font-size: 23px;
-    margin: 50px auto 30px auto;
+    margin: 50px auto 80px auto;
     font-weight: bold;color:#888888;
 
 }

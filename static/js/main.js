@@ -472,6 +472,7 @@ function searchRecordData(year,month,isSearchAll){
         if(staffName == ''){
             $('.content_table_title').text(year+'年'+month+'月所有员工错误记录详情(第'+currentPageIndex+'页)');
             $('.current_month_records_count_button').css('display','block');
+            $('.current_month_records_count_button_important').css('display','block');
         //2:选了员工，没选年月
         }else if(staffName!='' && dateStr=='-'){
             $('.content_table_title').text('员工 '+currentStaffValue+' 的全部错误记录详情');
@@ -596,6 +597,7 @@ function searchRecordData(year,month,isSearchAll){
                     $('.title_left_description').text(title);
                     $('.content_table_title').text('');
                     $('.current_month_records_count_button').css('display','none');
+                    $('.current_month_records_count_button_important').css('display','none');
                     //隐藏分页
                     $('.pagination').css('display','none');
                     showConfirmOnlyModal('未找到数据,请重新输入年月或者姓名~',function(){
@@ -849,6 +851,7 @@ $('#logout').click(function(){
 
 //body加载时检查cookie
 $(document).ready(function(){
+
     //初始化姓名列表
     initUsernameDropDownList();
     //修改状态初始化
@@ -930,6 +933,7 @@ $(document).ready(function(){
                 $('.pagination').css('display','none');
                 //隐藏查看次数统计的按钮
                 $('.current_month_records_count_button').css('display','none');
+                $('.current_month_records_count_button_important').css('display','none');
                 //隐藏打印按钮
                 $('.printer').css('display','none');
 
@@ -1489,10 +1493,10 @@ $('#record_add_image').change(function() {
 
 });
 
-//只搜年月情况下的：查看次数统计 按钮,这里要注意是要统计当月所有的，而不是仅仅当前表格的
-$('#showCount').click(function(){
+//计算是否错误记录次数的函数，event.data.isImportant区分是否重要
+var countFunc = function(event) {
     //隐藏页码按钮
-    $('.pagination').css('display','none');
+    $('.pagination').css('display', 'none');
     //清空数组
     recordsOfCurrentMonth = [];
     recordsToDelete = [];
@@ -1503,54 +1507,86 @@ $('#showCount').click(function(){
     //重新查询当月数据
     var Records = Bmob.Object.extend('record');
     var queryMonthRecords = new Bmob.Query(Records);
-    var dateStr = currentYearValue+'-'+currentMonthValue;
+    var dateStr = currentYearValue + '-' + currentMonthValue;
     queryMonthRecords.equalTo('monthDate', dateStr);
-    queryMonthRecords.find({
-        success:function(results){
-            totalRecordsCount = results.length;
-            for(var i=0;i<results.length;i++){
-                var username = results[i].get('username');
-                if(staffCountObj.hasOwnProperty(username)){
-                    staffCountObj[username]++;
-                }else{
-                    staffCountObj[username] = 1;
-                }
-            }
-            //清空原来的table
-            while(table.children.length>0){
-                table.removeChild(table.children[0]);
-            }
-            //重置标题
-            $('.content_table_title').text(currentYearValue+'年'+currentMonthValue+'月员工错误记录次数详情(共计'+totalRecordsCount+'条)');
-            //重置div的标题
-            $('.title_left_description').text('错误记录次数统计');
-            //构建新的table
-            var tbody = document.createElement('tbody');
-            var tableHead = document.createElement('tr');
-            var nameTh = document.createElement('th');
-            var countTh = document.createElement('th');
-            setInnerText(nameTh,'员工姓名')
-            setInnerText(countTh,'本月错误次数')
-            tableHead.appendChild(nameTh);
-            tableHead.appendChild(countTh);
-            tbody.appendChild(tableHead);
-            for(var key in staffCountObj){
-                var tr = document.createElement('tr');
-                var nameTd = document.createElement('td');
-                tr.appendChild(nameTd);
-                setInnerText(nameTd,key);
-                var countTd = document.createElement('td');
-                setInnerText(countTd,staffCountObj[key]);
-                tr.appendChild(countTd);
-                tbody.appendChild(tr);
-            }
-            table.appendChild(tbody);
-            //隐藏次数统计按钮
-            $('.current_month_records_count_button').css('display','none');
+    //这里区分重要还是不重要的记录,这里要注意，数据库中只有1是重要，不填或者0都是不重要
+    if (event.data.isImportant == 0) {
+        //不重要
+        queryMonthRecords.notEqualTo('isImportant', '1')
+    } else {
+        //重要
+        queryMonthRecords.equalTo('isImportant', '1')
+    }
 
+    queryMonthRecords.find({
+        success: function (results) {
+            //如果找到数据
+            if (results.length > 0) {
+                totalRecordsCount = results.length;
+                for (var i = 0; i < results.length; i++) {
+                    var username = results[i].get('username');
+                    if (staffCountObj.hasOwnProperty(username)) {
+                        staffCountObj[username]++;
+                    } else {
+                        staffCountObj[username] = 1;
+                    }
+                }
+                //清空原来的table
+                while (table.children.length > 0) {
+                    table.removeChild(table.children[0]);
+                }
+                //重置标题,非重要
+                if (event.data.isImportant == 0) {
+                    $('.content_table_title').text(currentYearValue + '年' + currentMonthValue + '月员工非重要错误记录次数详情(共计' + totalRecordsCount + '条)');
+                } else {
+                    $('.content_table_title').text(currentYearValue + '年' + currentMonthValue + '月员工重要错误记录次数详情(共计' + totalRecordsCount + '条)');
+                }
+
+                //重置div的标题
+                $('.title_left_description').text('错误记录次数统计');
+                //构建新的table
+                var tbody = document.createElement('tbody');
+                var tableHead = document.createElement('tr');
+                var nameTh = document.createElement('th');
+                var countTh = document.createElement('th');
+                setInnerText(nameTh, '员工姓名')
+                setInnerText(countTh, '本月错误次数')
+                tableHead.appendChild(nameTh);
+                tableHead.appendChild(countTh);
+                tbody.appendChild(tableHead);
+                for (var key in staffCountObj) {
+                    var tr = document.createElement('tr');
+                    var nameTd = document.createElement('td');
+                    tr.appendChild(nameTd);
+                    setInnerText(nameTd, key);
+                    var countTd = document.createElement('td');
+                    setInnerText(countTd, staffCountObj[key]);
+                    tr.appendChild(countTd);
+                    tbody.appendChild(tr);
+                }
+                table.appendChild(tbody);
+                //隐藏次数统计按钮
+                $('.current_month_records_count_button').css('display', 'none');
+                $('.current_month_records_count_button_important').css('display', 'none');
+            //未找到数据
+            }else{
+                showConfirmOnlyModal('未搜索到数据~',function(){
+                    $('.overlay').css('display','none');
+                    $('#modal_confirm_only').css('display','none');
+                })
+
+            }
         }
     })
-});
+}
+
+
+//不重要记录统计,前面对象是参数
+$('#showCount').click({isImportant:0},countFunc);
+//重要记录统计
+$('#showCountImportant').click({isImportant:1},countFunc);
+
+
 
 //鼠标移动到红点上显示tab
 $('.redSpot').mouseover(function(){
