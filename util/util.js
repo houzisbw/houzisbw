@@ -114,7 +114,8 @@ function getElementChild(element){
  */
 function showConfirmOnlyModal(contentTitle,confirmFunc){
     $('.overlay').css('display','block');
-    $('#modal_confirm_only').css('display','block');
+    //$('#modal_confirm_only').css('display','block');
+    $('#modal_confirm_only').slideDown(200);
 
     $('#modal_confirm_only .modal-title').text(contentTitle);
     $('#modal-confirm-button-only').click(confirmFunc)

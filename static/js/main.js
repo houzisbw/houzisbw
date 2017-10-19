@@ -51,17 +51,17 @@ var recordIdUsedByAddingModifying;
 //年份下拉按钮
 $('.dropBoxButton_year').click(function(){
     if($('.year_choice').css('display')==='none'){
-        $('.year_choice').css('display','block');
+        $('.year_choice').slideDown(200);
     }
     else{
-        $('.year_choice').css('display','none');
+        $('.year_choice').slideUp(200)
     }
 });
 
 //年份下拉按钮每一项li选中也要隐藏下拉框
 $('.year_choice li').each(function(index,element){
     $(element).click(function(){
-        $('.year_choice').css('display','none');
+        $('.year_choice').slideUp(200)
         $('.yearInput').val($(element).text());
     })
 });
@@ -69,35 +69,34 @@ $('.year_choice li').each(function(index,element){
 //月份下拉按钮
 $('.dropBoxButton_month').click(function(){
     if($('.month_choice').css('display')==='none'){
-        $('.month_choice').css('display','block');
+        $('.month_choice').slideDown(200);
     }
     else{
-        $('.month_choice').css('display','none');
+        $('.month_choice').slideUp(200)
     }
 });
 
 //月份下拉按钮每一项li选中也要隐藏下拉框
 $('.month_choice li').each(function(index,element){
     $(element).click(function(){
-        $('.month_choice').css('display','none');
+        $('.month_choice').slideUp(200)
         //注意这里不能用attr('value',...),会导致无法设置input的value
         $('.monthInput').val($(element).text());
     })
 });
 
-//月份下拉按钮
+//人员下拉按钮
 $('.dropBoxButton_staff').click(function(){
     //登录了才能操作
     if(getCookie('username')) {
         if ($('.staff_choice').css('display')==='none') {
-            $('.staff_choice').css('display','block');
+            $('.staff_choice').slideDown(200);
         }
         else {
-            $('.staff_choice').css('display','none');
+            $('.staff_choice').slideUp(200);
         }
     }
 });
-
 
 //搜索：只看未确认
 $('.search').mouseover(function(){
@@ -824,7 +823,8 @@ $(document).keydown(function(event){
 function showModalConfirmAndCancel(titleContent,funcConfirm){
     //显示遮罩和模态框
     $('.overlay').css('display','block');
-    $('#modal_confirm').css('display','block');
+    $('#modal_confirm').slideDown(200);
+    //$('#modal_confirm').css('display','block');
     //改变标题
     $('#modal_confirm .modal-title').text(titleContent);
 
@@ -1210,7 +1210,7 @@ function initUsernameDropDownList(){
                     var li = document.createElement('li');
                     (function(username){
                         li.onclick = function(){
-                            $('.staff_choice').css('display','none');
+                            $('.staff_choice').slideUp(200);
                             $('.staffInput').val(username);
                         }
                     })(username);
@@ -1397,10 +1397,10 @@ $(document).click(function(){
     var objUl = event.srcElement ? event.srcElement : event.target;
     var dropDownClassNamePrefix = (objUl.className).split('_')[0];
     if (dropDownClassNamePrefix !== 'dropBoxButton') {
-        $('.year_choice').css('display','none');
-        $('.month_choice').css('display','none');
-        $('.staff_choice').css('display','none');
-        $('.year_choice').css('display','none');
+        $('.year_choice').slideUp(200);
+        $('.month_choice').slideUp(200);
+        $('.staff_choice').slideUp(200);
+
     }
 });
 
@@ -1590,8 +1590,9 @@ $('#showCountImportant').click({isImportant:1},countFunc);
 
 //鼠标移动到红点上显示tab
 $('.redSpot').mouseover(function(){
-    $('.unconfirmedTab').css('display','block');
+    //show从左至有从上至下逐步显示,fade只改变透明度,slide滑动显示
+    $('.unconfirmedTab').slideDown(200)
 });
 $('.redSpot').mouseout(function(){
-    $('.unconfirmedTab').css('display','none');
+    $('.unconfirmedTab').slideUp(200)
 });
