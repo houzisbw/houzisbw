@@ -114,6 +114,8 @@ $('.search').mouseover(function(){
 
 //按月份搜
 $('.search').click(function(){
+    //显示修改按钮
+    $('#modify').show();
     //隐藏只看未确认按钮
     $('.only_search_unconfirmed').css('display','none');
     //判断用户是否登录
@@ -151,6 +153,7 @@ $('.search').click(function(){
 
 //搜索普通用户的全部记录
 $('.search_all_btn').click(function(){
+
     //判断用户是否登录
     var userCookie = getCookie('username');
     if(!userCookie){
@@ -929,6 +932,7 @@ $(document).ready(function(){
                     });
                     return;
                 }
+
                 //隐藏页码按钮
                 $('.pagination').css('display','none');
                 //隐藏查看次数统计的按钮
@@ -1132,16 +1136,26 @@ $(document).ready(function(){
                         var r = confirm('确认删除该条记录？');
                         if (r) {
                             //记录下要删除元素的id
-                            var idToDelete = getInnerText(this.nextSibling);
+                            var idToDelete = getInnerText(this.parentNode.nextSibling);
                             recordsToDelete.push(idToDelete);
                             //这里很奇怪，table的子元素给加了个tbody进来，bootstrap搞的鬼？？？？
-                            var tbody = this.parentNode.parentNode;
-                            var parentNode = this.parentNode;
+                            var tbody = this.parentNode.parentNode.parentNode;
+                            var parentNode = this.parentNode.parentNode;
                             tbody.removeChild(parentNode);
                         }
 
                     };
-                    tr.appendChild(deleteButton);
+
+
+                    //新加td
+                    var deleteTd = document.createElement('td');
+                    deleteTd.appendChild(deleteButton);
+                    tr.appendChild(deleteTd);
+
+
+
+
+                    //tr.appendChild(deleteButton);
 
                     //添加一个内容为id的td，隐藏不显示，是为了后面获取id
                     var idTd = document.createElement('td');
@@ -1288,8 +1302,8 @@ $('#confirm_modify').click(function(){
             workshop = getInnerText(tds[2]);
             type = getInnerText(tds[3]);
             error = getInnerText(tds[4]);
-            recordId = getInnerText(tds[7]);
-            imagePath = getInnerText(tds[8]);
+            recordId = getInnerText(tds[8]);
+            imagePath = getInnerText(tds[9]);
             //特殊处理：确认信息,因为原来td内是button
             isConfirm = getInnerText(tds[6])=='取消'?'1':'0';
 
@@ -1568,6 +1582,8 @@ var countFunc = function(event) {
                 //隐藏次数统计按钮
                 $('.current_month_records_count_button').css('display', 'none');
                 $('.current_month_records_count_button_important').css('display', 'none');
+                //隐藏掉修改按钮
+                $('#modify').hide();
             //未找到数据
             }else{
                 showConfirmOnlyModal('未搜索到数据~',function(){
