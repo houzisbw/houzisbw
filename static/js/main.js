@@ -91,12 +91,26 @@ $('.month_choice li').each(function(index,element){
 $('.dropBoxButton_staff').click(function(){
     //登录了才能操作
     if(getCookie('username')) {
+        //如果该下拉列表为空，则提示添加人员
+        if(groupUserList.length == 0){
+            showConfirmOnlyModal('用户列表空，请添加用户~',function(){
+                $('.overlay').css('display','none');
+                $('#modal_confirm_only').css('display','none');
+            })
+            return;
+        }
+
         if ($('.staff_choice').css('display')==='none') {
             $('.staff_choice').slideDown(200);
         }
         else {
             $('.staff_choice').slideUp(200);
         }
+    }else{
+        showConfirmOnlyModal('请登录后查看用户名~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        })
     }
 });
 
@@ -725,6 +739,13 @@ $('.printer').mouseout(function(){
 });
 
 $('.printer').click(function(){
+    if(!getCookie('username')){
+        showConfirmOnlyModal('请登录后操作~',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+        });
+        return;
+    }
     //如果没有搜索到数据则不能打印
     if (table.children.length === 0) {
         showConfirmOnlyModal('当月错误记录为空，无法打印~',function(){
