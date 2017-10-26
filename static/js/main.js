@@ -1500,6 +1500,9 @@ $('#record_add_image').change(function() {
             },
             error: function () {
                 alert('图片上传失败，可能是图片过大!');
+                $('#add_image_button_confirm').removeAttr('disabled');
+                $('#add_image_button_cancel').removeAttr('disabled');
+                $('.add_image_uploading_word').css('display','none');
             }
 
         });
