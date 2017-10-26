@@ -46,6 +46,8 @@ var table = document.getElementById('content_table');
 var unconfirmedCount = 0;
 //要添加或修改图片记录的id
 var recordIdUsedByAddingModifying;
+//存储当组用户名的列表
+var groupUserList = [];
 
 //处理下拉框日期部分
 //年份下拉按钮
@@ -451,6 +453,9 @@ function searchRecordData(year,month,isSearchAll){
     }
     //超级管理员和二级管理员
     else {
+        //这里要按组别查看，超管和二级管理员先获取到自己的组别，再过滤搜索
+        //此处是搜寻用户名在组别用户列表中的用户
+        queryOwnRecords.containedIn("username", groupUserList);
         //这里要加上按人查看,获取人员输入input的值，判断是否为空
         //如果有人员，则加上筛选条件
         var staffName = currentStaffValue;
@@ -793,6 +798,10 @@ function loginHandler(){
                 setCookie('username',username,timeToExpire);
                 //设置权限信息
                 setCookie('authority',authority,timeToExpire);
+                //存储组别信息
+                var group = object.get('group');
+                setCookie('group',group,timeToExpire);
+
                 //刷新页面
                 window.location.reload();
 
@@ -1213,14 +1222,19 @@ function initUsernameDropDownList(){
     //从云端数据库查询人员姓名,除了超管和管理员
     var userInfo = Bmob.Object.extend('user');
     var queryUser = new Bmob.Query(userInfo);
+    //获取组别信息,只能查看自己组别的成员
+    var group = getCookie('group');
+    queryUser.equalTo('group',group);
     //获取姓名下拉ul
     var usernameUl = document.getElementsByClassName('staff_choice')[0];
     queryUser.find({
         success:function(results){
             for(var i=0;i<results.length;i++){
-                //普通员工或者二级管理员
+                //普通员工
                 if(results[i].get('authority')=='0'){
                     var username = results[i].get('username');
+                    //加入到列表中供后面使用
+                    groupUserList.push(username);
                     var li = document.createElement('li');
                     (function(username){
                         li.onclick = function(){
@@ -1534,6 +1548,9 @@ var countFunc = function(event) {
         //重要
         queryMonthRecords.equalTo('isImportant', '1')
     }
+
+    //这里只能看自己组的记录
+    queryMonthRecords.containedIn("username", groupUserList);
 
     queryMonthRecords.find({
         success: function (results) {

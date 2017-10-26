@@ -83,6 +83,9 @@ function initUsernameDropDownList(){
     //从云端数据库查询人员姓名,除了超管
     var userInfo = Bmob.Object.extend('user');
     var queryUser = new Bmob.Query(userInfo);
+    //获取组别信息
+    var group = getCookie('group');
+    queryUser.equalTo('group',group);
     queryUser.find({
         success:function(results){
             var nameHTMLDiv = document.getElementById('name');

@@ -154,16 +154,19 @@ saveUserButton.onclick = function(){
     //获取用户ul
     var userUl = document.getElementById('user_ul');
     var userSpans = userUl.getElementsByTagName('span');
+
     //获取所有用户名,从云端数据库
     var userInfo = Bmob.Object.extend('user');
     var queryUser = new Bmob.Query(userInfo);
-    //这里的逻辑是：每次保存的时候都删除当前数据库用户(保存超管)
+    //这里的逻辑是：每次保存的时候都删除当前数据库用户(保存超管),只删除自己组别的
+    //获取组别
+    var group = getCookie('group');
     queryUser.find().then(function(results) {
         var promise = Bmob.Promise.as();
         //除去超管
         var resultsWithoutSuperAdmin = [];
         for(var i=0;i<results.length;i++){
-            if(results[i].get('authority') !== '2'){
+            if(results[i].get('authority') !== '2' && results[i].get('group') == group){
                 resultsWithoutSuperAdmin.push(results[i]);
             }
         }
@@ -191,7 +194,8 @@ saveUserButton.onclick = function(){
             var userObj = {
                 username:userInfoArray[0],
                 password:userInfoArray[1],
-                authority:userInfoArray[2]=='普通用户'?'0':'1'
+                authority:userInfoArray[2]=='普通用户'?'0':'1',
+                group:group
             };
             userArray.push(userObj);
         }
@@ -243,6 +247,9 @@ document.body.onload = function (){
     var queryUser = new Bmob.Query(userInfo);
     //不查询超管
     queryUser.notEqualTo('authority','2');
+    //只查询自己组的成员
+    var group = getCookie('group');
+    queryUser.equalTo('group',group);
     //查询开始
     queryUser.find().then(function(results){
         //获取要添加的节点：用户ul
