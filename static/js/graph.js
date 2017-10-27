@@ -7,6 +7,8 @@ $('#goback').click(function(){
 
 // 基于准备好的dom，初始化echarts实例
 var myChart = echarts.init(document.getElementsByClassName('bar_graph')[0]);
+//存储该组员工的list
+var groupUserList = [];
 //查询按钮
 $('#graph_search_button').click(function(){
     var month = $('#month_input').val().trim();
@@ -27,6 +29,8 @@ $('#graph_search_button').click(function(){
     var queryMonthRecords = new Bmob.Query(Records);
     var dateStr = year+'-'+month;
     queryMonthRecords.equalTo('monthDate',dateStr);
+    //只查询自己组员的数据
+    queryMonthRecords.containedIn('username',groupUserList);
     queryMonthRecords.find({
         success:function(results){
             //清空画布
@@ -152,6 +156,28 @@ $('#graph_search_button').click(function(){
                 });
                 return;
             }
+        }
+    })
+});
+
+$(document).ready(function(){
+    //获取到group
+    var group = getCookie('group');
+    //根据group获取到该员工所在组的所有员工
+    var userInfo = Bmob.Object.extend('user');
+    var queryUser = new Bmob.Query(userInfo);
+    queryUser.equalTo('group',group);
+    //查询员工
+    queryUser.find({
+        success:function(results){
+            if(results.length>0){
+                for(var i=0;i<results.length;i++){
+                    groupUserList.push(results[i].get('username'))
+                }
+            }
+        },
+        error: function(error) {
+            alert("初始化失败请刷新页面: " + error.code + " " + error.message);
         }
     })
 });

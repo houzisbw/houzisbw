@@ -1648,8 +1648,13 @@ $('#showCountImportant').click({isImportant:1},countFunc);
 //鼠标移动到红点上显示tab
 $('.redSpot').mouseover(function(){
     //show从左至有从上至下逐步显示,fade只改变透明度,slide滑动显示
-    $('.unconfirmedTab').slideDown(200)
+    //如果未处于动画执行过程中则添加动画
+    if(!$('.unconfirmedTab').is(':animated')) {
+        $('.unconfirmedTab').slideDown(200)
+    }
 });
 $('.redSpot').mouseout(function(){
-    $('.unconfirmedTab').slideUp(200)
+    if(!$('.unconfirmedTab').is(':animated')) {
+        $('.unconfirmedTab').slideUp(200)
+    }
 });
