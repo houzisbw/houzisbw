@@ -4,6 +4,8 @@ Bmob.initialize("e0a51a8e943e642a0269d0925d9e9688", "9335d129f2514d28bb20174d65d
 var staffName = 'staffName';
 var workshopName = 'workshop_config';
 var recordType = 'recordType_config';
+//组别信息
+var group;
 
 //返回主页
 $('#goback').click(function(){
@@ -60,16 +62,18 @@ function saveItem(){
     var item_li = getElementChild(item_ul);
     var itemInfo = Bmob.Object.extend('workshop_config');
     var queryItem = new Bmob.Query(itemInfo);
+    queryItem.equalTo('group',group);
 
     //记录类型
     var item_ul1 = document.getElementById('record_ul');
     var item_li1 = getElementChild(item_ul1);
     var itemInfo1 = Bmob.Object.extend('recordType_config');
     var queryItem1 = new Bmob.Query(itemInfo1);
+    queryItem1.equalTo('group',group);
 
     //先执行2个并行的promise，处理删除对应数据库的操作，再执行2个写入数据库的操作，最后then输出结果
     var deletePromises = [];
-    //删除车间信息
+    //删除车间信息,只能删除自己组别的信息
     var deleteWorkShopPromise = queryItem.find().then(function(results) {
         var promise = Bmob.Promise.as();
         //undersocre.js对每一项数据处理
@@ -108,7 +112,8 @@ function saveItem(){
         for(var i=0,len=item_li.length;i<len;i++){
             var tempItemInfo = getInnerText(item_li[i]);
             var itemObj = {
-                name:tempItemInfo
+                name:tempItemInfo,
+                group:group
             };
             itemArray.push(itemObj);
         }
@@ -130,7 +135,8 @@ function saveItem(){
         for(var i=0,len=item_li1.length;i<len;i++){
             var tempItemInfo1 = getInnerText(item_li1[i]);
             var itemObj1 = {
-                name:tempItemInfo1
+                name:tempItemInfo1,
+                group:group
             };
             recordArray.push(itemObj1);
         }
@@ -165,6 +171,7 @@ function initConfigList(tableName,itemId){
     //从数据库获取相应信息
     var item = Bmob.Object.extend(tableName);
     var queryItem = new Bmob.Query(item);
+    queryItem.equalTo('group',group);
     queryItem.find().then(function(results){
         for(var i=0;i<results.length;i++){
             //注意name是在所有config表里都存在的字段，表示名字
@@ -185,6 +192,8 @@ $(document).ready(function(){
     if(getCookie('authority') != '2'){
         window.location.href = './../index.html';
     }
+    //获取组别信息
+    group = getCookie('group');
     //初始化车间名字
     initConfigList(workshopName,'workshop_ul');
     //初始化记录类型

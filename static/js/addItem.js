@@ -14,6 +14,8 @@ var imageUrl = '';
 var isImportant = '0';
 //控制日历是否显示
 var isCalendarShow = true;
+//组别信息
+var group;
 //隐藏日历
 $(document.body).click(function(){
     $('#calendar').hide();
@@ -123,6 +125,7 @@ function initOtherList(tableName,htmlDivName){
     //从云端数据库查询人员姓名,除了超管
     var itemInfo = Bmob.Object.extend(tableName);
     var queryItem = new Bmob.Query(itemInfo);
+    queryItem.equalTo('group',group);
     queryItem.find({
         success:function(results){
             var itemHTMLDiv = document.getElementById(htmlDivName);
@@ -256,6 +259,8 @@ $(document).ready(function (){
     if(getCookie('authority') != '2'){
         window.location.href = './../index.html';
     }
+    //获取组别信息
+    group = getCookie('group');
     //初始化姓名列表
     initUsernameDropDownList();
     //初始化车间名称列表
