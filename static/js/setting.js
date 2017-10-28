@@ -6,11 +6,17 @@ var workshopName = 'workshop_config';
 var recordType = 'recordType_config';
 //组别信息
 var group;
-
+//存储所有组别信息的对象
+var allGroupObj = {};
 //返回主页
 $('#goback').click(function(){
     window.location.href = './../index.html';
 });
+
+//检测组名input是否合格
+$('#group').keyup(function(){
+    console.log($('#group').val().length)
+})
 
 //车间名字
 $('#workshop_input_button').click(function(){
@@ -57,6 +63,9 @@ function saveItem(){
     //改变按钮文本为：保存中
     $("#save_config").text('保存中');
 
+    //获取组别名称
+    var groupNameValue = $('#group').val();
+
     //车间信息
     var item_ul = document.getElementById('workshop_ul');
     var item_li = getElementChild(item_ul);
@@ -71,8 +80,44 @@ function saveItem(){
     var queryItem1 = new Bmob.Query(itemInfo1);
     queryItem1.equalTo('group',group);
 
-    //先执行2个并行的promise，处理删除对应数据库的操作，再执行2个写入数据库的操作，最后then输出结果
+    //本组名称
+    var GroupName = Bmob.Object.extend('group');
+    var queryGroupName = new Bmob.Query(GroupName);
+    queryGroupName.equalTo('group_code',group);
+    //判断是否重复的组名
+    var isDuplicate = false;
+    for(var k in allGroupObj){
+        if(k!=group && allGroupObj[k] == groupNameValue){
+            isDuplicate = true;
+        }
+    }
+    if(isDuplicate){
+        showConfirmOnlyModal('组名重复，请重新命名!',function(){
+            $('.overlay').css('display','none');
+            $('#modal_confirm_only').css('display','none');
+            $("#save_config").removeAttr('disabled');
+            //改变按钮文本为：保存中
+            $("#save_config").text('保存配置');
+        });
+        return;
+    }
+
+
+    //先执行3个并行的promise，处理删除对应数据库的操作，再执行3个写入数据库的操作，最后then输出结果
     var deletePromises = [];
+    //删除自己组名信息
+    var deleteGroupPromise = queryGroupName.find().then(function(results){
+        var promise = Bmob.Promise.as();
+        //undersocre.js对每一项数据处理
+        _.each(results, function (result) {
+            promise = promise.then(function () {
+                return result.destroy();
+            });
+        });
+        return promise;
+    });
+    deletePromises.push(deleteGroupPromise);
+
     //删除车间信息,只能删除自己组别的信息
     var deleteWorkShopPromise = queryItem.find().then(function(results) {
         var promise = Bmob.Promise.as();
@@ -99,11 +144,10 @@ function saveItem(){
     });
     deletePromises.push(deleteRecordTypePromise);
 
-    //等待2个删除操作完成,再执行添加操作
+    //等待3个删除操作完成,再执行添加操作
     Bmob.Promise.when(deletePromises).then(function(){
         //添加信息的promises
         var addPromises = [];
-
         //添加新的车间信息
         var promise = Bmob.Promise.as();
         //保存所有用户信息的array
@@ -149,7 +193,17 @@ function saveItem(){
             });
         });
 
-        //2种数据都保存成功
+        //添加组别信息
+        var itemGroupInfo = Bmob.Object.extend('group');
+        var groupObj = {
+            group_code:group,
+            group_name:groupNameValue
+        };
+        var newGroup = new itemGroupInfo();
+        addPromises.push(newGroup.save(groupObj));
+
+
+        //3种数据都保存成功
         Bmob.Promise.when(addPromises).then(function(){
             showConfirmOnlyModal('保存成功!',function(){
                 $('.overlay').css('display','none');
@@ -184,8 +238,23 @@ function initConfigList(tableName,itemId){
             $('#'+itemId).append(li);
         }
     })
-
 }
+//初始化组别信息
+function initGroupName(){
+    var item = Bmob.Object.extend('group');
+    var queryItem = new Bmob.Query(item);
+    queryItem.find().then(function(results){
+        for(var i=0;i<results.length;i++){
+            if(results[i].get('group_code') == group) {
+                $('#group').val(results[i].get('group_name'));
+            }
+            var group_name = results[i].get('group_name');
+            var group_code = results[i].get('group_code');
+            allGroupObj[group_code] = group_name;
+        }
+    })
+}
+
 //初始化
 $(document).ready(function(){
     //判断身份是否是超管,不是的直接返回主页，防止地址栏直接登入此页面
@@ -198,6 +267,8 @@ $(document).ready(function(){
     initConfigList(workshopName,'workshop_ul');
     //初始化记录类型
     initConfigList(recordType,'record_ul');
+    //初始化组别名字
+    initGroupName();
 });
 
 

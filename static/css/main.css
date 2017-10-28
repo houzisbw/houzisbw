@@ -140,6 +140,22 @@ body{
     padding: 4px;
     display: none;
 }
+/*身份信息文字*/
+.auth_word{
+    position: absolute;
+    width:200px;
+    height:38px;
+    top:60px;
+    background-color: #fff;
+    box-shadow:3px 3px 3px #a0a0a0;
+    font-size: 15px;
+    color:#656565;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 0 0 6px 6px;
+    padding: 4px;
+    display: none;
+}
 /*红点未确认*/
 .redSpot{
     height:25px;
@@ -165,6 +181,35 @@ body{
     border: 1px solid #e63c3c;
     color:#e63c3c;
     background-color: #fff;
+}
+/*身份图标*/
+.auth{
+    height:25px;
+    width:25px;
+    margin-left: 10px;
+    margin-top: 17px;
+    float:left;
+    background-image: url('./../image/superuser.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    /*控制背景大小等同于div大小*/
+    background-size: 25px 25px;
+    display: none;
+}
+
+/*组别信息显示*/
+.user_group{
+    float:left;
+    height:25px;
+    line-height: 18px;
+    font-size: 14px;
+    color:#fff;
+    margin-left: 10px;
+    margin-top: 17px;
+    background-color: #38add0;
+    border-radius: 5px;
+    padding:4px;
+    display: none;
 }
 
 
@@ -1218,6 +1263,9 @@ button:disabled {
     margin:40px auto;
     min-height:100px;
 }
+.setting_groupname{
+    width:60%;
+}
 .content_setting{
     margin-top: 90px;
     height:auto;
@@ -1242,7 +1290,15 @@ button:disabled {
 }
 .setting_item{
     margin-top: 40px;
-    min-height:800px;
+    min-height:600px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 0 1px 1px #d5d4d4;/*四边阴影*/
+    position: relative;
+}
+.setting_item_groupname{
+    margin-top: 40px;
+    height:200px;
     background-color: #ffffff;
     border-radius: 2px;
     box-shadow: 0 0 1px 1px #d5d4d4;/*四边阴影*/

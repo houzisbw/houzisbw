@@ -892,6 +892,7 @@ $(document).ready(function(){
     //这里只判断了username，但是username和权限cookie的时间是一样的
     var hasCookie = checkCookie('username');
     if(hasCookie) {
+        $('.auth').show();
         $('#login').css('display','none');
         $('#logout').css('display','block');
         //显示用户名
@@ -901,10 +902,16 @@ $(document).ready(function(){
         var userauthorityName = '';
         if (userauthority == '2') {
             userauthorityName = '超级管理员 ';
+            $('.auth').css('background-image',"url('./static/image/superuser.png')");
+            $('.auth_word').text('您的身份是超级管理员')
         } else if (userauthority == '1') {
             userauthorityName = '二级管理员 ';
+            $('.auth').css('background-image',"url('./static/image/superuser.png')");
+            $('.auth_word').text('您的身份是二级管理员')
         } else {
             userauthorityName = '用户 ';
+            $('.auth').css('background-image',"url('./static/image/normaluser.png')");
+            $('.auth_word').text('您的身份是普通用户')
             //修改原来的搜索区域css
             $('.monthSelect').css('width', '78%');
             $('.search').css('width', '150px');
@@ -1182,9 +1189,6 @@ $(document).ready(function(){
                     deleteTd.appendChild(deleteButton);
                     tr.appendChild(deleteTd);
 
-
-
-
                     //tr.appendChild(deleteButton);
 
                     //添加一个内容为id的td，隐藏不显示，是为了后面获取id
@@ -1233,7 +1237,41 @@ $(document).ready(function(){
                 }
             }
         })
-        $('.loginedName').text('您好, ' + userauthorityName + username);
+        $('.loginedName').text(username);
+
+        //如果没有配置组别名称，则弹框提示
+        var GroupName = Bmob.Object.extend('group');
+        var queryGroupName = new Bmob.Query(GroupName);
+        var groupCode = getCookie('group');
+        queryGroupName.equalTo('group_code',groupCode);
+        queryGroupName.find({
+            success:function(results){
+                if(results.length == 0){
+                    $('.user_group').hide();
+                    if(getCookie('authority') == '2') {
+                        showModalConfirmAndCancel('您还没有设置所在组名称,点击确定前往设置!', function () {
+                            window.location.href = './views/setting.html';
+                        });
+                    }
+                }else{
+                    for(var i=0;i<results.length;i++){
+                        if(!results[i].get('group_name')){
+                            $('.user_group').hide();
+                            if(getCookie('authority') == '2') {
+                                showModalConfirmAndCancel('您还没有设置所在组名称,点击确定前往设置!', function () {
+                                    window.location.href = './views/setting.html';
+                                });
+                            }
+                        }else{
+                            //设置组名称显示
+                            var group_name = results[i].get('group_name');
+                            $('.user_group').text(group_name);
+                            $('.user_group').show();
+                        }
+                    }
+                }
+            }
+        });
     }else{
         $('.loginedName').text('');
     }
@@ -1650,11 +1688,26 @@ $('.redSpot').mouseover(function(){
     //show从左至有从上至下逐步显示,fade只改变透明度,slide滑动显示
     //如果未处于动画执行过程中则添加动画
     if(!$('.unconfirmedTab').is(':animated')) {
-        $('.unconfirmedTab').slideDown(200)
+        $('.unconfirmedTab').slideDown(200);
     }
 });
-$('.redSpot').mouseout(function(){
+$('.redSpot').mouseleave(function(){
+    //此处有bug：当鼠标快速一入一出则不会触发mouseleave
     if(!$('.unconfirmedTab').is(':animated')) {
         $('.unconfirmedTab').slideUp(200)
     }
 });
+
+//身份信息tab显示隐藏
+$('.auth').mouseover(function(){
+    if(!$('.auth_word').is(':animated')) {
+        $('.auth_word').slideDown(200)
+    }
+
+})
+$('.auth').mouseleave(function(){
+    if(!$('.auth_word').is(':animated')) {
+        $('.auth_word').slideUp(200)
+    }
+
+})
