@@ -1364,7 +1364,7 @@ $('#confirm_modify').click(function(){
     //从当前table生成新的数据
     var trs = table.getElementsByTagName('tr');
     //遍历table的每一行
-    var name,date,workshop,type,error,recordId,imagePath,isConfirm;
+    var name,date,workshop,type,error,recordId,imagePath,isConfirm,monthDate;
     for(var k=0,len=trs.length;k<len;k++){
         //表头不能统计
         if(k>0){
@@ -1379,14 +1379,17 @@ $('#confirm_modify').click(function(){
             imagePath = getInnerText(tds[9]);
             //特殊处理：确认信息,因为原来td内是button
             isConfirm = getInnerText(tds[6])=='取消'?'1':'0';
+            monthDate = date.split('-')[0]+'-'+date.split('-')[1];
 
-            (function(name,date,workshop,type,error,recordId,imagePath,isConfirm){
+            (function(name,date,workshop,type,error,recordId,imagePath,isConfirm,monthDate){
                 var recordToSavePromise = queryRecords.get(recordId,{
                     success:function(obj){
                         //姓名也要注意，万一乱改就查不到
                         obj.set('username',name);
                         //日期要注意,万一乱改就查不到
                         obj.set('date',date);
+                        console.log(monthDate)
+                        obj.set('monthDate',monthDate);
                         obj.set('workshop',workshop);
                         obj.set('type',type);
                         obj.set('error',error);
@@ -1397,7 +1400,7 @@ $('#confirm_modify').click(function(){
                     }
                 });
                 promises.push(recordToSavePromise);
-            })(name,date,workshop,type,error,recordId,imagePath,isConfirm);
+            })(name,date,workshop,type,error,recordId,imagePath,isConfirm,monthDate);
         }
     }
     //清空表格，防止乱操作
