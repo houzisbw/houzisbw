@@ -65,6 +65,8 @@ function saveItem(){
 
     //获取组别名称
     var groupNameValue = $('#group').val();
+    //获取公告内容
+    var announcementContent = $('#announcement').val();
 
     //车间信息
     var item_ul = document.getElementById('workshop_ul');
@@ -79,6 +81,7 @@ function saveItem(){
     var itemInfo1 = Bmob.Object.extend('recordType_config');
     var queryItem1 = new Bmob.Query(itemInfo1);
     queryItem1.equalTo('group',group);
+
 
     //本组名称
     var GroupName = Bmob.Object.extend('group');
@@ -148,6 +151,7 @@ function saveItem(){
     Bmob.Promise.when(deletePromises).then(function(){
         //添加信息的promises
         var addPromises = [];
+
         //添加新的车间信息
         var promise = Bmob.Promise.as();
         //保存所有用户信息的array
@@ -202,8 +206,25 @@ function saveItem(){
         var newGroup = new itemGroupInfo();
         addPromises.push(newGroup.save(groupObj));
 
+        //添加公告信息
+		var ContentInfo = Bmob.Object.extend('announcement');
+		var queryItemContentInfo = new Bmob.Query(ContentInfo);
+		var promise3 = queryItemContentInfo.first({
+			success: function(object) {
+				// 查询成功
+				object.set('content', announcementContent);
+				object.save();
+			},
+			error: function(error) {
+				alert("查询失败: " + error.code + " " + error.message);
+			}
+		});
+		addPromises.push(promise3);
 
-        //3种数据都保存成功
+
+
+
+		//4种数据都保存成功
         Bmob.Promise.when(addPromises).then(function(){
             showConfirmOnlyModal('保存成功!',function(){
                 $('.overlay').css('display','none');
@@ -255,6 +276,22 @@ function initGroupName(){
     })
 }
 
+//初始化公告信息
+function initAnnouncement(){
+	var ContentInfo = Bmob.Object.extend('announcement');
+	var queryItemContentInfo = new Bmob.Query(ContentInfo);
+	//first只查询一条数据
+	queryItemContentInfo.first({
+		success: function(object) {
+			// 查询成功
+			$('#announcement').val(object.get('content'));
+		},
+		error: function(error) {
+			alert("查询失败: " + error.code + " " + error.message);
+		}
+	});
+}
+
 //初始化
 $(document).ready(function(){
     //判断身份是否是超管,不是的直接返回主页，防止地址栏直接登入此页面
@@ -269,6 +306,8 @@ $(document).ready(function(){
     initConfigList(recordType,'record_ul');
     //初始化组别名字
     initGroupName();
+    //初始化公告
+	initAnnouncement()
 });
 
 

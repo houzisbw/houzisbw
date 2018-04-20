@@ -882,9 +882,28 @@ $('#logout').click(function(){
     });
 });
 
+//加载公告内容
+function initAnnouncementContent(){
+	var ContentInfo = Bmob.Object.extend('announcement');
+	var queryItemContentInfo = new Bmob.Query(ContentInfo);
+	//first只查询一条数据
+	queryItemContentInfo.first({
+		success: function(object) {
+			// 查询成功
+			$('#announcement-content').text(object.get('content'));
+		},
+		error: function(error) {
+			alert("查询失败: " + error.code + " " + error.message);
+		}
+	});
+}
+
+
+
 //body加载时检查cookie
 $(document).ready(function(){
-
+    //加载公告内容
+    initAnnouncementContent();
     //初始化姓名列表
     initUsernameDropDownList();
     //修改状态初始化
