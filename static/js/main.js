@@ -1621,10 +1621,12 @@ var countFunc = function(event) {
     var queryMonthRecords = new Bmob.Query(Records);
     var dateStr = currentYearValue + '-' + currentMonthValue;
     queryMonthRecords.equalTo('monthDate', dateStr);
+    //重要:修改默认查询限制，否则返回数据不全
+	queryMonthRecords.limit(1000);
     //这里区分重要还是不重要的记录,这里要注意，数据库中只有1是重要，不填或者0都是不重要
-    if (event.data.isImportant == 0) {
+    if (event.data.isImportant === 0) {
         //不重要
-        queryMonthRecords.notEqualTo('isImportant', '1')
+		queryMonthRecords.equalTo('isImportant', '0')
     } else {
         //重要
         queryMonthRecords.equalTo('isImportant', '1')
@@ -1632,7 +1634,6 @@ var countFunc = function(event) {
 
     //这里只能看自己组的记录
     queryMonthRecords.containedIn("username", groupUserList);
-
     queryMonthRecords.find({
         success: function (results) {
             //如果找到数据
