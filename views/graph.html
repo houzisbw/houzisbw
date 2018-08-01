@@ -78,6 +78,83 @@
             </div>
         </div>
     </div>
+    <!--任务分配模块-->
+    <div class="setting_item">
+        <div class="content_title">
+            <div class="title_left">
+                <div class="title_left_img">
+                    <img src="./../static/image/statistics2.png">
+                </div>
+                <div class="title_left_description">
+                    任务分配系统
+                </div>
+            </div>
+        </div>
+        <!--具体条目-->
+        <div class="adduser_setting clearfix padding-bottom-task">
+            <!--添加任务-->
+            <div class="bar_graph">
+                <div class="panel panel-default panel-bottom-margin">
+                    <div class="panel-heading task-panel-heading">
+                        <h3 class="panel-title task-panel-inline">第一步: 添加任务种类</h3>
+                        <button type="button" class="btn btn-warning task-input-btn" id="task-input-add">添加</button>
+                        <div class="task-name-input">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="输入任务~" id="task-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body panel-body-min-height" id="add-task-panel">
+                    </div>
+                </div>
+                <!--先决条件-->
+                <div class="panel panel-default ">
+                    <div class="panel-heading task-panel-heading">
+                        <h3 class="panel-title task-panel-inline">第二步: 添加任务顺序关系(先 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> 后)</h3>
+                        <button type="button" class="btn btn-warning task-input-btn" id="task-input-add-pre">添加</button>
+                        <div class="btn-group pre-btn-fr" >
+                            <button type="button" class="btn btn-default dropdown-toggle "
+                                    id="pre-second"
+                                    data-toggle="dropdown">
+                                &nbsp;&nbsp;&nbsp;&nbsp;下拉选择&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" id="after-ul">
+                            </ul>
+                        </div>
+                        <span class="pre-task-title">
+                            <h3 class="panel-title task-panel-inline">后置任务:</h3>
+                        </span>
+                        <div class="btn-group pre-btn-fr" >
+                            <button type="button" class="btn btn-default dropdown-toggle "
+                                    id="pre-first"
+                                    data-toggle="dropdown">
+                                &nbsp;&nbsp;&nbsp;&nbsp;下拉选择&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" id="pre-ul">
+                            </ul>
+                        </div>
+                        <span class="pre-task-title">
+                            <h3 class="panel-title task-panel-inline">前置任务:</h3>
+                        </span>
+                    </div>
+                    <div class="panel-body panel-body-min-height" id="add-task-panel-pre">
+                    </div>
+                </div>
+                <!--生成方案的按钮-->
+                <div class="generate-scheme-wrapper">
+                    <button type="button" class="btn btn-primary btn-lg" id="generate-scheme">生成任务方案</button>
+                </div>
+                <!--方案结果的textarea-->
+                <div class="panel panel-default panel-bottom-margin">
+                    <div class="panel-heading task-panel-heading">
+                        <h3 class="panel-title task-panel-inline">任务方案结果(任务执行先后顺序)</h3>
+                    </div>
+                    <div class="panel-body panel-body-min-height" id="task-result">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!--遮罩层-->

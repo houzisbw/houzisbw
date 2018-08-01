@@ -1426,7 +1426,65 @@ button:disabled {
     width:100%;
     min-height: 600px;
 }
+.mr-btn{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.task-panel-inline{
+    display: inline-block;
+}
+.task-name-input{
+    width:130px;
+    float:right;
+    margin-left: 10px;
+    position: relative;
+    top:-7px;
+}
+.task-input-btn{
+    float:right;
+    margin-left: 10px;
+    position: relative;
+    top:-7px;
+}
 
+.task-panel-heading{
+    padding-top:20px;
+    padding-bottom: 20px;
+}
+.panel-body-min-height{
+    min-height: 100px;
+}
+.panel-bottom-margin{
+    margin-bottom: 40px;
+}
+.pre-btn-fr{
+    float:right;
+    top:-7px;
+}
+.pre-task-title{
+    float:right;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.caret-margin-left{
+    margin-left: 5px!important;
+}
+.generate-scheme-wrapper{
+    height:50px;
+    width:20%;
+    margin: 40px auto;
+}
+.padding-bottom-task{
+    padding-bottom: 40px;
+}
+.not-avaliable{
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    color: #4c4c4c;
+    height:100px;
+    line-height: 100px;
+}
 
 /*                公告                     */
 .announcement{

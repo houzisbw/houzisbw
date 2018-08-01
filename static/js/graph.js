@@ -9,6 +9,15 @@ $('#goback').click(function(){
 var myChart = echarts.init(document.getElementsByClassName('bar_graph')[0]);
 //存储该组员工的list
 var groupUserList = [];
+/** 任务分配系统的数据结构 **/
+var taskList = [];
+//当前选中的前置任务
+var currentSelectedPretask = '';
+//后置
+var currentSelelctedAftertask = '';
+//任务先后顺序的list
+var taskOrderList = [];
+
 //查询按钮
 $('#graph_search_button').click(function(){
     var month = $('#month_input').val().trim();
@@ -159,6 +168,233 @@ $('#graph_search_button').click(function(){
         }
     })
 });
+
+//添加任务的按钮
+$('#task-input-add').click(function(){
+    var task = $('#task-input').val();
+    if(!task.trim()){
+        return
+    }
+    //不能重复添加
+    if(taskList.indexOf(task)===-1){
+			taskList.push(task)
+    }
+    //清空panel
+    $('#add-task-panel').html('');
+    //添加任务
+    var documentFragment = $('<div></div>');
+    for(var i=0;i<taskList.length;i++){
+			var btn = $('<button type="button" class="btn btn-success mr-btn">'+taskList[i]+'</button>');
+      (function(i){
+				btn.click(function(){
+					//删除该按钮
+          var taskIndex = taskList.indexOf(taskList[i]);
+          taskList.splice(taskIndex,1);
+          $(this).remove()
+				});
+      })(i)
+
+			documentFragment.append(btn)
+    }
+    $('#add-task-panel').append(documentFragment)
+
+});
+//前置任务的下拉按钮
+$('#pre-first').click(function(){
+    if(taskList.length===0){
+        return
+    }
+    //清空下面的ul
+    $('#pre-ul').html('');
+    //添加li
+    for(var i=0;i<taskList.length;i++){
+			var taskname = taskList[i];
+			var aLink =$('<a></a>');
+			aLink.text(taskname)
+			var li = $('<li></li>');
+			li.append(aLink);
+			(function(i){
+				li.click(function(){
+					var btn = $('#pre-first')
+					btn.text(taskList[i])
+					var span = $('<span class="caret caret-margin-left"></span>')
+					btn.append(span);
+					currentSelectedPretask = taskList[i]
+        })
+			})(i);
+			$('#pre-ul').append(li);
+    }
+})
+//后置任务的下拉按钮
+$('#pre-second').click(function(){
+	if(taskList.length===0){
+		return
+	}
+	//清空下面的ul
+	$('#after-ul').html('');
+	//添加li
+	for(var i=0;i<taskList.length;i++){
+		var taskname = taskList[i];
+		var aLink =$('<a></a>');
+		aLink.text(taskname)
+		var li = $('<li></li>');
+		li.append(aLink);
+		(function(i){
+			li.click(function(){
+				var btn = $('#pre-second')
+				btn.text(taskList[i])
+				var span = $('<span class="caret caret-margin-left"></span>')
+				btn.append(span);
+				currentSelelctedAftertask = taskList[i];
+			})
+		})(i);
+		$('#after-ul').append(li);
+	}
+})
+
+//添加任务关系的按钮
+$('#task-input-add-pre').click(function(){
+    //任务不能一样且非空
+    if(!currentSelelctedAftertask || !currentSelectedPretask || (currentSelelctedAftertask===currentSelectedPretask)){
+        return
+    }
+    //如果重复了也不行
+    var isDuplicated = false
+    taskOrderList.forEach(function(item){
+        if(item[0]===currentSelectedPretask && item[1]===currentSelelctedAftertask){
+					isDuplicated=true
+        }
+    })
+    if(isDuplicated){
+        return
+    }
+    taskOrderList.push([currentSelectedPretask,currentSelelctedAftertask])
+    //更新html
+    $('#add-task-panel-pre').html('');
+    //添加任务
+    var documentFragment = $('<div></div>');
+    for(var i=0;i<taskOrderList.length;i++){
+      var btn = $('<button type="button" class="btn btn-primary mr-btn">'+taskOrderList[i][0]+' <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> '+taskOrderList[i][1]+'</button>');
+      (function(i){
+        var temp = taskOrderList[i];
+        btn.click(function(){
+          //删除该按钮
+          for(var j=0;j<taskOrderList.length;j++){
+            var item = taskOrderList[j];
+						if(item[0]===temp[0] && item[1]===temp[1]){
+							taskOrderList.splice(j,1)
+              $(this).remove();
+						}
+          }
+        });
+      })(i)
+      documentFragment.append(btn)
+    }
+    $('#add-task-panel-pre').append(documentFragment)
+
+})
+
+//生成任务方案
+$('#generate-scheme').click(function(){
+    if(taskList.length === 0 || taskOrderList.length === 0){
+			//清空
+			$('#task-result').html('');
+			//无可行方案
+			var title = $('<div class="not-avaliable">无可行方案，请重新规划</div>')
+			$('#task-result').append(title)
+      return;
+    }
+    //清空
+    $('#task-result').html('');
+    //构建序号的任务名称的对应关系
+    var map = {},map2 = {};
+    for(var i=0;i<taskList.length;i++){
+        map[taskList[i]]=i;
+        map2[i] = taskList[i];
+    }
+    //构建任务顺序序号关系数组
+    var taskIndexOrderArray = [];
+    for(var i=0;i<taskOrderList.length;i++){
+        var arr = [map[taskOrderList[i][0]],map[taskOrderList[i][1]]];
+			  taskIndexOrderArray.push(arr)
+    }
+    //获取方案结果
+    var schemeResult = getAvaliableScheme(taskIndexOrderArray,taskList.length)
+    if(schemeResult.isAvaliable){
+        //存在可行方案
+        var result = schemeResult.result;
+        var taskResult = map2[result[0]];
+        for(var i=1;i<result.length;i++){
+            taskResult+=' <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> ';
+            taskResult+=map2[result[i]]
+        }
+			  $('#task-result').html(taskResult);
+
+    }else{
+        //无可行方案
+        var title = $('<div class="not-avaliable">无可行方案，请重新规划</div>')
+			  $('#task-result').append(title)
+    }
+
+
+})
+//拓扑排序算法
+function getAvaliableScheme(prerequisiteArray,courseNum){
+	//图，由邻接链表表示
+	var graph = [];
+	for(var i=0;i<courseNum;i++){
+	    graph.push([])
+  }
+	//入度列表
+	var inDegreeList = [];
+	for(var i=0;i<courseNum;i++){
+		inDegreeList.push(0)
+	}
+	//构建图和入度列表
+	for(var i=0;i<prerequisiteArray.length;i++){
+		var from = prerequisiteArray[i][0],
+				to = prerequisiteArray[i][1];
+		//入度加一
+		inDegreeList[to]++;
+		graph[from].push(to);
+	}
+
+	//入度为0的点的队列
+	var queue = [];
+	for(var i=0;i<inDegreeList.length;i++){
+		if(inDegreeList[i]===0){
+			queue.push(i);
+		}
+	}
+
+	//拓扑排序,bfs
+	var result = []
+	while(queue.length>0){
+		//获取队首元素
+		var front = queue.pop();
+		result.push(front)
+		for(var i=0;i<graph[front].length;i++){
+			var toIndex = graph[front][i];
+			inDegreeList[toIndex]--;
+			if(inDegreeList[toIndex]===0){
+				queue.unshift(toIndex)
+			}
+		}
+	}
+
+	//检测是否存在环，若存在环则无法完成(还存在入度不为0的点)
+	var isAvaliable = true;
+	for(var i=0;i<inDegreeList.length;i++){
+		if(inDegreeList[i]!==0){
+			isAvaliable = false
+			break;
+		}
+	}
+	return {
+	   isAvaliable:isAvaliable,
+     result:result
+  }
+}
 
 $(document).ready(function(){
     //获取到group
